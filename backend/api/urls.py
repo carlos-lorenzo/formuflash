@@ -10,4 +10,5 @@ urlpatterns = [
     path("user", views.User.as_view(), name="user"),
     path("decks", views.GetDecks.as_view(), name="decks"),
     path("fetch_deck_card", views.GetCard.as_view(), name="fetch_card"),
+    path("create_card", views.CreateCard.as_view(), name="create_card"),
 ]
