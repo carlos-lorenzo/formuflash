@@ -22,6 +22,7 @@ const MarkdownLatex: React.FC<IMarkdownLatexProps> = ({ content }) => {
       remarkPlugins={[remarkMath]}
       rehypePlugins={[rehypeKatex]}
       components={components}
+
     />
   );
 };

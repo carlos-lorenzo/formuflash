@@ -34,7 +34,8 @@ export default function CreateCard( {client}: ICreateCardProps) {
     return (
         <div className='full place-center'>
             <div id="card-creation" className='card'>
-            <form onSubmit={handleSubmit} id="create-card-form">   
+            <form onSubmit={handleSubmit} id="create-card-form"> 
+              
                 <textarea
                     value={question}
                     onChange={(event) => setQuestion(event.target.value)}
@@ -44,7 +45,7 @@ export default function CreateCard( {client}: ICreateCardProps) {
                 <textarea
                     value={answer}
                     onChange={(event) => setAnswer(event.target.value)}
-                    className='border text'
+                    className='border text shadow'
                     placeholder='Enter raw answer'
                 />  
                 <button type="submit">Create</button>
@@ -52,11 +53,13 @@ export default function CreateCard( {client}: ICreateCardProps) {
             </form>
 
             <div id="formatted-output">
-                <div className='formatted border text'>
+                <div className='formatted border shadow text'>
+                    <h4>Q</h4>
                     <MarkdownLatex content={question} />
                 </div>
                 
-                <div className='formatted border text'>
+                <div className='formatted border shadow text'>
+                    <h4>A</h4>
                     <MarkdownLatex content={answer} />
                 </div>
                 

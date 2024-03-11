@@ -53,13 +53,16 @@ textarea {
 }
 
 .text {
-    padding-left: 15px;
-    padding-top: 15px;
+    padding-top: 20px;
+    padding-left: 20px;
     color: var(--background);
+}
+.text.formatted {
+    padding-top: 0px !important;
 }
 
 .shadow {
-    box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 5px 20px 2px rgba(179, 177, 205, 0.35);
 }
 
 .full {
