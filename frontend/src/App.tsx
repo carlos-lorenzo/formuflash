@@ -27,6 +27,8 @@ client.get('/get_csrf_token')
     console.error('Error fetching CSRF token:', error);
 });
 
+document.documentElement.setAttribute('data-theme', 'dark');
+
 function App() {
     
 

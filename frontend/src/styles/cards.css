@@ -1,0 +1,32 @@
+#card-creation {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+    place-items: center;
+    
+}
+
+#create-card-form {
+    display: grid;
+    grid-template-rows: 5fr 5fr 1fr;
+    gap: 1rem;
+    height: 90%;
+    width: 90%;
+}
+
+#formatted-output {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+    height: 90%;
+    width: 90%;
+}
+
+.card-input {
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.formatted {
+    background-color: var(--primary);
+}

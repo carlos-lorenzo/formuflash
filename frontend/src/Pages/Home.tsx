@@ -26,14 +26,9 @@ export default function Home({ client }: ILoginProps) {
     
 
   return (
-    <div>
-        <button onClick={getCard}>Get Card</button>
-        <MarkdownLatex content={content} />
-
-
-        <h3>Create Cards</h3>
+    <>
         <CreateCard client={client} />
-    </div>
+    </>
   );
 }
 
