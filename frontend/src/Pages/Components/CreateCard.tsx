@@ -32,8 +32,8 @@ export default function CreateCard( {client}: ICreateCardProps) {
     
 
     return (
-        <div className='full place-center'>
-            <div id="card-creation" className='card'>
+        
+        <div id="card-creation" className='fill'>
             <form onSubmit={handleSubmit} id="create-card-form"> 
               
                 <textarea
@@ -48,7 +48,7 @@ export default function CreateCard( {client}: ICreateCardProps) {
                     className='border text shadow'
                     placeholder='Enter raw answer'
                 />  
-                <button type="submit">Create</button>
+                <button type="submit" className='shadow border'>Create</button>
 
             </form>
 
@@ -65,9 +65,6 @@ export default function CreateCard( {client}: ICreateCardProps) {
                 
             </div>
         </div>
-        </div>
-        
-        
     )
 }
 

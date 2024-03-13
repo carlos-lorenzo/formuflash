@@ -28,5 +28,13 @@
 }
 
 .formatted {
-    background-color: var(--primary);
+    background-color: var(--secondary);
 }
+
+#deck-edit {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-gap: 1rem;
+    place-items: center;
+}
+

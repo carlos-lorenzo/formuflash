@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
   BrowserRouter,
   Routes,
@@ -5,9 +7,10 @@ import {
 } from "react-router-dom";
 
 import Login from "./Pages/Login";
-import Home from "./Pages/Home";
+import Home from "./Pages/Home";import DeckEdit from "./Pages/Components/DeckEdit";
 
 import axios from "axios";
+import DeckView from "./Pages/DeckView";
 
 
 
@@ -27,10 +30,11 @@ client.get('/get_csrf_token')
     console.error('Error fetching CSRF token:', error);
 });
 
-document.documentElement.setAttribute('data-theme', 'dark');
+//document.documentElement.setAttribute('data-theme', 'dark');
 
 function App() {
     
+    const [activeDeckId, setActiveDeckId] = useState(0);
 
     return (
 
@@ -38,6 +42,11 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home client={client }/>} />
                 <Route path="/login" element={<Login client={client}/>} />
+                <Route path="/deck-view" element={
+                <DeckView 
+                    client={client}
+                    activeDeckId={activeDeckId}
+                />}/>
             </Routes>
         </BrowserRouter>
     );

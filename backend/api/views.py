@@ -55,6 +55,18 @@ class GetDecks(APIView):
         serializer = DeckSerialiser(decks, many=True)
         return Response({"decks": serializer.data}, status=status.HTTP_200_OK)
 
+class GetDeck(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    
+    def get(self, request):
+        deck_id: int = request.GET.get('deck_id', None)
+        
+        if not deck_id:
+            return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        cards = FlashCard.objects.filter(deck=deck_id)
+        serializer = FlashCardSerialiser(cards, many=True)
+        return Response({"deck": serializer.data}, status=status.HTTP_200_OK)
 
 class CreateCard(APIView):
     permission_classes = (permissions.IsAuthenticated,)

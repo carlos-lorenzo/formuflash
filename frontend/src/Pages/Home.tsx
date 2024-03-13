@@ -27,7 +27,8 @@ export default function Home({ client }: ILoginProps) {
 
   return (
     <>
-        <CreateCard client={client} />
+        <MarkdownLatex content={content} />
+        <button onClick={getCard} className="shadow border">Get Card</button>
     </>
   );
 }
