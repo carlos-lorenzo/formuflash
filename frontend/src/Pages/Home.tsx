@@ -17,6 +17,11 @@ export default function Home({ client }: ILoginProps) {
     function getCard() {
         client.get(
             "/fetch_deck_card?deck_id=1",
+            {
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            }
         ).then((response) => {
             setContent(response.data.card.answer)
             

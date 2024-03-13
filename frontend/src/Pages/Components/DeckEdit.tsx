@@ -1,27 +1,39 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 
-import { AxiosInstance } from 'axios'
+import { AxiosInstance } from 'axios';
 
-import MarkdownLatex from './MarkdownLatex'
-import CreateCard from './CreateCard'
+import DeckPreview from './DeckPreview';
+import CreateCard from './CreateCard';
 
+
+interface IDeck 
+{
+    name: string,
+    course: string,
+    cards: {
+        id: number,
+        question: string,
+        answer: string,
+        confidence: number,
+        card_id: number
+    }[]
+}
 
 interface IDeckEdit {
-    client: AxiosInstance
+    client: AxiosInstance,
+    activeDeck: IDeck
 }
 
 
-export default function DeckEdit({ client }: IDeckEdit) {
+export default function DeckEdit({ client, activeDeck }: IDeckEdit) {
 
     const [activeCardId, setActiveCardId] = useState(0);
     
 
 
     return (
-        <div id='deck-edit' className='full'>
-            <div id='active-deck' className='fill'>
-                <h1>some cards</h1>
-            </div>
+        <div id='deck-edit' className='fill'>
+            <DeckPreview activeDeck={activeDeck} full={false} />
             <CreateCard client={client} />
         
         </div>

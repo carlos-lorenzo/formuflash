@@ -1,7 +1,7 @@
 import React from 'react'
 
 import CardPreview from './CardPreview'
-
+import CardEditPreview from './CardEditPreview'
 
 interface IDeck {
     name: string,
@@ -9,16 +9,25 @@ interface IDeck {
     cards: {
         id: number,
         question: string,
-        answer: string
+        answer: string,
+        confidence: number,
+        card_id: number
     }[]
 }
 
 interface IDeckPreviewProps {
-    activeDeck: IDeck
+    activeDeck: IDeck,
+    full: boolean
 }
 
-export default function DeckPreview({ activeDeck }: IDeckPreviewProps) {
+export default function DeckPreview({ activeDeck, full }: IDeckPreviewProps) {
     return (
-        <div>DeckPreview</div>
+        <div id='deck-edit-preview' className='card'>
+            {activeDeck.cards.map((card, i) => {
+                return (
+                    full ? <CardPreview key={i} card={card} /> : <CardEditPreview key={i} card={card} />
+                )
+            })}
+        </div>
     )
 }

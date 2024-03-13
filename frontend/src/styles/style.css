@@ -96,3 +96,8 @@ button {
     height: 90%;
 }
 
+.place-center {
+    display: grid;
+    place-items: center;
+}
+

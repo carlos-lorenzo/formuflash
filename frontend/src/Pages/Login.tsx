@@ -31,7 +31,7 @@ export default function Login({ client }: ILoginProps) {
 
                 setEmail('');
                 setPassword('');
-                navigate("/");
+                navigate("/deck-view");
             })
             
         } catch (error) {

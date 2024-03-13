@@ -15,6 +15,23 @@ interface ICardPreviewProps {
 
 export default function CardPreview({ card }: ICardPreviewProps) {
     return (
-        <div>CardPreview</div>
+
+        <div className='card-preview border shadow card'>
+            <div className="side-preview text">
+                <h4>Q</h4>
+                <MarkdownLatex content={card.question} />
+
+            </div>
+           
+            <div className="side-preview text">
+                <h4>A</h4>
+                <MarkdownLatex content={card.answer} />
+
+            </div>
+            
+
+
+        </div>
+
     )
 }
