@@ -47,8 +47,10 @@ class User(APIView):
         return Response({"user": serialiser.data}, status=status.HTTP_200_OK)
     
 
+
+# Deck views
 class GetDecks(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     
     def get(self, request):
         decks = Deck.objects.all()
@@ -64,10 +66,19 @@ class GetDeck(APIView):
         if not deck_id:
             return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
         
-        cards = FlashCard.objects.filter(deck=deck_id)
-        serializer = FlashCardSerialiser(cards, many=True)
-        return Response({"deck": serializer.data}, status=status.HTTP_200_OK)
+        deck = Deck.objects.get(deck_id=deck_id)
+        cards = FlashCard.objects.filter(deck=deck)
+        serialised_cards = FlashCardSerialiser(cards, many=True).data
+        serialised_deck = {
+            'name': deck.name,
+            'course': deck.course.name,
+            'cards': serialised_cards
+        }
+        return Response(serialised_deck, status=status.HTTP_200_OK)
 
+
+
+# Card views
 class CreateCard(APIView):
     permission_classes = (permissions.IsAuthenticated,)
     

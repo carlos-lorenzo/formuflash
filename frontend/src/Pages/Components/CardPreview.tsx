@@ -1,10 +1,19 @@
 import React from 'react'
 
-interface ICardPreviewProps {
-    cardId: number
+import MarkdownLatex from './MarkdownLatex'
+
+interface ICard {
+    question: string,
+    answer: string,
+    confidence: number,
+    card_id: number
 }
 
-export default function CardPreview({ cardId }: ICardPreviewProps) {
+interface ICardPreviewProps {
+    card: ICard
+}
+
+export default function CardPreview({ card }: ICardPreviewProps) {
     return (
         <div>CardPreview</div>
     )

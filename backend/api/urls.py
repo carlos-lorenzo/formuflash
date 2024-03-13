@@ -9,7 +9,7 @@ urlpatterns = [
     path("login", obtain_auth_token, name="login"),
     path("user", views.User.as_view(), name="user"),
     path("decks", views.GetDecks.as_view(), name="decks"),
-    path("fetch_deck", views.GetDecks.as_view(), name="fetch_deck"),
+    path("fetch_deck", views.GetDeck.as_view(), name="fetch_deck"),
     path("fetch_deck_card", views.GetCard.as_view(), name="fetch_card"),
     path("create_card", views.CreateCard.as_view(), name="create_card"),
 ]

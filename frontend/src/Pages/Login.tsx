@@ -25,6 +25,10 @@ export default function Login({ client }: ILoginProps) {
                 password: password }
             ).then((response) => {
                 axios.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
+                
+
+                localStorage.setItem('token', response.data.token);
+
                 setEmail('');
                 setPassword('');
                 navigate("/");

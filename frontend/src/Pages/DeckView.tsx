@@ -11,7 +11,7 @@ export default function DeckView({ client, activeDeckId }: IDeckViewProps) {
     
     interface IDeck {
         name: string,
-        description: string,
+        course: string,
         cards: {
             id: number,
             question: string,
@@ -24,12 +24,17 @@ export default function DeckView({ client, activeDeckId }: IDeckViewProps) {
     useEffect(() => {
         client.get(
             `/fetch_deck?deck_id=${activeDeckId}`,
+            {
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            }
         ).then((response) => {
             setActiveDeck(response.data.deck);
             
         })
     }, [])
-
+    
     return (
         <div>DeckView</div>
     )

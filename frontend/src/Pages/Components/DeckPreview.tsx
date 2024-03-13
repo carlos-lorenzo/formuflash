@@ -2,9 +2,10 @@ import React from 'react'
 
 import CardPreview from './CardPreview'
 
+
 interface IDeck {
     name: string,
-    description: string,
+    course: string,
     cards: {
         id: number,
         question: string,

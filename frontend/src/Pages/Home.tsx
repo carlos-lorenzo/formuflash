@@ -3,7 +3,6 @@ import { useState } from "react";
 import { AxiosInstance } from "axios";
 
 import MarkdownLatex from "./Components/MarkdownLatex";
-import CreateCard from "./Components/CreateCard";
 
 
 interface ILoginProps {
@@ -28,7 +27,7 @@ export default function Home({ client }: ILoginProps) {
   return (
     <>
         <MarkdownLatex content={content} />
-        <button onClick={getCard} className="shadow border">Get Card</button>
+        <button onClick={getCard} className="shadow-accent border">Get Card</button>
     </>
   );
 }
