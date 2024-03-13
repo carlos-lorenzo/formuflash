@@ -68,12 +68,16 @@ class GetDeck(APIView):
         
         deck = Deck.objects.get(deck_id=deck_id)
         cards = FlashCard.objects.filter(deck=deck)
-        serialised_cards = FlashCardSerialiser(cards, many=True).data
+        serialised_cards = {}
+        for card in cards:
+            serialised_cards[card.card_id] = FlashCardSerialiser(card).data
+            
         serialised_deck = {
             'name': deck.name,
             'course': deck.course.name,
             'cards': serialised_cards
         }
+        
         return Response(serialised_deck, status=status.HTTP_200_OK)
 
 
@@ -83,6 +87,7 @@ class CreateCard(APIView):
     permission_classes = (permissions.IsAuthenticated,)
     
     def post(self, request):
+        card_id: int = request.data.get('card_id', None)
         deck_id: int = request.data.get('deck_id', None)
         question: str = request.data.get('question', None)
         answer: str = request.data.get('answer', None)
@@ -99,15 +104,24 @@ class CreateCard(APIView):
         if not answer:
             return Response({"error": "answer is required"}, status=status.HTTP_400_BAD_REQUEST)
         
-        card = FlashCard(
-            deck=Deck.objects.get(deck_id=deck_id),
-            question=question,
-            answer=answer
-        )
+        if not FlashCard.objects.get(card_id=card_id):
+            card = FlashCard(
+                deck=Deck.objects.get(deck_id=deck_id),
+                question=question,
+                answer=answer,
+            )
+            card.save()
+            
+            return Response({"message": "Card created"}, status=status.HTTP_200_OK)
+
+        else:
+            card = FlashCard.objects.get(card_id=card_id)
+            card.question = question
+            card.answer = answer
         
-        card.save()
+            card.save()
         
-        return Response({"message": "Card created"}, status=status.HTTP_200_OK)
+            return Response({"message": "Card updated"}, status=status.HTTP_200_OK)
 
 class GetCard(APIView):
     permission_classes = (permissions.IsAuthenticated,)

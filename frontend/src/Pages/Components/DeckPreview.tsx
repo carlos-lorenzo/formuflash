@@ -7,25 +7,32 @@ interface IDeck {
     name: string,
     course: string,
     cards: {
-        id: number,
-        question: string,
-        answer: string,
-        confidence: number,
-        card_id: number
-    }[]
+        [cardId: number]: {
+            id: number,
+            question: string,
+            answer: string,
+            confidence: number
+        }
+    }
 }
 
 interface IDeckPreviewProps {
     activeDeck: IDeck,
-    full: boolean
+    full: boolean,
+    setActiveCardId: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function DeckPreview({ activeDeck, full }: IDeckPreviewProps) {
+export default function DeckPreview({ activeDeck, full, setActiveCardId }: IDeckPreviewProps) {
+    
     return (
         <div id='deck-edit-preview' className='card'>
-            {activeDeck.cards.map((card, i) => {
+            {Object.entries(activeDeck.cards).map(([key, card]) => {
+                const i = parseInt(key)
+
                 return (
-                    full ? <CardPreview key={i} card={card} /> : <CardEditPreview key={i} card={card} />
+                    full ? 
+                    <CardPreview key={i} card={card} /> : 
+                    <CardEditPreview key={i} card={card} setActiveCardId={setActiveCardId}/>
                 )
             })}
         </div>

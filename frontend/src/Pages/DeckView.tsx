@@ -16,12 +16,13 @@ export default function DeckView({ client, activeDeckId }: IDeckViewProps) {
         name: string,
         course: string,
         cards: {
-            id: number,
-            question: string,
-            answer: string,
-            confidence: number,
-            card_id: number
-        }[]
+            [cardId: number]: {
+                id: number,
+                question: string,
+                answer: string,
+                confidence: number
+            }
+        }
     }
     
     enum DeckAction {
@@ -32,7 +33,20 @@ export default function DeckView({ client, activeDeckId }: IDeckViewProps) {
 
     const [activeDeck, setActiveDeck] = useState<IDeck | null>(null);
     const [deckAction, setDeckAction] = useState(DeckAction.PREIVEW);
+    const [activeCardId, setActiveCardId] = useState(0);
 
+    function getDeck() {
+        client.get(
+            `/fetch_deck?deck_id=${activeDeckId}`,
+            {
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            }
+        ).then((response) => {
+            setActiveDeck(response.data);
+        })
+    }
 
     useEffect(() => {
         client.get(
@@ -43,7 +57,7 @@ export default function DeckView({ client, activeDeckId }: IDeckViewProps) {
                 }
             }
         ).then((response) => {
-            
+            setActiveCardId(Number(Object.keys(response.data.cards)[0]));
             setActiveDeck(response.data);
             
         })
@@ -54,20 +68,26 @@ export default function DeckView({ client, activeDeckId }: IDeckViewProps) {
     }
     
     return (
-        <div id="deck-view" className='full place-center'>
-            <h1>{activeDeck.name} - {activeDeck.course}</h1>
-            <div id='option-selector'>
-                <button onClick={(e) => setDeckAction(DeckAction.PREIVEW)}>Preview</button>
-                <button onClick={(e) => setDeckAction(DeckAction.STUDY)}>Study</button>
-                <button onClick={(e) => setDeckAction(DeckAction.EDIT)}>Edit</button>
+        <div id="deck-view" className='place-center'>
+            <div id='deck-view-header' className='fill place-center'>
+                <h1>{activeDeck.name} - {activeDeck.course}</h1>
+                <div id='deck-options' className='fill'>
+                    <button className="border shadow-accent deck-option" onClick={(e) => setDeckAction(DeckAction.PREIVEW)}>Preview</button>
+                    <button className="border shadow-accent deck-option" onClick={(e) => setDeckAction(DeckAction.STUDY)}>Study</button>
+                    <button className="border shadow-accent deck-option" onClick={(e) => setDeckAction(DeckAction.EDIT)}>Edit</button>
 
+                </div>
             </div>
+            
 
             {
-                deckAction === DeckAction.EDIT ? <DeckEdit client={client} activeDeck={activeDeck} /> : <DeckPreview activeDeck={activeDeck} full={true} />
+                deckAction === DeckAction.EDIT ? 
+                <DeckEdit client={client} activeDeck={activeDeck} activeDeckId={activeDeckId} activeCardId={activeCardId} setActiveCardId={setActiveCardId}/> : 
+                <DeckPreview activeDeck={activeDeck} full={true} setActiveCardId={setActiveCardId}/>
             }
 
            
         </div>
     )
 }
+
