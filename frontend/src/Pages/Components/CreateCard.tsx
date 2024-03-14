@@ -34,13 +34,19 @@ export default function CreateCard({
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
 
+        const authToken = localStorage.getItem('token')
+
         client.post('/create_card', {
             deck_id: activeDeckId,
             question: question,
             answer: answer,
-            card_id: activeCardId
+            card_id: activeCardId,
+        }, {
+            headers: {
+                Authorization: `Token ${authToken}`,
+            }
         }).then(() => {
-            
+            getDeck();
         })
     }
 

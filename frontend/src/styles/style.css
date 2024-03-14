@@ -13,7 +13,31 @@
 * {
     font-family: "Fira Code", monospace;
     font-optical-sizing: auto;
-    font-size: 22px;
+    font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1.25em;
+}
+
+h3 {
+    font-size: 1.1em;
+}
+
+h4,
+h5,
+h6 {
+    font-size: 1em;
 }
 
 
@@ -31,7 +55,7 @@ textarea {
     background-color: var(--secondary);
     color: var(--text);
     border: none;
-    overflow: auto;
+    overflow-y: auto;
     outline: none;
 
     -webkit-box-shadow: none;
@@ -66,6 +90,7 @@ button {
 }
 .text.formatted {
     padding-top: 0px !important;
+    overflow-y: scroll;
 }
 
 .shadow {

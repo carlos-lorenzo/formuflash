@@ -82,7 +82,7 @@ export default function DeckView({ client, activeDeckId }: IDeckViewProps) {
 
             {
                 deckAction === DeckAction.EDIT ? 
-                <DeckEdit client={client} activeDeck={activeDeck} activeDeckId={activeDeckId} activeCardId={activeCardId} setActiveCardId={setActiveCardId}/> : 
+                <DeckEdit getDeck={getDeck} client={client} activeDeck={activeDeck} activeDeckId={activeDeckId} activeCardId={activeCardId} setActiveCardId={setActiveCardId}/> : 
                 <DeckPreview activeDeck={activeDeck} full={true} setActiveCardId={setActiveCardId}/>
             }
 

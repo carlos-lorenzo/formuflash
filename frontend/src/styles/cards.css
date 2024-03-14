@@ -55,6 +55,14 @@
     cursor: pointer;
 }
 
+.card-edit-preview {
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 1em;
+        line-height: 1.2;
+    }
+
+}
+
 #deck-edit-preview {
     
     display: flex;
@@ -63,6 +71,8 @@
     align-items: center;
     
 }
+
+
 
 #deck-view-header {
     display: grid;
