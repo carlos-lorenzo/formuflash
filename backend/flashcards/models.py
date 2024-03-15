@@ -17,6 +17,7 @@ class Deck(models.Model):
     
 class FlashCard(models.Model):
     class Confidence(models.IntegerChoices):
+        NONE = 0
         LOW = 1
         MEDIUM = 2
         HIGH = 3
@@ -25,7 +26,7 @@ class FlashCard(models.Model):
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
     question = models.CharField(max_length=255)
     answer = models.CharField(max_length=255)
-    confidence = models.IntegerField(choices=Confidence.choices, default=Confidence.LOW)
+    confidence = models.IntegerField(choices=Confidence.choices, default=Confidence.NONE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
