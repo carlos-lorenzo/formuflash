@@ -103,3 +103,32 @@
     width: 100%;
     
 }
+
+#study-content {
+    position: relative;
+    background-color: var(--secondary);
+}
+#study {
+    display: grid;
+    grid-template-rows: 5fr 1fr;
+}
+
+#study-options {
+    display: flex;
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#confidence-marker {
+    
+    position: absolute;
+    margin: 2%;
+    top: 0;
+    right: 0;
+    height: 35px;
+    width: 35px;
+    border-radius: 100%;
+    
+}

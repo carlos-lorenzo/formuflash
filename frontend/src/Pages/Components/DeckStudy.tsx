@@ -3,32 +3,13 @@ import React, { useState, useEffect } from 'react'
 import { AxiosInstance } from 'axios'
 import MarkdownLatex from './MarkdownLatex'
 
-interface IDeck {
-    name: string,
-    course: string,
-    cards: {
-        [cardId: number]: {
-            id: number,
-            question: string,
-            answer: string,
-            confidence: number
-        }
-    }
-}
+import ICard from '../../types/Card';
+import IDeck from '../../types/Deck';
 
-
-interface IDeckStudyProps {
+declare interface IDeckStudyProps {
     client: AxiosInstance
     activeDeck: IDeck
-}
-
-
-interface ICard {
-    question: string
-    answer: string
-    confidence: number
-    card_id: number
-}
+} 
 
 export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
     enum Confidences {
@@ -48,9 +29,48 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
         questionShown: true
     });
 
-    let [confidence, setConfidence] = useState(Confidences.MEDIUM);
+   
     let [card, setCard] = useState<ICard | null>(null);
     
+
+    function handleSwap() {
+        if (!card) {
+            return;
+        }
+
+        if (content.questionShown) {
+            setContent({
+                content: card.answer,
+                questionShown: false
+            })
+        } else {
+            setContent({
+                content: card.question,
+                questionShown: true
+            })
+        }
+    }
+
+    function handleConfidenceUpdate(confidence: Confidences) {
+
+        if (!card) {
+            return;
+        }
+        client.post(
+            "/update_confidence",
+            {
+                card_id: card.card_id,
+                confidence: confidence
+            },
+            {
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            }
+        ).then((response) => {
+            getCard();
+        })
+    }
 
     function getCard() {
         client.get(
@@ -61,9 +81,10 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
                 }
             }
         ).then((response) => {
+            console.log(response.data)
             setCard(response.data.card);
             setContent({
-                content: response.data.card.answer,
+                content: response.data.card.question,
                 questionShown: true
             });
             
@@ -75,32 +96,39 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
     }, [])
 
 
-    function handleKeys(e: KeyboardEvent) {
-        if (e.key === " ") {
-            if (!card) {
-                return;
-            } else {
-                setContent({
-                    content: content.questionShown ? card.question : card.answer,
-                    questionShown: false
-                });
-            }
+    function getConfidenceClassName(confidence?: number): string {
+        if (confidence === undefined) {
+            return "none";
+        }
+
+        switch (confidence) {
+            case Confidences.LOW:
+                return "accent";
+            case Confidences.MEDIUM:
+                return "primary";
+            case Confidences.HIGH:
+                return "green";
+            default:
+                return "none";
         }
     }
 
-    window.addEventListener('keydown', (e) => {
-        handleKeys(e);
-    })
+
+
     return (
-        <div id='study'>
-            <div id="study-content">
+        <div id='study' className='fill place-center'>
+            <div id="study-content" className='text card border fill place-center shadow' onClick={() => handleSwap()}>
+                <div id="confidence-marker" className={`shadow-${getConfidenceClassName(card?.confidence)} border ${getConfidenceClassName(card?.confidence)}`}></div>
                 <MarkdownLatex content={content.content}/>
             </div>
-            <div id='study-options'>
-
+            <div id='study-options' className='fill'>   
+                <button className='shadow-accent border deck-option' onClick={handleSwap}>Turn Around</button>
+                <button className='shadow-accent border deck-option' onClick={() => handleConfidenceUpdate(Confidences.LOW)}>LOW</button>
+                <button className='shadow-primary border deck-option primary' onClick={() => handleConfidenceUpdate(Confidences.MEDIUM)}>MEDIUM</button>
+                <button className='shadow-green border deck-option green' onClick={() => handleConfidenceUpdate(Confidences.HIGH)}>HIGH</button>
             </div>
             
         </div>
     )
 }
-1
+

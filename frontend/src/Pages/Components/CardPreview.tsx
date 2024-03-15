@@ -2,12 +2,8 @@ import React from 'react'
 
 import MarkdownLatex from './MarkdownLatex'
 
-interface ICard {
-    question: string;
-    answer: string;
-    confidence: number;
-    card_id: number;
-}
+import ICard from '../../types/Card';
+
 interface ICardPreviewProps {
     card: ICard
 }

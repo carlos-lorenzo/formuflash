@@ -126,3 +126,26 @@ button {
     place-items: center;
 }
 
+.accent {
+    background-color: var(--accent);
+}
+
+.green {
+    background-color: var(--green);
+}
+
+.shadow-green {
+    box-shadow: 0px 1px 15px 0px var(--green);
+}
+
+.primary {
+    background-color: var(--primary);
+}
+
+.shadow-primary {
+    box-shadow: 0px 1px 15px 0px var(--primary);
+}
+
+.secondary {
+    background-color: var(--secondary);
+}

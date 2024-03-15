@@ -3,18 +3,8 @@ import React from 'react'
 import CardPreview from './CardPreview'
 import CardEditPreview from './CardEditPreview'
 
-interface IDeck {
-    name: string,
-    course: string,
-    cards: {
-        [cardId: number]: {
-            id: number,
-            question: string,
-            answer: string,
-            confidence: number
-        }
-    }
-}
+import IDeck from '../../types/Deck';
+import ICard from '../../types/Card';
 
 interface IDeckPreviewProps {
     activeDeck: IDeck,

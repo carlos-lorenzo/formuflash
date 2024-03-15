@@ -6,18 +6,9 @@ import DeckPreview from './DeckPreview';
 import CreateCard from './CreateCard';
 
 
-interface IDeck {
-    name: string,
-    course: string,
-    cards: {
-        [cardId: number]: {
-            id: number,
-            question: string,
-            answer: string,
-            confidence: number
-        }
-    }
-}
+import ICard from '../../types/Card';
+import IDeck from '../../types/Deck';
+
 
 interface IDeckEdit {
     client: AxiosInstance,

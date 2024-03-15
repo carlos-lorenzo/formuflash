@@ -22,8 +22,8 @@ export default function Login({ client }: ILoginProps) {
         try {
             client.post('/login', { 
                 username: email, 
-                password: password }
-            ).then((response) => {
+                password: password 
+            }).then((response) => {
                 axios.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
                 
 

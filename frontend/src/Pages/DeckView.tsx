@@ -5,6 +5,11 @@ import { AxiosInstance } from 'axios'
 import DeckPreview from './Components/DeckPreview';
 import DeckEdit from './Components/DeckEdit';
 import DeckStudy from './Components/DeckStudy';
+
+
+import IDeck from '../types/Deck';
+
+
 interface IDeckViewProps {
     client: AxiosInstance,
     activeDeckId: number,
@@ -12,18 +17,6 @@ interface IDeckViewProps {
 
 export default function DeckView({ client, activeDeckId }: IDeckViewProps) {
     
-    interface IDeck {
-        name: string,
-        course: string,
-        cards: {
-            [cardId: number]: {
-                id: number,
-                question: string,
-                answer: string,
-                confidence: number
-            }
-        }
-    }
     
     enum DeckAction {
         PREIVEW = 'PREIVEW',

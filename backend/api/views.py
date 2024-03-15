@@ -159,6 +159,26 @@ class GetCard(APIView):
         serializer = FlashCardSerialiser(card)
         return Response({"card": serializer.data}, status=status.HTTP_200_OK)
     
-    
+
+
+class UpdateCardConfidence(APIView):
+    def post(self, request):
+        card_id: int = request.data.get('card_id', None)
+        confidence: int = request.data.get('confidence', None)
+        
+        if not card_id:
+            return Response({"error": "card_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not confidence or confidence not in [FlashCard.Confidence.LOW, FlashCard.Confidence.MEDIUM, FlashCard.Confidence.HIGH]:
+            return Response({"error": "confidence is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not FlashCard.objects.get(card_id=card_id):
+            return Response({"error": "card not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        card = FlashCard.objects.get(card_id=card_id)
+        card.confidence = confidence
+        card.save()
+        
+        return Response({"message": "Card confidence updated"}, status=status.HTTP_200_OK)
     
         

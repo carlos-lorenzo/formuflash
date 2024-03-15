@@ -12,4 +12,5 @@ urlpatterns = [
     path("fetch_deck", views.GetDeck.as_view(), name="fetch_deck"),
     path("fetch_deck_card", views.GetCard.as_view(), name="fetch_card"),
     path("create_card", views.CreateCard.as_view(), name="create_card"),
+    path("update_confidence", views.UpdateCardConfidence.as_view(), name="update_confidence"),
 ]
