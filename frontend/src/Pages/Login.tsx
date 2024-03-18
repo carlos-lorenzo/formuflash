@@ -4,12 +4,15 @@ import { useNavigate } from "react-router-dom";
 
 import axios, { AxiosInstance } from 'axios'
 
+import IUser from '../types/User';
+
 
 interface ILoginProps {
     client: AxiosInstance
+    setUser: React.Dispatch<React.SetStateAction<IUser>>
 }
 
-export default function Login({ client }: ILoginProps) {
+export default function Login({ client, setUser }: ILoginProps) {
     
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -28,10 +31,23 @@ export default function Login({ client }: ILoginProps) {
                 
 
                 localStorage.setItem('token', response.data.token);
+                
+                client.get('/get_user')
+                .then((response) => {
+                    setUser({
+                        name: response.data.name,
+                        email: response.data.email,
+                        loggedIn: true
+                    });
 
-                setEmail('');
-                setPassword('');
-                navigate("/deck-view");
+                    setEmail('');
+                    setPassword('');
+                    navigate("/home");
+                })
+                
+                
+
+                
             })
             
         } catch (error) {

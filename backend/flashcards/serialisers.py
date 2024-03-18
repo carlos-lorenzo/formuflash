@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import FlashCard, Deck
+from .models import FlashCard, Deck, Course
 
 class FlashCardSerialiser(serializers.ModelSerializer):
     class Meta:
@@ -12,3 +12,12 @@ class DeckSerialiser(serializers.ModelSerializer):
     class Meta:
         model = Deck
         fields = '__all__'
+        
+        
+
+class CourseSerialiser(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = '__all__'
+        
+        

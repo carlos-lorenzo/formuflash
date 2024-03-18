@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import { useNavigate } from "react-router-dom";
+
 import { AxiosInstance } from 'axios'
 
 import DeckPreview from './Components/DeckPreview';
@@ -8,15 +10,27 @@ import DeckStudy from './Components/DeckStudy';
 
 
 import IDeck from '../types/Deck';
-
+import IUser from '../types/User';
 
 interface IDeckViewProps {
     client: AxiosInstance,
-    activeDeckId: number,
+    activeDeckId: number | undefined,
+    user: IUser
 }
 
-export default function DeckView({ client, activeDeckId }: IDeckViewProps) {
+export default function DeckView({ client, activeDeckId, user }: IDeckViewProps) {
     
+    const navigate = useNavigate();
+
+    if (!user.loggedIn) {
+        navigate('/login');
+        
+    }
+
+    if (!activeDeckId) {
+        navigate('/user-view');
+    }
+
     
     enum DeckAction {
         PREIVEW = 'PREIVEW',

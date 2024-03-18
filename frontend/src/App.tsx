@@ -6,12 +6,15 @@ import {
   Route
 } from "react-router-dom";
 
+import axios from "axios";
+
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
-import DeckEdit from "./Pages/Components/DeckEdit";
-
-import axios from "axios";
+import UserView from "./Pages/UserView";
 import DeckView from "./Pages/DeckView";
+
+import IUser from "./types/User";
+
 
 
 
@@ -34,20 +37,42 @@ client.get('/get_csrf_token')
 //document.documentElement.setAttribute('data-theme', 'dark');
 
 function App() {
-    
-    const [activeDeckId, setActiveDeckId] = useState(1);
+    const [activeCourseId, setActiveCourseId] = useState<number | undefined>();
+    const [activeDeckId, setActiveDeckId] = useState<number | undefined>();
+
+    const [user, setUser] = useState<IUser>({
+        name: '',
+        email: '',
+        loggedIn: false
+    });
+
+
 
     return (
 
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Home client={client }/>} />
-                <Route path="/login" element={<Login client={client}/>} />
+                <Route path="/login" element={
+                <Login 
+                    client={client}
+                    setUser={setUser}
+                    />} />
                 <Route path="/deck-view" element={
                 <DeckView 
                     client={client}
                     activeDeckId={activeDeckId}
+                    user={user}
                 />}/>
+                <Route path="/home" element={
+                <UserView 
+                    client={client}
+                    user={user}
+                    activeCourseId={activeCourseId}
+                    setActiveCourseId={setActiveCourseId}
+                    activeDeckId={activeDeckId}
+                    setActiveDeckId={setActiveDeckId}
+                />} />
             </Routes>
         </BrowserRouter>
     );

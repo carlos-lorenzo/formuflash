@@ -13,7 +13,7 @@ import IDeck from '../../types/Deck';
 interface IDeckEdit {
     client: AxiosInstance,
     activeDeck: IDeck,
-    activeDeckId: number,
+    activeDeckId: number | undefined,
     activeCardId: number,
     setActiveCardId: React.Dispatch<React.SetStateAction<number>>,
     getDeck: () => void

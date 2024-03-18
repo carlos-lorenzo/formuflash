@@ -132,3 +132,20 @@
     border-radius: 100%;
     
 }
+
+
+#courses {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+#user-view {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: 1rem;
+}
+
+.course {
+    height: 25dvh;
+}

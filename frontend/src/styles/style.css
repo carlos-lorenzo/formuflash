@@ -78,6 +78,10 @@ button {
     cursor: pointer;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 .border {
     border-radius: 15px;
     

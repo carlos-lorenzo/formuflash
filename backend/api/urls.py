@@ -5,12 +5,19 @@ from . import views
 
 urlpatterns = [
     path("", views.Index.as_view(), name="index"),
+    
     path("get_csrf_token", views.GetCSRFToken.as_view(), name="csrftoken"),
     path("login", obtain_auth_token, name="login"),
-    path("user", views.User.as_view(), name="user"),
-    path("decks", views.GetDecks.as_view(), name="decks"),
+    path("get_user", views.User.as_view(), name="user"),
+    
+    path("get_courses", views.GetUserCourses.as_view(), name="courses"),
+    path("create_course", views.CreateCourse.as_view(), name="create_course"),
+    
+    path("create_deck", views.CreateDeck.as_view(), name="create_deck"),
+    path("decks", views.GetUserDecks.as_view(), name="decks"),
     path("fetch_deck", views.GetDeck.as_view(), name="fetch_deck"),
+    
     path("fetch_deck_card", views.GetCard.as_view(), name="fetch_card"),
-    path("create_card", views.CreateCard.as_view(), name="create_card"),
+    path("create_card", views.UpdateCard.as_view(), name="create_card"),
     path("update_confidence", views.UpdateCardConfidence.as_view(), name="update_confidence"),
 ]

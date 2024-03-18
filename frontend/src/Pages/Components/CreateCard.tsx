@@ -12,7 +12,7 @@ interface ICreateCardProps {
     question: string,
     answer: string,
     activeCardId: number,
-    activeDeckId: number,
+    activeDeckId: number | undefined,
     setQuestion: React.Dispatch<React.SetStateAction<string>>,
     setAnswer: React.Dispatch<React.SetStateAction<string>>,
     getDeck: () => void
