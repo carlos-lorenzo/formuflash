@@ -96,13 +96,37 @@ class GetUserDecks(APIView):
 		serializer = DeckSerialiser(decks, many=True)
 		return Response({"decks": serializer.data}, status=status.HTTP_200_OK)
 
+class GetCourseDecks(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    
+    def get(self, request):
+        course_id: int = request.GET.get('course_id', None)
+        user = request.user
+        
+        if not course_id:
+            return Response({"error": "course_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            course = Course.objects.get(course_id=course_id)
+        except Course.DoesNotExist:
+            return Response({"error": "course does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        decks = Deck.objects.filter(course=course)
+        
+        """if not decks:
+            return Response({"message": "No decks found"}, status=status.HTTP_204_NO_CONTENT)"""
+        
+        
+        serializer = DeckSerialiser(decks, many=True)
+        return Response({"decks": serializer.data}, status=status.HTTP_200_OK)
+
 
 class CreateDeck(APIView):
 	permission_classes = (permissions.IsAuthenticated,)
 	
 	def post(self, request):
 		name = request.data.get('name', None)
-		course_id = request.data.get('course', None)
+		course_id = request.data.get('course_id', None)
 		user = request.user
 		
 		if not name:

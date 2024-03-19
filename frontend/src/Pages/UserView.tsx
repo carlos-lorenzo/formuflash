@@ -9,6 +9,8 @@ import Decks from './Components/Decks';
 
 import IUser from '../types/User';
 import ICourse from '../types/ICourse';
+import IBriefDeck from '../types/BriefDeck';
+
 
 interface IUserViewProps {
     client: AxiosInstance,
@@ -31,13 +33,19 @@ export default function UserView({
     const navigate = useNavigate();
 
     const [courses, setCourses] = useState<ICourse[]>([]);
+    const [decks, setDecks] = useState<IBriefDeck[]>([]);
 
-
-    useEffect(() => {
-        if(!user.loggedIn) {
-            navigate('/login');
+    function getCourseDecks(course_id: number | undefined) {
+        if (course_id === undefined) {
+            return;
         }
-    
+        client.get(`/course_decks?course_id=${course_id}`
+        ).then((response) => {
+            setDecks(response.data.decks);
+        });
+    }
+
+    function getCourses() {
         client.get("/get_courses").then((response) => {
             if (response.data.courses.length === 0) {
                 return (
@@ -48,10 +56,21 @@ export default function UserView({
             }
 
             if (activeCourseId === undefined) {
-                setActiveCourseId(response.data.courses[0].id);
+                setActiveCourseId(response.data.courses[0].course_id);
             }
             setCourses(response.data.courses);
+
+            getCourseDecks(activeCourseId);
         })
+    }
+    
+    useEffect(() => {
+        if(!user.loggedIn) {
+            navigate('/login');
+        }
+        
+        getCourses();
+        
     }, [])
     
 
@@ -59,12 +78,19 @@ export default function UserView({
 		<div id='user-view' className='full'>
 
             <Courses
+                client={client}
                 courses={courses}
+                getCourses={getCourses}
+                getCourseDecks={getCourseDecks}
                 setActiveCourseId={setActiveCourseId}
             />
 
             <Decks
-                
+                client={client}
+                activeCourseId={activeCourseId}
+                decks={decks}
+                setActiveDeckId={setActiveDeckId}
+                getCourseDecks={getCourseDecks}
             />
 
         </div>

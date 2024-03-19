@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 import axios, { AxiosInstance } from 'axios'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 import IUser from '../types/User';
 
 
@@ -16,57 +19,57 @@ export default function Login({ client, setUser }: ILoginProps) {
     
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
 
-        try {
-            client.post('/login', { 
-                username: email, 
-                password: password 
-            }).then((response) => {
-                axios.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
-                
-
-                localStorage.setItem('token', response.data.token);
-                
-                client.get('/get_user')
-                .then((response) => {
-                    setUser({
-                        name: response.data.name,
-                        email: response.data.email,
-                        loggedIn: true
-                    });
-
-                    setEmail('');
-                    setPassword('');
-                    navigate("/home");
-                })
-                
-                
-
-                
-            })
+    
+        client.post('/login', { 
+            username: email, 
+            password: password 
+        }).then((response) => {
+            axios.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
             
-        } catch (error) {
-            console.error(error)
-        }
+
+            localStorage.setItem('token', response.data.token);
+            
+            client.get('/get_user')
+            .then((response) => {
+                setUser({
+                    name: response.data.name,
+                    email: response.data.email,
+                    loggedIn: true
+                });
+
+                setEmail('');
+                setPassword('');
+                navigate("/home");
+            })
+        }).catch((error) => {
+            console.log(error);
+        })
+            
+        
+    }
+
+    const togglePasswordVisiblity = () => {
+        setShowPassword((showPassword) => !showPassword);
     }
 
     return (
-        <div>
-            <h1>Login</h1>
+        <div id='login' className='full place-center'>
             <form onSubmit={handleSubmit}>
-                <label>
-                    Email
-                    <input type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} />
-                </label>
-                <label>
-                    Password
-                    <input type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
-                </label>
+                    <div className="login-input">
+                        <input placeholder="Email" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} />
+                    </div>
+                   
+                    <div className="login-input">
+                        <input placeholder="Password" type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="password-toggle" onClick={togglePasswordVisiblity} />
+                    </div>
                 <button type="submit">Submit</button>
             </form>
         </div>

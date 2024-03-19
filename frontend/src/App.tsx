@@ -8,6 +8,7 @@ import {
 
 import axios from "axios";
 
+import Header from "./Pages/Components/Header";
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import UserView from "./Pages/UserView";
@@ -49,32 +50,35 @@ function App() {
 
 
     return (
-
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Home client={client }/>} />
-                <Route path="/login" element={
-                <Login 
-                    client={client}
-                    setUser={setUser}
+        <>
+            <Header />
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home client={client }/>} />
+                    <Route path="/login" element={
+                    <Login 
+                        client={client}
+                        setUser={setUser}
+                        />} />
+                    <Route path="/deck-view" element={
+                    <DeckView 
+                        client={client}
+                        activeDeckId={activeDeckId}
+                        user={user}
+                    />}/>
+                    <Route path="/home" element={
+                    <UserView 
+                        client={client}
+                        user={user}
+                        activeCourseId={activeCourseId}
+                        setActiveCourseId={setActiveCourseId}
+                        activeDeckId={activeDeckId}
+                        setActiveDeckId={setActiveDeckId}
                     />} />
-                <Route path="/deck-view" element={
-                <DeckView 
-                    client={client}
-                    activeDeckId={activeDeckId}
-                    user={user}
-                />}/>
-                <Route path="/home" element={
-                <UserView 
-                    client={client}
-                    user={user}
-                    activeCourseId={activeCourseId}
-                    setActiveCourseId={setActiveCourseId}
-                    activeDeckId={activeDeckId}
-                    setActiveDeckId={setActiveDeckId}
-                />} />
-            </Routes>
-        </BrowserRouter>
+                </Routes>
+            </BrowserRouter>
+        </>
+        
     );
 }
 

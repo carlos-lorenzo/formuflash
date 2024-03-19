@@ -14,7 +14,8 @@ urlpatterns = [
     path("create_course", views.CreateCourse.as_view(), name="create_course"),
     
     path("create_deck", views.CreateDeck.as_view(), name="create_deck"),
-    path("decks", views.GetUserDecks.as_view(), name="decks"),
+    path("course_decks", views.GetCourseDecks.as_view(), name="course_decks"),
+    path("user_decks", views.GetUserDecks.as_view(), name="all_user_decks"),
     path("fetch_deck", views.GetDeck.as_view(), name="fetch_deck"),
     
     path("fetch_deck_card", views.GetCard.as_view(), name="fetch_card"),

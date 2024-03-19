@@ -1,0 +1,24 @@
+#header {
+    position: sticky;
+    top: 0;
+
+   
+
+    height: 8dvh;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+
+    
+    z-index: 1;
+
+    /* Add a blur effect*/
+    backdrop-filter: blur(10px);
+    
+}
+
+#login {
+   
+}

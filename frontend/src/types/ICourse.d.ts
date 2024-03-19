@@ -1,5 +1,5 @@
 interface ICourse {
-    id: number
+    course_id: number
     name: string
 }
 export default ICourse

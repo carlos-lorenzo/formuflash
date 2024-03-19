@@ -60,13 +60,13 @@ export default function CreateCard({
                 <textarea
                     value={question}
                     onChange={(event) => setQuestion(event.target.value)}
-                    className='border text shadow'
+                    className='border text shadow-secondary'
                     placeholder='Enter raw question'
                 />
                 <textarea
                     value={answer}
                     onChange={(event) => setAnswer(event.target.value)}
-                    className='border text shadow'
+                    className='border text shadow-secondary'
                     placeholder='Enter raw answer'
                 />  
                 <button type="submit" className='shadow-accent border'>Save</button>
@@ -74,12 +74,12 @@ export default function CreateCard({
             </form>
 
             <div id="formatted-output">
-                <div className='formatted border shadow text'>
+                <div className='formatted border shadow-secondary text'>
                     <h4>Q</h4>
                     <MarkdownLatex content={question} />
                 </div>
                 
-                <div className='formatted border shadow text'>
+                <div className='formatted border shadow-secondary text'>
                     <h4>A</h4>
                     <MarkdownLatex content={answer} />
                 </div>
