@@ -73,10 +73,9 @@ export default function DeckView({ client, activeDeckId, user }: IDeckViewProps)
     if (!activeDeck) {
         return <div>Loading...</div>
     }
-    
-    return (
-        <div id="deck-view" className='place-center'>
-            <div id='deck-view-header' className='fill place-center'>
+    /*
+
+    <div id='deck-view-header' className='fill place-center'>
                 <h1>{activeDeck.name} - {activeDeck.course}</h1>
                 <div id='deck-options' className='fill'>
                     <button className="border shadow-accent deck-option" onClick={(e) => setDeckAction(DeckAction.PREIVEW)}>Preview</button>
@@ -85,14 +84,24 @@ export default function DeckView({ client, activeDeckId, user }: IDeckViewProps)
 
                 </div>
             </div>
+    */
+    return (
+        <div id="deck-view" className=''>
+            
             
 
             {
                 deckAction === DeckAction.EDIT ? 
                 <DeckEdit getDeck={getDeck} client={client} activeDeck={activeDeck} activeDeckId={activeDeckId} activeCardId={activeCardId} setActiveCardId={setActiveCardId}/> : 
+
                 deckAction === DeckAction.STUDY ? 
-                <DeckStudy client={client} activeDeck={activeDeck}/> : 
+                <DeckStudy client={client} activeDeck={activeDeck}/> :
+                
+                deckAction === DeckAction.PREIVEW ?
                 <DeckPreview activeDeck={activeDeck} full={true} setActiveCardId={setActiveCardId}/>
+
+                :
+                <div>Loading...</div>
             }
 
            

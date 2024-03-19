@@ -33,7 +33,8 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
     }, [activeCardId])
 
     return (
-        <div id='deck-edit' className='fill'>
+        <div id='deck-edit'>
+            <div className="whitespace"></div>
             <DeckPreview activeDeck={activeDeck} full={false} setActiveCardId={setActiveCardId}/>
 
             <CreateCard 

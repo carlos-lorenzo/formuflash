@@ -36,7 +36,12 @@ export default function Login({ client, setUser }: ILoginProps) {
 
             localStorage.setItem('token', response.data.token);
             
-            client.get('/get_user')
+            client.get('/get_user',
+                {
+                    headers: {
+                        'Authorization': `Token ${localStorage.getItem('token')}`
+                    }
+                })
             .then((response) => {
                 setUser({
                     name: response.data.name,
@@ -50,9 +55,7 @@ export default function Login({ client, setUser }: ILoginProps) {
             })
         }).catch((error) => {
             console.log(error);
-        })
-            
-        
+        }) 
     }
 
     const togglePasswordVisiblity = () => {
@@ -60,17 +63,18 @@ export default function Login({ client, setUser }: ILoginProps) {
     }
 
     return (
-        <div id='login' className='full place-center'>
-            <form onSubmit={handleSubmit}>
-                    <div className="login-input">
-                        <input placeholder="Email" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} />
+        <div id='login' className='fill place-center'>
+            <form onSubmit={handleSubmit} id='login-form'>
+                    <div className="login-input border secondary shadow-secondary">
+                        <input className="input" placeholder="Email" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} />
                     </div>
                    
-                    <div className="login-input">
-                        <input placeholder="Password" type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
-                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="password-toggle" onClick={togglePasswordVisiblity} />
+                    <div className="login-input border secondary shadow-secondary" id='password-input'>
+                        <input className="input" placeholder="Password" type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="password-toggle pointer" onClick={togglePasswordVisiblity} size='xl'/>
                     </div>
-                <button type="submit">Submit</button>
+                
+                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Login</b></button>
             </form>
         </div>
     )

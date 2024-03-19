@@ -18,7 +18,7 @@ export default function CardEditPreview({ card, setActiveCardId }: ICardEditPrev
 
     
     return (
-        <div className='border shadow card-edit-preview place-center' onClick={() => setActiveCardId(card.card_id)}>
+        <div className='border secondary shadow-secondary card-edit-preview place-center pointer' onClick={() => setActiveCardId(card.card_id)}>
             <p><MarkdownLatex content={card.question}/></p>
         </div>
     )

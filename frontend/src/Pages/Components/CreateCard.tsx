@@ -53,33 +53,29 @@ export default function CreateCard({
     
 
     return (
-        
         <div id="card-creation" className='fill'>
-            <form onSubmit={handleSubmit} id="create-card-form"> 
-              
+            <form onSubmit={handleSubmit} id="create-card-form" className='fill'> 
                 <textarea
                     value={question}
                     onChange={(event) => setQuestion(event.target.value)}
-                    className='border text shadow-secondary'
-                    placeholder='Enter raw question'
+                    className='card-input border text fill secondary shadow-secondary'
+                    placeholder='Raw question'
                 />
                 <textarea
                     value={answer}
                     onChange={(event) => setAnswer(event.target.value)}
-                    className='border text shadow-secondary'
-                    placeholder='Enter raw answer'
+                    className='card-input border text fill secondary shadow-secondary'
+                    placeholder='Raw answer'
                 />  
-                <button type="submit" className='shadow-accent border'>Save</button>
-
             </form>
 
-            <div id="formatted-output">
-                <div className='formatted border shadow-secondary text'>
+            <div id="formatted-output" className='fill'>
+                <div className='formatted border text fill secondary shadow-secondary'>
                     <h4>Q</h4>
                     <MarkdownLatex content={question} />
                 </div>
                 
-                <div className='formatted border shadow-secondary text'>
+                <div className='formatted border text fill secondary shadow-secondary'>
                     <h4>A</h4>
                     <MarkdownLatex content={answer} />
                 </div>

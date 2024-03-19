@@ -75,8 +75,8 @@ export default function UserView({
     
 
 	return (
-		<div id='user-view' className='full'>
-
+		<div id='user-view' className='fill'>
+            <div className='whitespace'></div>
             <Courses
                 client={client}
                 courses={courses}
@@ -92,6 +92,7 @@ export default function UserView({
                 setActiveDeckId={setActiveDeckId}
                 getCourseDecks={getCourseDecks}
             />
+            <div className='whitespace'></div>
 
         </div>
 	)

@@ -15,7 +15,7 @@ interface IDeckPreviewProps {
 export default function DeckPreview({ activeDeck, full, setActiveCardId }: IDeckPreviewProps) {
     
     return (
-        <div id='deck-edit-preview' className='card'>
+        <div id='deck-edit-preview' className='fill'>
             {Object.entries(activeDeck.cards).map(([key, card]) => {
                 const i = parseInt(key)
 

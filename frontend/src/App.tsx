@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import {
-  BrowserRouter,
   Routes,
   Route
 } from "react-router-dom";
@@ -51,32 +50,34 @@ function App() {
 
     return (
         <>
-            <Header />
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Home client={client }/>} />
-                    <Route path="/login" element={
-                    <Login 
-                        client={client}
-                        setUser={setUser}
-                        />} />
-                    <Route path="/deck-view" element={
-                    <DeckView 
-                        client={client}
-                        activeDeckId={activeDeckId}
-                        user={user}
-                    />}/>
-                    <Route path="/home" element={
-                    <UserView 
-                        client={client}
-                        user={user}
-                        activeCourseId={activeCourseId}
-                        setActiveCourseId={setActiveCourseId}
-                        activeDeckId={activeDeckId}
-                        setActiveDeckId={setActiveDeckId}
+            <Header 
+                user={user}
+            />
+           
+            <Routes>
+                <Route path="/" element={<Home client={client }/>} />
+                <Route path="/login" element={
+                <Login 
+                    client={client}
+                    setUser={setUser}
                     />} />
-                </Routes>
-            </BrowserRouter>
+                <Route path="/deck-view" element={
+                <DeckView 
+                    client={client}
+                    activeDeckId={activeDeckId}
+                    user={user}
+                />}/>
+                <Route path="/home" element={
+                <UserView 
+                    client={client}
+                    user={user}
+                    activeCourseId={activeCourseId}
+                    setActiveCourseId={setActiveCourseId}
+                    activeDeckId={activeDeckId}
+                    setActiveDeckId={setActiveDeckId}
+                />} />
+            </Routes>
+            
         </>
         
     );
