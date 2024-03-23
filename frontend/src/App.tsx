@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
-  Routes,
-  Route
+    Routes,
+    Route,
+    useNavigate
 } from "react-router-dom";
 
 import axios from "axios";
@@ -10,7 +11,7 @@ import axios from "axios";
 import Header from "./Pages/Components/Header";
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
-import UserView from "./Pages/UserView";
+import LandingPage from "./Pages/LandingPage";
 import DeckView from "./Pages/DeckView";
 
 import IUser from "./types/User";
@@ -46,7 +47,34 @@ function App() {
         loggedIn: false
     });
 
+    enum DeckAction {
+        PREIVEW = 'PREIVEW',
+        EDIT = 'EDIT',
+        STUDY = 'STUDY',
+    }
+    const navigate = useNavigate();
 
+    const [deckAction, setDeckAction] = useState(DeckAction.EDIT);
+
+    useEffect(() => {
+        if (!user.loggedIn) {
+            client.get('/get_user',
+                {
+                    headers: {
+                        'Authorization': `Token ${localStorage.getItem('token')}`
+                    }
+                }
+            ).then((response) => {
+                setUser({
+                    name: response.data.name,
+                    email: response.data.email,
+                    loggedIn: true
+                });
+
+                navigate('/home');
+            });
+        }
+    }, []);
 
     return (
         <>
@@ -55,7 +83,7 @@ function App() {
             />
            
             <Routes>
-                <Route path="/" element={<Home client={client }/>} />
+                <Route path="/" element={<LandingPage />} />
                 <Route path="/login" element={
                 <Login 
                     client={client}
@@ -64,17 +92,19 @@ function App() {
                 <Route path="/deck-view" element={
                 <DeckView 
                     client={client}
-                    activeDeckId={activeDeckId}
                     user={user}
+                    activeDeckId={activeDeckId}
+                    deckAction={deckAction}
                 />}/>
                 <Route path="/home" element={
-                <UserView 
+                <Home 
                     client={client}
                     user={user}
                     activeCourseId={activeCourseId}
                     setActiveCourseId={setActiveCourseId}
                     activeDeckId={activeDeckId}
                     setActiveDeckId={setActiveDeckId}
+                    setDeckAction={setDeckAction}
                 />} />
             </Routes>
             

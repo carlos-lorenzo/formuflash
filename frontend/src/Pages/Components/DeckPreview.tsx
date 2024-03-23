@@ -39,12 +39,11 @@ export default function DeckPreview({ client, activeDeck, getDeck, full, setActi
     }
 
     return (
-        <div id='deck-edit-preview' className='fill'>
-            {
-                full ?
-                <></> :
-                <h3>{activeDeck.name}</h3>
-            }
+        <div id='deck-edit-preview' className='fill place-center'>
+            
+                
+            <h3>{activeDeck.name}</h3>
+            
 
             {Object.entries(activeDeck.cards).map(([key, card]) => {
                 const i = parseInt(key)

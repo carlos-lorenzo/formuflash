@@ -66,11 +66,11 @@ export default function Login({ client, setUser }: ILoginProps) {
         <div id='login' className='fill place-center'>
             <form onSubmit={handleSubmit} id='login-form'>
                     <div className="login-input border secondary shadow-secondary">
-                        <input className="input" placeholder="Email" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} />
+                        <input id="email" className="input" placeholder="Email" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} />
                     </div>
                    
                     <div className="login-input border secondary shadow-secondary" id='password-input'>
-                        <input className="input" placeholder="Password" type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                        <input id="password" className="input" placeholder="Password" type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
                         <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="password-toggle pointer" onClick={togglePasswordVisiblity} size='xl'/>
                     </div>
                 

@@ -26,7 +26,9 @@ export default function Header({ user }: IHeaderProps) {
 
     return (
         <div id="header" className='border'>
-            <h1>Free Flash</h1>
+            <Link to={"/"} className='pointer'>
+                <h1>Free Flash</h1>
+            </Link>
             <Link to={profileClickLink()} className='pointer'>
                 <FontAwesomeIcon icon={faCircleUser} size='2x'/>
             </Link>

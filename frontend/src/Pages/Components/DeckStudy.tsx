@@ -24,13 +24,13 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
         questionShown: boolean
     }
 
-    let [content, setContent] = useState<IContent>({
+    const [content, setContent] = useState<IContent>({
         content: "",
         questionShown: true
     });
 
    
-    let [card, setCard] = useState<ICard | null>(null);
+    const [card, setCard] = useState<ICard | null>(null);
     
 
     function handleSwap() {
@@ -74,7 +74,7 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
 
     function getCard() {
         client.get(
-            "/fetch_deck_card?deck_id=1",
+            `/fetch_deck_card?deck_id=${activeDeck.deck_id}`,
             {
                 headers: {
                     'Authorization': `Token ${localStorage.getItem('token')}`
@@ -117,7 +117,7 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
 
     return (
         <div id='study' className='fill place-center'>
-            <div id="study-content" className='text card border fill place-center shadow' onClick={() => handleSwap()}>
+            <div id="study-content" className='text card border fill place-center shadow-secondary' onClick={() => handleSwap()}>
                 <div id="confidence-marker" className={`shadow-${getConfidenceClassName(card?.confidence)} border ${getConfidenceClassName(card?.confidence)}`}></div>
                 <MarkdownLatex content={content.content}/>
             </div>

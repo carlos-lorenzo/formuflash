@@ -44,6 +44,11 @@
     overflow-y: auto;
 }
 
+#deck-edit-preview:nth-last-child(1) {
+    
+    padding-bottom: 2rem;
+}
+
 .card-edit-preview {
     position: relative;
     width: 100%;
@@ -54,7 +59,7 @@
 }
 
 .card-edit-preview:nth-last-child(1) {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .delete-card {
@@ -76,6 +81,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
     height: 50dvh;
+    width: 90vw;
 }
 
 
@@ -89,28 +95,16 @@
 }
 
 
-#deck-options {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    gap: 1rem;
-}
-
-.deck-option {
-    width: 15vw;
-    
-}
-
-
 
 #study-content {
     position: relative;
     background-color: var(--secondary);
 }
+
 #study {
     display: grid;
     grid-template-rows: 5fr 1fr;
+    height: 90dvh;
 }
 
 #study-options {
@@ -155,8 +149,28 @@
 
 .deck {
     height: 35dvh;
+    min-height: 35dvh;
+    
 }
 
+.deck-options {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.deck-option {
+    transition: all 0.2s ease-in-out;
+}
+
+.deck-option:hover {
+    transform: scale(1.15);
+    color: var(--primary);
+}
 
 .create {
     height: 15dvh;

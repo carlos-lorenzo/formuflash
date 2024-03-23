@@ -9,15 +9,22 @@ import Deck from './Deck';
 
 import IBriefDeck from '../../types/BriefDeck';
 
+enum DeckAction {
+    PREIVEW = 'PREIVEW',
+    EDIT = 'EDIT',
+    STUDY = 'STUDY',
+}
+
 interface IDecksProps {
     client: AxiosInstance,
     activeCourseId: number | undefined,
     decks: IBriefDeck[],
     setActiveDeckId: React.Dispatch<React.SetStateAction<number | undefined>>,
     getCourseDecks: (courseId: number | undefined) => void,
+    setDeckAction: React.Dispatch<React.SetStateAction<DeckAction>>,
 }
 
-export default function Decks({ client, activeCourseId, decks, setActiveDeckId, getCourseDecks }: IDecksProps) {
+export default function Decks({ client, activeCourseId, decks, setActiveDeckId, getCourseDecks, setDeckAction }: IDecksProps) {
 
     function handleDeckCreation() {
         client.post('/create_deck',
@@ -42,6 +49,7 @@ export default function Decks({ client, activeCourseId, decks, setActiveDeckId, 
                     key={deck.deck_id}
                     deckData={deck}
                     setActiveDeckId={setActiveDeckId}
+                    setDeckAction={setDeckAction}
                     />
                 ))
             }

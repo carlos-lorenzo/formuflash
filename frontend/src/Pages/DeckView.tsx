@@ -12,13 +12,21 @@ import DeckStudy from './Components/DeckStudy';
 import IDeck from '../types/Deck';
 import IUser from '../types/User';
 
-interface IDeckViewProps {
-    client: AxiosInstance,
-    activeDeckId: number | undefined,
-    user: IUser
+enum DeckAction {
+    PREIVEW = 'PREIVEW',
+    EDIT = 'EDIT',
+    STUDY = 'STUDY',
 }
 
-export default function DeckView({ client, activeDeckId, user }: IDeckViewProps) {
+interface IDeckViewProps {
+    client: AxiosInstance,
+    user: IUser,
+    activeDeckId: number | undefined,
+    deckAction: DeckAction
+    
+}
+
+export default function DeckView({ client, user, activeDeckId, deckAction }: IDeckViewProps) {
     
     const navigate = useNavigate();
 
@@ -32,14 +40,9 @@ export default function DeckView({ client, activeDeckId, user }: IDeckViewProps)
     }
 
     
-    enum DeckAction {
-        PREIVEW = 'PREIVEW',
-        EDIT = 'EDIT',
-        STUDY = 'STUDY',
-    }
-
+    
     const [activeDeck, setActiveDeck] = useState<IDeck | null>(null);
-    const [deckAction, setDeckAction] = useState(DeckAction.EDIT);
+    
     const [activeCardId, setActiveCardId] = useState(0);
 
     
@@ -55,7 +58,6 @@ export default function DeckView({ client, activeDeckId, user }: IDeckViewProps)
         ).then((response) => {
             setActiveCardId(Number(Object.keys(response.data.cards)[0]));
             setActiveDeck(response.data);
-            
         })
     }, [])
 
@@ -77,7 +79,7 @@ export default function DeckView({ client, activeDeckId, user }: IDeckViewProps)
     }
     
     if (!activeDeck) {
-        return navigate("/home");
+        return <h3>Loading...</h3>;
     }
     /*
 
