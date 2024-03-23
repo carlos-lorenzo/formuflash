@@ -35,6 +35,7 @@ export default function Decks({ client, activeCourseId, decks, setActiveDeckId, 
 
     return (
         <div id='decks'>
+            <h3 style={{textAlign: 'right'}}>Decks</h3>
             {
                 decks.map((deck) => (
                     <Deck

@@ -97,28 +97,28 @@ class GetUserDecks(APIView):
 		return Response({"decks": serializer.data}, status=status.HTTP_200_OK)
 
 class GetCourseDecks(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    
-    def get(self, request):
-        course_id: int = request.GET.get('course_id', None)
-        user = request.user
-        
-        if not course_id:
-            return Response({"error": "course_id is required"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        try:
-            course = Course.objects.get(course_id=course_id)
-        except Course.DoesNotExist:
-            return Response({"error": "course does not exist"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        decks = Deck.objects.filter(course=course)
-        
-        """if not decks:
-            return Response({"message": "No decks found"}, status=status.HTTP_204_NO_CONTENT)"""
-        
-        
-        serializer = DeckSerialiser(decks, many=True)
-        return Response({"decks": serializer.data}, status=status.HTTP_200_OK)
+	permission_classes = (permissions.IsAuthenticated,)
+	
+	def get(self, request):
+		course_id: int = request.GET.get('course_id', None)
+		user = request.user
+		
+		if not course_id:
+			return Response({"error": "course_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		try:
+			course = Course.objects.get(course_id=course_id)
+		except Course.DoesNotExist:
+			return Response({"error": "course does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		decks = Deck.objects.filter(course=course)
+		
+		"""if not decks:
+			return Response({"message": "No decks found"}, status=status.HTTP_204_NO_CONTENT)"""
+		
+		
+		serializer = DeckSerialiser(decks, many=True)
+		return Response({"decks": serializer.data}, status=status.HTTP_200_OK)
 
 
 class CreateDeck(APIView):
@@ -137,10 +137,20 @@ class CreateDeck(APIView):
 		
 		try:
 			course = Course.objects.get(course_id=course_id)
+   
 		except Course.DoesNotExist:
 			return Response({"error": "course does not exist"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		deck = Deck.objects.create(name=name, owner=user, course=course)
+
+		new_card = FlashCard.objects.create(
+			deck=deck,
+			question="",
+			answer=""
+		)
+
+		deck.number_of_cards = 1
+		deck.save()
 		
 		return Response({"message": "Deck created successfully"}, status=status.HTTP_201_CREATED)
 
@@ -167,6 +177,7 @@ class GetDeck(APIView):
 			serialised_cards[card.card_id] = FlashCardSerialiser(card).data
 			
 		serialised_deck = {
+			'deck_id': deck.deck_id,
 			'name': deck.name,
 			'course': deck.course.name,
 			'cards': serialised_cards
@@ -202,28 +213,48 @@ class UpdateCard(APIView):
 		
 		# Create card if it doesn't exist
 		if not FlashCard.objects.get(card_id=card_id):
-			card = FlashCard(
-				deck=Deck.objects.get(deck_id=deck_id),
-				question=question,
-				answer=answer,
-				owner=request.user
-			)
-			card.save()
-			
-			return Response({"message": "Card created"}, status=status.HTTP_200_OK)
+			return Response({"message": "Card not found"}, status=status.HTTP_404_NOT_FOUND)
 
-		else:
-			card = FlashCard.objects.get(card_id=card_id)
-			
-			if card.owner != request.user:
-				return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
-			
-			card.question = question
-			card.answer = answer
 		
-			card.save()
+		card = FlashCard.objects.get(card_id=card_id)
 		
-			return Response({"message": "Card updated"}, status=status.HTTP_200_OK)
+		if card.owner != request.user:
+			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+		
+		card.question = question
+		card.answer = answer
+	
+		card.save()
+	
+		return Response({"message": "Card updated"}, status=status.HTTP_202_ACCEPTED)
+
+
+class CreateCard(APIView):
+	def post(self, request):
+		question = request.data.get('question', None)
+		answer = request.data.get('answer', None)
+		deck_id = request.data.get('deck_id', None)
+		user = request.user
+
+		if not deck_id:
+			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+		if not Deck.objects.get(deck_id=deck_id):
+			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+
+		if not question:
+			return Response({"error": "question is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+		if not answer:
+			return Response({"error": "answer is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+		card = FlashCard(question=question, answer=answer, deck_id=deck_id, owner=user)
+		card.save()
+  
+		serialiser = FlashCardSerialiser(card)
+
+		return Response({"message": "Card created",
+						 "card": serialiser.data}, status=status.HTTP_201_CREATED)
 
 class GetCard(APIView):
 	permission_classes = (permissions.IsAuthenticated,)
@@ -303,4 +334,36 @@ class UpdateCardConfidence(APIView):
 		
 		return Response({"message": "Card confidence updated"}, status=status.HTTP_200_OK)
 	
+	
+ 
+class DeleteCard(APIView):
+	permission_classes = (permissions.IsAuthenticated,)
+	
+	def post(self, request):
+		card_id: int = request.data.get('card_id', None)
+  
+		user = request.user
 		
+		if not card_id:
+			return Response({"error": "card_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+		
+  
+		if not FlashCard.objects.get(card_id=card_id):
+			return Response({"error": "card not found"}, status=status.HTTP_404_NOT_FOUND)
+		
+		card = FlashCard.objects.get(card_id=card_id)
+		
+		if card.owner != user:
+			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+
+		if card.deck.number_of_cards <= 1:
+			return Response({"error": "Why do you want an empty deck?"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		card.delete()
+  
+		card.deck.number_of_cards -= 1
+		card.deck.save()
+		
+		return Response({"message": "Card deleted"}, status=status.HTTP_200_OK)
+
+

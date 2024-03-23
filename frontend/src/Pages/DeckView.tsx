@@ -28,7 +28,7 @@ export default function DeckView({ client, activeDeckId, user }: IDeckViewProps)
     }
 
     if (!activeDeckId) {
-        navigate('/user-view');
+        navigate('/home');
     }
 
     
@@ -39,21 +39,10 @@ export default function DeckView({ client, activeDeckId, user }: IDeckViewProps)
     }
 
     const [activeDeck, setActiveDeck] = useState<IDeck | null>(null);
-    const [deckAction, setDeckAction] = useState(DeckAction.PREIVEW);
+    const [deckAction, setDeckAction] = useState(DeckAction.EDIT);
     const [activeCardId, setActiveCardId] = useState(0);
 
-    function getDeck() {
-        client.get(
-            `/fetch_deck?deck_id=${activeDeckId}`,
-            {
-                headers: {
-                    'Authorization': `Token ${localStorage.getItem('token')}`
-                }
-            }
-        ).then((response) => {
-            setActiveDeck(response.data);
-        })
-    }
+    
 
     useEffect(() => {
         client.get(
@@ -69,9 +58,26 @@ export default function DeckView({ client, activeDeckId, user }: IDeckViewProps)
             
         })
     }, [])
+
+    function getDeck(newCardId?: number) {
+        client.get(
+            `/fetch_deck?deck_id=${activeDeckId}`,
+            {
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            }
+        ).then((response) => {
+            setActiveDeck(response.data);
+
+            if (newCardId) {
+                setActiveCardId(newCardId);
+            }
+        })
+    }
     
     if (!activeDeck) {
-        return <div>Loading...</div>
+        return navigate("/home");
     }
     /*
 
@@ -98,7 +104,7 @@ export default function DeckView({ client, activeDeckId, user }: IDeckViewProps)
                 <DeckStudy client={client} activeDeck={activeDeck}/> :
                 
                 deckAction === DeckAction.PREIVEW ?
-                <DeckPreview activeDeck={activeDeck} full={true} setActiveCardId={setActiveCardId}/>
+                <DeckPreview client={client} activeDeck={activeDeck} full={true} getDeck={getDeck} setActiveCardId={setActiveCardId}/>
 
                 :
                 <div>Loading...</div>

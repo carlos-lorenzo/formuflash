@@ -33,7 +33,7 @@ export default function Courses({ client, courses, getCourses, getCourseDecks, s
 
     return (
         <div id='courses' className='fill'>
-
+            <h3>Courses</h3>
             {courses.map((course) => (
                 <Course 
                     key={course.course_id}

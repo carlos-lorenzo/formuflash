@@ -36,7 +36,7 @@ export default function CreateCard({
 
         const authToken = localStorage.getItem('token')
 
-        client.post('/create_card', {
+        client.post('/update_card', {
             deck_id: activeDeckId,
             question: question,
             answer: answer,
@@ -79,9 +79,6 @@ export default function CreateCard({
                     <h4>A</h4>
                     <MarkdownLatex content={answer} />
                 </div>
-                
-                
-
             </div>
         </div>
     )

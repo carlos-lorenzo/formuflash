@@ -13,6 +13,7 @@ class Deck(models.Model):
     name = models.CharField(max_length=255)
     owner = models.ForeignKey("users.User", on_delete=models.CASCADE, null=True)
     last_seen_card_id = models.IntegerField(null=True, blank=True)
+    number_of_cards = models.IntegerField(default=0)
     
     def __str__(self)-> str:
         return self.name

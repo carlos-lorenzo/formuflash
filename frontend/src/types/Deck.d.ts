@@ -1,4 +1,5 @@
 declare interface IDeck {
+    deck_id: number,
     name: string,
     course: string,
     cards: {
