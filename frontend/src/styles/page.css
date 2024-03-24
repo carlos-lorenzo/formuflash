@@ -83,5 +83,21 @@
 #user-view {
     display: grid;
     grid-template-columns: 0.5rem 1fr 3fr 0.5rem;
-    gap: 2rem;    
+    gap: 2rem;
+    max-height: 92dvh;
+}
+
+
+.screen-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    backdrop-filter: blur(10px);
+    
+}
+
+#root {
+    height: 100dvh;
 }
