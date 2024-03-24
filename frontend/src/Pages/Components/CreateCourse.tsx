@@ -5,36 +5,34 @@ import { AxiosInstance } from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 
-interface ICreateDeckProps {
-    client: AxiosInstance
-    activeCourseId: number
-    getCourseDecks: (courseId: number) => void
+interface ICreateCourseProps {
+    client: AxiosInstance,
+    getCourses: (courseId?: number) => void,
 }
 
-export default function CreateDeck({ client, activeCourseId, getCourseDecks }: ICreateDeckProps) {
+export default function CreateCourse({ client, getCourses }: ICreateCourseProps) {
 
-    const [deckName, setDeckName] = useState<string>('');
+    const [courseName, setCourseName] = useState<string>('');
     const [promptActive, setPromptActive] = useState<boolean>(false);
 
     function handleCreateClick() {
         setPromptActive(!promptActive);
     }
 
-    function handleDeckCreation(e: React.FormEvent) {
+    function handleCourseCreation(e: React.FormEvent) {
         e.preventDefault();
 
-        client.post('/create_deck',
+        client.post('/create_course',
         {
-            name: deckName,
-            course_id: activeCourseId
+            name: courseName,
         }, {
             headers: {
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
         }).then((response) => {
-            getCourseDecks(activeCourseId);
+            getCourses(response.data.course_id);
             setPromptActive(false);
-            setDeckName('');
+            setCourseName('');
         })
     }
 
@@ -48,11 +46,11 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
                 promptActive ?
                 <>
                     <div className="screen-cover"></div>
-                    <div id="create-deck-prompt" className="create-prompt secondary shadow-accent border">
+                    <div id="create-course-prompt" className="create-prompt secondary shadow-accent border">
                         <FontAwesomeIcon icon={faXmark} size='2x' className='pointer close-prompt' onClick={() => setPromptActive(false)}/>
-                        <form onSubmit={(e) => handleDeckCreation(e)} className='create-prompt-form'>
-                            <label htmlFor="create-deck-input">Create Deck</label>
-                            <input id="create-deck-input" type="text" value={deckName} onChange={(e) => setDeckName(e.target.value)} placeholder='Deck name'/>
+                        <form onSubmit={(e) => handleCourseCreation(e)} className='create-prompt-form'>
+                            <label htmlFor="create-course-input">Create Course</label>
+                            <input className="create-input" type="text" value={courseName} onChange={(e) => setCourseName(e.target.value)} placeholder='Course name'/>
                             <button type="submit" className='shadow-accent accent border'>Create</button>
                         </form>
                         

@@ -132,6 +132,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    overflow-y: auto;
    
 }
 
@@ -139,13 +140,16 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    overflow-y: scroll;
+    overflow-y: auto;
+    
 
 }
 
 
 .course {
     height: 25dvh;
+    min-height: 25dvh;
+    
 }
 
 .deck {
@@ -217,7 +221,7 @@
     justify-content: center;
 }
 
-#create-deck-input {
+.create-input {
     border-style: solid;
     border-color: var(--text);
     border-width: 1px;

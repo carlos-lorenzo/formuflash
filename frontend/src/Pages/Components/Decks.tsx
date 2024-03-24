@@ -21,14 +21,15 @@ interface IDecksProps {
     setActiveDeckId: React.Dispatch<React.SetStateAction<number | undefined>>,
     getCourseDecks: (courseId: number | undefined) => void,
     setDeckAction: React.Dispatch<React.SetStateAction<DeckAction>>,
+    activeCourseName: string
 }
 
-export default function Decks({ client, activeCourseId, decks, setActiveDeckId, getCourseDecks, setDeckAction }: IDecksProps) {
+export default function Decks({ client, activeCourseId, decks, setActiveDeckId, getCourseDecks, setDeckAction, activeCourseName }: IDecksProps) {
 
 
     return (
         <div id='decks'>
-            <h3 style={{textAlign: 'right'}}>Decks</h3>
+            <h3 style={{textAlign: 'right'}}>{activeCourseName}</h3>
             {
                 decks.map((deck) => (
                     <Deck

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 import Course from './Course';
+import CreateCourse from './CreateCourse';
 
 import ICourse from '../../types/ICourse';
 
@@ -14,23 +15,10 @@ interface ICoursesProps {
     courses: ICourse[],
     getCourses: () => void,
     getCourseDecks: (courseId: number | undefined) => void,
-    setActiveCourseId: (courseId: number) => void
+    setActiveCourseId: (courseId: number) => void,
+    setActiveCourseName: React.Dispatch<React.SetStateAction<string>>
 }
-export default function Courses({ client, courses, getCourses, getCourseDecks, setActiveCourseId }: ICoursesProps) {
-
-    function handleCourseCreation() {
-        client.post('/create_course',
-        {
-            name: "New Course",
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('token')}`
-            }
-        }
-        ).then((response) => {
-            getCourses();
-        })
-    }
-
+export default function Courses({ client, courses, getCourses, getCourseDecks, setActiveCourseId, setActiveCourseName }: ICoursesProps) {
     return (
         <div id='courses' className='fill'>
             <h3>Courses</h3>
@@ -40,11 +28,13 @@ export default function Courses({ client, courses, getCourses, getCourseDecks, s
                     courseData={course}
                     setActiveCourseId={setActiveCourseId}
                     getCourseDecks={getCourseDecks}
+                    setActiveCourseName={setActiveCourseName}
                 />
             ))}
-            <div id="create-course-button" className='create place-center secondary shadow-secondary pointer border' onClick={handleCourseCreation}>
-                <FontAwesomeIcon icon={faCirclePlus} size='2x'/>
-            </div>
+            <CreateCourse 
+                client={client} 
+                getCourses={getCourses}
+            />
 
         </div>
     )

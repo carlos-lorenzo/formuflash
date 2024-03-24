@@ -76,8 +76,14 @@ class CreateCourse(APIView):
 		
 		course = Course(name=name, owner=user)
 		course.save()
+
+		serialiser = CourseSerialiser(course)
 		
-		return Response({"message": "Course created"}, status=status.HTTP_200_OK)
+		
+		return Response({
+      			"message": "Course created",
+                "course": serialiser.data
+                }, status=status.HTTP_200_OK)
 
 
 # Deck views

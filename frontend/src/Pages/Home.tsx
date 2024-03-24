@@ -42,6 +42,7 @@ export default function Home({
 
     const [courses, setCourses] = useState<ICourse[]>([]);
     const [decks, setDecks] = useState<IBriefDeck[]>([]);
+    const [activeCourseName, setActiveCourseName] = useState<string>('');
 
     function getCourseDecks(course_id: number | undefined) {
         if (course_id === undefined) {
@@ -65,10 +66,11 @@ export default function Home({
 
             if (activeCourseId === undefined) {
                 setActiveCourseId(response.data.courses[0].course_id);
+                
             }
             setCourses(response.data.courses);
-
             getCourseDecks(activeCourseId);
+            setActiveCourseName(response.data.courses[0].name);
         })
     }
     
@@ -91,6 +93,7 @@ export default function Home({
                 getCourses={getCourses}
                 getCourseDecks={getCourseDecks}
                 setActiveCourseId={setActiveCourseId}
+                setActiveCourseName={setActiveCourseName}
             />
 
             <Decks
@@ -100,6 +103,7 @@ export default function Home({
                 setActiveDeckId={setActiveDeckId}
                 getCourseDecks={getCourseDecks}
                 setDeckAction={setDeckAction}
+                activeCourseName={activeCourseName}
             />
             <div className='whitespace'></div>
 
