@@ -12,7 +12,7 @@ import ICard from '../../types/Card';
 
 interface ICardEditPreviewProps {
     client: AxiosInstance,
-    getDeck: () => void,
+    getDeck: (newCardId?: number) => void,
     card: ICard,
     setActiveCardId: React.Dispatch<React.SetStateAction<number>>
 }
@@ -29,8 +29,9 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
 
-        }).then(() => {
+        }).then((response) => {
             getDeck();
+            setActiveCardId(response.data.new_card_id);
         })
     }
     

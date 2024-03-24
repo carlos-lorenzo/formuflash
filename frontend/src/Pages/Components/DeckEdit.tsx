@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 import { AxiosInstance } from 'axios';
 
-import DeckPreview from './DeckPreview';
+import DeckEditPreview from './DeckEditPreview';
 import CreateCard from './CreateCard';
 
 
@@ -27,6 +27,21 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
 
+    function handleCardUpdate() {
+        client.post('/update_card', {
+            deck_id: activeDeckId,
+            question: question,
+            answer: answer,
+            card_id: activeCardId,
+        }, {
+            headers: {
+                Authorization: `Token ${localStorage.getItem('token')}`,
+            }
+        }).then(() => {
+            getDeck();
+        })
+    }
+
     useEffect(() => {
         setQuestion(activeDeck.cards[activeCardId].question);
         setAnswer(activeDeck.cards[activeCardId].answer);
@@ -35,17 +50,24 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
     return (
         <div id='deck-edit'>
             <div className="whitespace"></div>
-            <DeckPreview client={client} activeDeck={activeDeck} getDeck={getDeck} full={false} setActiveCardId={setActiveCardId}/>
+            <DeckEditPreview 
+                client={client} 
+                activeDeck={activeDeck} 
+                getDeck={getDeck}
+                setActiveCardId={setActiveCardId}
+                handleCardUpdate={handleCardUpdate}
+            />
 
             <CreateCard 
-            client={client}
-            question={question}
-            answer={answer}
-            setQuestion={setQuestion} 
-            setAnswer={setAnswer}
-            activeCardId={activeCardId}
-            activeDeckId={activeDeckId}
-            getDeck={getDeck}/>
+                client={client}
+                question={question}
+                answer={answer}
+                setQuestion={setQuestion} 
+                setAnswer={setAnswer}
+                activeCardId={activeCardId}
+                activeDeckId={activeDeckId}
+                getDeck={getDeck}
+            />
         
         </div>
     )

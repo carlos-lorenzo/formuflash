@@ -81,9 +81,9 @@ class CreateCourse(APIView):
 		
 		
 		return Response({
-      			"message": "Course created",
-                "course": serialiser.data
-                }, status=status.HTTP_200_OK)
+	  			"message": "Course created",
+				"course": serialiser.data
+				}, status=status.HTTP_200_OK)
 
 
 # Deck views
@@ -152,7 +152,8 @@ class CreateDeck(APIView):
 		new_card = FlashCard.objects.create(
 			deck=deck,
 			question="",
-			answer=""
+			answer="",
+			owner=user
 		)
 
 		deck.number_of_cards = 1
@@ -256,7 +257,11 @@ class CreateCard(APIView):
 
 		card = FlashCard(question=question, answer=answer, deck_id=deck_id, owner=user)
 		card.save()
-  
+
+		deck = Deck.objects.get(deck_id=deck_id)
+		deck.number_of_cards += 1
+		deck.save()
+		
 		serialiser = FlashCardSerialiser(card)
 
 		return Response({"message": "Card created",
@@ -367,9 +372,15 @@ class DeleteCard(APIView):
 		
 		card.delete()
   
+		other_card = FlashCard.objects.filter(deck_id=card.deck_id).exclude(card_id=card_id).order_by('?').first()
+		
 		card.deck.number_of_cards -= 1
 		card.deck.save()
 		
-		return Response({"message": "Card deleted"}, status=status.HTTP_200_OK)
+		return Response({
+					"message": "Card deleted", 
+     				"new_card_id": other_card.card_id
+					}, 
+                status=status.HTTP_200_OK)
 
 

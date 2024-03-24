@@ -31,7 +31,7 @@ export default function Deck({ deckData, setActiveDeckId, setDeckAction }: IDeck
     }
 
     return (
-        <div className='deck place-center secondary shadow-secondary border'>
+        <div className='deck place-center secondary shadow-secondary border shadow-margin'>
             <h2>{deckData.name}</h2>
             <div className="deck-options">
                 <FontAwesomeIcon icon={faGraduationCap} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.STUDY)}/>

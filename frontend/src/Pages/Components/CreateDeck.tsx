@@ -40,7 +40,7 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
 
     return (
         <>
-            <div id="create-deck-button" className='create place-center secondary shadow-secondary pointer border' onClick={handleCreateClick}>
+            <div id="create-deck-button" className='create place-center secondary shadow-secondary pointer border shadow-margin' onClick={handleCreateClick}>
                 <FontAwesomeIcon icon={faCirclePlus} size='2x'/>
             </div>
 

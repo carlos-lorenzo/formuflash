@@ -37,7 +37,7 @@
     padding-bottom: 20px;
 }
 
-#deck-edit-preview {
+.deck-preview {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -131,7 +131,7 @@
 #courses {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    
     overflow-y: auto;
    
 }
@@ -139,7 +139,7 @@
 #decks {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+
     overflow-y: auto;
     
 
@@ -150,11 +150,13 @@
     height: 25dvh;
     min-height: 25dvh;
     
+    
 }
 
 .deck {
     height: 35dvh;
     min-height: 35dvh;
+    
     
 }
 
@@ -229,4 +231,13 @@
     padding: 1rem;
     width: calc(100% - 2.5rem);
 
+}
+
+.deck-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 90%;
+    margin-top: 10px;
+    justify-content: space-between;
 }

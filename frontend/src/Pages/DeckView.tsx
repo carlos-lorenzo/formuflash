@@ -48,6 +48,9 @@ export default function DeckView({ client, user, activeDeckId, deckAction }: IDe
     
 
     useEffect(() => {
+        if (!activeDeckId) {
+            return;
+        }
         client.get(
             `/fetch_deck?deck_id=${activeDeckId}`,
             {
@@ -78,21 +81,12 @@ export default function DeckView({ client, user, activeDeckId, deckAction }: IDe
         })
     }
     
+    
+
     if (!activeDeck) {
         return <h3>Loading...</h3>;
     }
-    /*
-
-    <div id='deck-view-header' className='fill place-center'>
-                <h1>{activeDeck.name} - {activeDeck.course}</h1>
-                <div id='deck-options' className='fill'>
-                    <button className="border shadow-accent deck-option" onClick={(e) => setDeckAction(DeckAction.PREIVEW)}>Preview</button>
-                    <button className="border shadow-accent deck-option" onClick={(e) => setDeckAction(DeckAction.STUDY)}>Study</button>
-                    <button className="border shadow-accent deck-option" onClick={(e) => setDeckAction(DeckAction.EDIT)}>Edit</button>
-
-                </div>
-            </div>
-    */
+    
     return (
         <div id="deck-view" className=''>
             
@@ -106,7 +100,7 @@ export default function DeckView({ client, user, activeDeckId, deckAction }: IDe
                 <DeckStudy client={client} activeDeck={activeDeck}/> :
                 
                 deckAction === DeckAction.PREIVEW ?
-                <DeckPreview client={client} activeDeck={activeDeck} full={true} getDeck={getDeck} setActiveCardId={setActiveCardId}/>
+                <DeckPreview activeDeck={activeDeck}/>
 
                 :
                 <div>Loading...</div>

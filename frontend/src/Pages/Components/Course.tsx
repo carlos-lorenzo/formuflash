@@ -19,7 +19,7 @@ export default function Course({ courseData, setActiveCourseId, getCourseDecks, 
     }
 
     return (
-        <div className='course secondary border place-center shadow-secondary pointer' onClick={handleCourseClick}>
+        <div className='course secondary border place-center shadow-secondary pointer shadow-margin' onClick={handleCourseClick}>
             <h2>{courseData.name}</h2>
         </div>
     )

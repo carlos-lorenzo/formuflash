@@ -21,7 +21,7 @@ interface ICoursesProps {
 export default function Courses({ client, courses, getCourses, getCourseDecks, setActiveCourseId, setActiveCourseName }: ICoursesProps) {
     return (
         <div id='courses' className='fill'>
-            <h3>Courses</h3>
+            <h3 style={{textAlign: 'left', marginLeft: "1rem"}}>Courses</h3>
             {courses.map((course) => (
                 <Course 
                     key={course.course_id}

@@ -29,7 +29,7 @@ export default function Decks({ client, activeCourseId, decks, setActiveDeckId, 
 
     return (
         <div id='decks'>
-            <h3 style={{textAlign: 'right'}}>{activeCourseName}</h3>
+            <h3 style={{textAlign: 'right', marginRight: "1rem"}}>{activeCourseName}</h3>
             {
                 decks.map((deck) => (
                     <Deck
