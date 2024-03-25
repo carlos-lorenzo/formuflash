@@ -21,7 +21,20 @@ interface ICardEditPreviewProps {
 
 export default function CardEditPreview({ client, getDeck, card, setActiveCardId }: ICardEditPreviewProps) {
 
+
+    function handleErrorResponse(error: any): string {
+        if (!error.response.data.error) {
+            return "Unexpected error"
+        }
+
+        return error.response.data.error
+    }
+
+
     function handleCardDeletion() {
+
+        const id = toast.loading("Deleting card...");
+
         client.post("/delete_card",
         {
             card_id: card.card_id
@@ -32,8 +45,36 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
             }
 
         }).then((response) => {
+            toast.update(id, 
+                { 
+                render: "Card deleted", 
+                type: "info", 
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+
             getDeck();
             setActiveCardId(response.data.new_card_id);
+
+        }).catch((error) => {
+           
+            toast.update(id, 
+            { 
+                render: handleErrorResponse(error), 
+                type: "error", 
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         })
     }
     

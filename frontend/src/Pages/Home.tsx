@@ -26,6 +26,7 @@ interface IHome {
     activeDeckId: number | undefined,
     setActiveDeckId: React.Dispatch<React.SetStateAction<number | undefined>>,
     setDeckAction: React.Dispatch<React.SetStateAction<DeckAction>>,
+    setShowBack: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function Home({ 
@@ -35,7 +36,9 @@ export default function Home({
     setActiveCourseId,
     activeDeckId,
     setActiveDeckId,
-    setDeckAction
+    setDeckAction,
+    setShowBack
+
 }: IHome) {
 
     const navigate = useNavigate();
@@ -114,6 +117,7 @@ export default function Home({
                 getCourseDecks={getCourseDecks}
                 setDeckAction={setDeckAction}
                 activeCourseName={activeCourseName}
+                setShowBack={setShowBack}
             />
             <div className='whitespace'></div>
 

@@ -2,9 +2,6 @@ import React from 'react'
 
 import { AxiosInstance } from 'axios';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-
 import Course from './Course';
 import CreateCourse from './CreateCourse';
 

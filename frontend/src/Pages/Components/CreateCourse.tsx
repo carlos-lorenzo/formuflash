@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import { AxiosInstance } from 'axios';
 
+import { toast } from 'react-toastify';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -21,6 +23,7 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
 
     function handleCourseCreation(e: React.FormEvent) {
         e.preventDefault();
+        const id = toast.loading("Creating course...");
 
         client.post('/create_course',
         {
@@ -30,9 +33,36 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
         }).then((response) => {
+            
+            toast.update(id, 
+                { 
+                render: "Course created", 
+                type: "success", 
+                isLoading: false,
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+
             getCourses(response.data.course_id);
             setPromptActive(false);
             setCourseName('');
+        }).catch((error) => {
+            toast.update(id, 
+                { 
+                render: "Error creating course", 
+                type: "error", 
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         })
     }
 
@@ -50,7 +80,7 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
                         <FontAwesomeIcon icon={faXmark} size='2x' className='pointer close-prompt' onClick={() => setPromptActive(false)}/>
                         <form onSubmit={(e) => handleCourseCreation(e)} className='create-prompt-form'>
                             <label htmlFor="create-course-input">Create Course</label>
-                            <input className="create-input" type="text" value={courseName} onChange={(e) => setCourseName(e.target.value)} placeholder='Course name'/>
+                            <input id="create-course-input" className="create-input" type="text" value={courseName} onChange={(e) => setCourseName(e.target.value)} placeholder='Course name'/>
                             <button type="submit" className='shadow-accent accent border'>Create</button>
                         </form>
                         

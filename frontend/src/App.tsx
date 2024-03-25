@@ -42,6 +42,7 @@ client.get('/get_csrf_token')
 function App() {
     const [activeCourseId, setActiveCourseId] = useState<number | undefined>();
     const [activeDeckId, setActiveDeckId] = useState<number | undefined>();
+    const [showBack, setShowBack] = useState(true);
 
     const [user, setUser] = useState<IUser>({
         name: '',
@@ -81,7 +82,11 @@ function App() {
     return (
         <>
             <Header 
+                client={client}
                 user={user}
+                setUser={setUser}
+                showBack={showBack}
+                setShowBack={setShowBack}
             />
            
             <Routes>
@@ -107,11 +112,13 @@ function App() {
                     activeDeckId={activeDeckId}
                     setActiveDeckId={setActiveDeckId}
                     setDeckAction={setDeckAction}
+                    setShowBack={setShowBack}
                 />} />
             </Routes>
+
             <ToastContainer
                 position="top-right"
-                autoClose={300000}
+                autoClose={1500}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick

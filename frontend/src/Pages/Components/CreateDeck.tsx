@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import { AxiosInstance } from 'axios';
 
+import { toast } from 'react-toastify';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -23,6 +25,8 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
     function handleDeckCreation(e: React.FormEvent) {
         e.preventDefault();
 
+        const id = toast.loading("Creating deck...");
+
         client.post('/create_deck',
         {
             name: deckName,
@@ -32,9 +36,35 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
         }).then((response) => {
+
+            toast.update(id, {
+                render: "Deck created",
+                type: "success",
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+
             getCourseDecks(activeCourseId);
             setPromptActive(false);
             setDeckName('');
+        }).catch((error) => {
+
+            toast.update(id, {
+                render: "Error creating deck",
+                type: "error",
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         })
     }
 
@@ -52,7 +82,7 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
                         <FontAwesomeIcon icon={faXmark} size='2x' className='pointer close-prompt' onClick={() => setPromptActive(false)}/>
                         <form onSubmit={(e) => handleDeckCreation(e)} className='create-prompt-form'>
                             <label htmlFor="create-deck-input">Create Deck</label>
-                            <input id="create-deck-input" type="text" value={deckName} onChange={(e) => setDeckName(e.target.value)} placeholder='Deck name'/>
+                            <input id="create-deck-input" className="create-input" type="text" value={deckName} onChange={(e) => setDeckName(e.target.value)} placeholder='Deck name'/>
                             <button type="submit" className='shadow-accent accent border'>Create</button>
                         </form>
                         

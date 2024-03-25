@@ -17,16 +17,18 @@ enum DeckAction {
 interface IDeckProps {
     deckData: IBriefDeck
     setActiveDeckId: React.Dispatch<React.SetStateAction<number | undefined>>,
-    setDeckAction: React.Dispatch<React.SetStateAction<DeckAction>>
+    setDeckAction: React.Dispatch<React.SetStateAction<DeckAction>>,
+    setShowBack: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-export default function Deck({ deckData, setActiveDeckId, setDeckAction }: IDeckProps) {
+export default function Deck({ deckData, setActiveDeckId, setDeckAction, setShowBack }: IDeckProps) {
     const navigate = useNavigate();
 
     function handleOptionClick(action: DeckAction) {
         setDeckAction(action);
         setActiveDeckId(deckData.deck_id);
+        setShowBack(true);
         navigate(`/deck-view`);
     }
 

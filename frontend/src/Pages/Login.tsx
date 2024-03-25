@@ -25,6 +25,19 @@ export default function Login({ client, setUser }: ILoginProps) {
 
     const navigate = useNavigate();
 
+    function handleErrorMessage(error: any): string {        
+        if (error.response.data.username || error.response.data.password) {
+            return "Fields cannot be empty";
+        }
+
+        if (error.response.data.non_field_errors) {
+            return "Invalid credentials";
+        }
+
+        return "Unexpected error";
+
+    }
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -47,10 +60,23 @@ export default function Login({ client, setUser }: ILoginProps) {
                     }
                 })
             .then((response) => {
+                
                 setUser({
                     name: response.data.name,
                     email: response.data.email,
                     loggedIn: true
+                });
+
+                toast.update(id, {
+                    render: "Logged in",
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
                 });
 
                 setEmail('');
@@ -58,7 +84,20 @@ export default function Login({ client, setUser }: ILoginProps) {
                 navigate("/home");
             })
         }).catch((error) => {
-            console.log(error);
+            console.error(error);
+        
+            toast.update(id, {
+                render: handleErrorMessage(error),
+                
+                type: "error",
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         }) 
     }
 

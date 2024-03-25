@@ -44,9 +44,10 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
             getDeck();
 
             toast.update(id, 
-                { render: "Card saved", 
+                { 
+                render: "Card saved", 
                 type: "success", 
-                isLoading: false ,
+                isLoading: false,
                 autoClose: 1500,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -59,8 +60,8 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                 { 
                 render: "Error saving card", 
                 type: "error", 
-                isLoading: false ,
-                autoClose: 3000,
+                isLoading: false,
+                autoClose: 1500,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

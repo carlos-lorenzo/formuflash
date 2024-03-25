@@ -21,10 +21,11 @@ interface IDecksProps {
     setActiveDeckId: React.Dispatch<React.SetStateAction<number | undefined>>,
     getCourseDecks: (courseId: number | undefined) => void,
     setDeckAction: React.Dispatch<React.SetStateAction<DeckAction>>,
-    activeCourseName: string
+    activeCourseName: string,
+    setShowBack: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Decks({ client, activeCourseId, decks, setActiveDeckId, getCourseDecks, setDeckAction, activeCourseName }: IDecksProps) {
+export default function Decks({ client, activeCourseId, decks, setActiveDeckId, getCourseDecks, setDeckAction, activeCourseName, setShowBack }: IDecksProps) {
 
 
     return (
@@ -33,10 +34,11 @@ export default function Decks({ client, activeCourseId, decks, setActiveDeckId, 
             {
                 decks.map((deck) => (
                     <Deck
-                    key={deck.deck_id}
-                    deckData={deck}
-                    setActiveDeckId={setActiveDeckId}
-                    setDeckAction={setDeckAction}
+                        key={deck.deck_id}
+                        deckData={deck}
+                        setActiveDeckId={setActiveDeckId}
+                        setDeckAction={setDeckAction}
+                        setShowBack={setShowBack}
                     />
                 ))
             }

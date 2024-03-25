@@ -45,7 +45,12 @@ class User(APIView):
 	def get(self, request):
 		serialiser = UserSerialiser(request.user)
 		return Response({"user": serialiser.data}, status=status.HTTP_200_OK)
-	
+
+
+class Logout(APIView):
+    def get(self, request):
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
 
 # Course views
 class GetUserCourses(APIView):
@@ -368,7 +373,7 @@ class DeleteCard(APIView):
 			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
 		if card.deck.number_of_cards <= 1:
-			return Response({"error": "Why do you want an empty deck?"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Why would you want an empty deck?"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		card.delete()
   
