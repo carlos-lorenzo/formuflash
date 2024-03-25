@@ -8,6 +8,8 @@ import {
 
 import axios from "axios";
 
+import { ToastContainer } from "react-toastify";
+
 import Header from "./Pages/Components/Header";
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
@@ -107,7 +109,18 @@ function App() {
                     setDeckAction={setDeckAction}
                 />} />
             </Routes>
-            
+            <ToastContainer
+                position="top-right"
+                autoClose={300000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
         </>
         
     );

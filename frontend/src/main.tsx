@@ -8,6 +8,8 @@ import "./styles/style.css";
 import "./styles/cards.css";
 import "./styles/page.css";
 
+import 'react-toastify/dist/ReactToastify.css';
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <BrowserRouter>

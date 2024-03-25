@@ -5,6 +5,8 @@ import { AxiosInstance } from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
+import { toast } from 'react-toastify';
+
 import MarkdownLatex from './MarkdownLatex'
 
 import ICard from '../../types/Card';

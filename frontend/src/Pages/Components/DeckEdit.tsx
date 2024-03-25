@@ -5,6 +5,7 @@ import { AxiosInstance } from 'axios';
 import DeckEditPreview from './DeckEditPreview';
 import CreateCard from './CreateCard';
 
+import { toast } from 'react-toastify';
 
 import ICard from '../../types/Card';
 import IDeck from '../../types/Deck';
@@ -27,7 +28,9 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
 
+
     function handleCardUpdate() {
+        const id = toast.loading("Saving Card...");
         client.post('/update_card', {
             deck_id: activeDeckId,
             question: question,
@@ -39,6 +42,31 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
             }
         }).then(() => {
             getDeck();
+
+            toast.update(id, 
+                { render: "Card saved", 
+                type: "success", 
+                isLoading: false ,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }).catch((error) => {
+            toast.update(id, 
+                { 
+                render: "Error saving card", 
+                type: "error", 
+                isLoading: false ,
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         })
     }
 

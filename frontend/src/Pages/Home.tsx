@@ -48,14 +48,24 @@ export default function Home({
         if (course_id === undefined) {
             return;
         }
-        client.get(`/course_decks?course_id=${course_id}`
+        client.get(`/course_decks?course_id=${course_id}`,
+        {
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            }
+        }
         ).then((response) => {
             setDecks(response.data.decks);
         });
     }
 
     function getCourses() {
-        client.get("/get_courses").then((response) => {
+        client.get("/get_courses",
+        {
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            }
+        }).then((response) => {
             if (response.data.courses.length === 0) {
                 return (
                     <div>

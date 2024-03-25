@@ -7,6 +7,8 @@ import axios, { AxiosInstance } from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
+import { toast } from 'react-toastify';
+
 import IUser from '../types/User';
 
 
@@ -24,7 +26,9 @@ export default function Login({ client, setUser }: ILoginProps) {
     const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault()
+        event.preventDefault();
+
+        const id = toast.loading("Logging in...");
 
     
         client.post('/login', { 
