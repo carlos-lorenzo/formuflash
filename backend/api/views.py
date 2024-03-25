@@ -77,7 +77,7 @@ class CreateCourse(APIView):
 		user = request.user
 		
 		if not name:
-			return Response({"error": "name is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Course name is required"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		course = Course(name=name, owner=user)
 		course.save()
@@ -89,6 +89,27 @@ class CreateCourse(APIView):
 	  			"message": "Course created",
 				"course": serialiser.data
 				}, status=status.HTTP_200_OK)
+
+
+class DeleteCourse(APIView):
+    def post(self, request):
+        course_id: int = request.data.get('id', None)
+        user = request.user
+
+        if not course_id:
+            return Response({"error": "course_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not Course.objects.get(course_id=course_id):
+            return Response({"error": "course not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        course = Course.objects.get(course_id=course_id)
+
+        if course.owner != user:
+            return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        course.delete()
+
+        return Response({"message": "Course deleted"}, status=status.HTTP_200_OK)
 
 
 # Deck views
@@ -141,7 +162,7 @@ class CreateDeck(APIView):
 		user = request.user
 		
 		if not name:
-			return Response({"error": "name is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Deck name is required"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not course_id:
 			return Response({"error": "course is required"}, status=status.HTTP_400_BAD_REQUEST)
@@ -192,12 +213,32 @@ class GetDeck(APIView):
 			'deck_id': deck.deck_id,
 			'name': deck.name,
 			'course': deck.course.name,
+            'course_id': deck.course.course_id,
 			'cards': serialised_cards
 		}
 		
 		return Response(serialised_deck, status=status.HTTP_200_OK)
 
 
+class DeleteDeck(APIView):
+    def post(self, request):
+        deck_id: int = request.data.get('id', None)
+        user = request.user
+
+        if not deck_id:
+            return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not Deck.objects.get(deck_id=deck_id):
+            return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        deck = Deck.objects.get(deck_id=deck_id)
+
+        if deck.owner != user:
+            return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        deck.delete()
+
+        return Response({"message": "Deck deleted"}, status=status.HTTP_200_OK)
 
 
 

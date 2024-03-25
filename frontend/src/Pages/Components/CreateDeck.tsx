@@ -22,6 +22,13 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
         setPromptActive(!promptActive);
     }
 
+    function handleError(error: any): string {
+        if(error.response.data.error) {
+            return error.response.data.error
+        }
+        return "Unexpected error"
+    }
+
     function handleDeckCreation(e: React.FormEvent) {
         e.preventDefault();
 
@@ -54,8 +61,10 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
             setDeckName('');
         }).catch((error) => {
 
+            console.log(error)
+
             toast.update(id, {
-                render: "Error creating deck",
+                render: handleError(error),
                 type: "error",
                 isLoading: false,
                 autoClose: 1500,

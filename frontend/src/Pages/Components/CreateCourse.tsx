@@ -21,6 +21,13 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
         setPromptActive(!promptActive);
     }
 
+    function handleError(error: any): string {
+        if(error.response.data.error) {
+            return error.response.data.error
+        }
+        return "Unexpected error"
+    }
+
     function handleCourseCreation(e: React.FormEvent) {
         e.preventDefault();
         const id = toast.loading("Creating course...");
@@ -53,7 +60,7 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
         }).catch((error) => {
             toast.update(id, 
                 { 
-                render: "Error creating course", 
+                render: handleError(error), 
                 type: "error", 
                 isLoading: false,
                 autoClose: 1500,

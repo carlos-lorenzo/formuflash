@@ -69,21 +69,23 @@ export default function Home({
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
         }).then((response) => {
-            if (response.data.courses.length === 0) {
-                return (
-                    <div>
-                        No Courses
-                    </div>
-                );
+            
+            if (!response.data) {
+                setCourses([]);
+                setDecks([]);
+                setActiveCourseId(undefined);
+                
+            } else {
+                if (activeCourseId === undefined) {
+                    setActiveCourseId(response.data.courses[0].course_id);
+                    
+                }
+                setCourses(response.data.courses);
+                getCourseDecks(activeCourseId);
+                setActiveCourseName(response.data.courses[0].name);
             }
 
-            if (activeCourseId === undefined) {
-                setActiveCourseId(response.data.courses[0].course_id);
-                
-            }
-            setCourses(response.data.courses);
-            getCourseDecks(activeCourseId);
-            setActiveCourseName(response.data.courses[0].name);
+            
         })
     }
     

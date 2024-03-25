@@ -2,9 +2,12 @@ import React from 'react';
 
 import { AxiosInstance } from 'axios';
 
+import { toast } from 'react-toastify';
+
 import CreateDeck from './CreateDeck';
 
 import Deck from './Deck';
+import DeletePopup from './DeletePopup';
 
 import IBriefDeck from '../../types/BriefDeck';
 
@@ -25,20 +28,81 @@ interface IDecksProps {
     setShowBack: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+interface IDeleteInfo {
+    show: boolean,
+    id: number | undefined
+}
+
 export default function Decks({ client, activeCourseId, decks, setActiveDeckId, getCourseDecks, setDeckAction, activeCourseName, setShowBack }: IDecksProps) {
 
+    const [deleteInfo, setDeleteInfo] = React.useState<IDeleteInfo>({show: false, id: undefined});
+
+    function handleDeckDelte(id: number | undefined) {
+
+        if (id === undefined) {
+            return;
+        }
+
+        const toastId = toast.loading("Deleting deck...");
+
+        client.post(
+            '/delete_deck',
+            {
+                id: id
+            },
+            {
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            }
+        ).then(() => {
+            setDeleteInfo({show: false, id: undefined});
+
+            toast.update(toastId, {
+                render: "Deck deleted",
+                type: "info",
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+
+            getCourseDecks(activeCourseId);
+        }).catch(() => {
+
+            toast.update(toastId, {
+                render: "Error deleting deck",
+                type: "error",
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        })
+    }
 
     return (
         <div id='decks'>
-            <h3 style={{textAlign: 'right', marginRight: "1rem"}}>{activeCourseName}</h3>
+            {
+                activeCourseId ? <h1>{activeCourseName}</h1> : null
+            }
+            
             {
                 decks.map((deck) => (
                     <Deck
                         key={deck.deck_id}
+                        client={client}
                         deckData={deck}
                         setActiveDeckId={setActiveDeckId}
                         setDeckAction={setDeckAction}
                         setShowBack={setShowBack}
+                        setDeleteInfo={setDeleteInfo}
                     />
                 ))
             }
@@ -46,9 +110,12 @@ export default function Decks({ client, activeCourseId, decks, setActiveDeckId, 
             {
                 activeCourseId ? 
                 <CreateDeck client={client} activeCourseId={activeCourseId} getCourseDecks={getCourseDecks}/>
-                
+
                 : null
             }
+
+            <DeletePopup popupInfo={deleteInfo} setPopupInfo={setDeleteInfo} handleDeletion={handleDeckDelte}/>
+            
             
             
         </div>

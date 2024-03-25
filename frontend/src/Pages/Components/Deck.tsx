@@ -2,10 +2,12 @@ import React from 'react'
 
 import { useNavigate } from 'react-router-dom';
 
+import { AxiosInstance } from 'axios';
+
 import IBriefDeck from '../../types/BriefDeck';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGraduationCap, faPenToSquare, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faGraduationCap, faPenToSquare, faMagnifyingGlass, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 
 enum DeckAction {
@@ -15,15 +17,18 @@ enum DeckAction {
 }
 
 interface IDeckProps {
-    deckData: IBriefDeck
+    client: AxiosInstance
+    deckData: IBriefDeck,
+    
     setActiveDeckId: React.Dispatch<React.SetStateAction<number | undefined>>,
     setDeckAction: React.Dispatch<React.SetStateAction<DeckAction>>,
-    setShowBack: React.Dispatch<React.SetStateAction<boolean>>
+    setShowBack: React.Dispatch<React.SetStateAction<boolean>>,
+    setDeleteInfo: React.Dispatch<React.SetStateAction<{show: boolean, id: number | undefined}>>,   
 }
 
 
-export default function Deck({ deckData, setActiveDeckId, setDeckAction, setShowBack }: IDeckProps) {
-    const navigate = useNavigate();
+export default function Deck({ client, deckData, setActiveDeckId, setDeckAction, setShowBack, setDeleteInfo }: IDeckProps) {
+    const navigate = useNavigate()
 
     function handleOptionClick(action: DeckAction) {
         setDeckAction(action);
@@ -40,6 +45,7 @@ export default function Deck({ deckData, setActiveDeckId, setDeckAction, setShow
                 <FontAwesomeIcon icon={faPenToSquare} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.EDIT)}/>
                 <FontAwesomeIcon icon={faMagnifyingGlass} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.PREIVEW)}/>
             </div>
+            <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={() => setDeleteInfo({show: true, id: deckData.deck_id})}/>
         </div>
     )
 }
