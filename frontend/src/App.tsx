@@ -42,7 +42,7 @@ client.get('/get_csrf_token')
 function App() {
     const [activeCourseId, setActiveCourseId] = useState<number | undefined>();
     const [activeDeckId, setActiveDeckId] = useState<number | undefined>();
-    const [showBack, setShowBack] = useState(true);
+    const [showBack, setShowBack] = useState(false);
 
     const [user, setUser] = useState<IUser>({
         name: '',

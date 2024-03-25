@@ -91,7 +91,7 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
                         <FontAwesomeIcon icon={faXmark} size='2x' className='pointer close-prompt' onClick={() => setPromptActive(false)}/>
                         <form onSubmit={(e) => handleDeckCreation(e)} className='create-prompt-form'>
                             <label htmlFor="create-deck-input">Create Deck</label>
-                            <input id="create-deck-input" className="create-input" type="text" value={deckName} onChange={(e) => setDeckName(e.target.value)} placeholder='Deck name'/>
+                            <input id="create-deck-input" className="create-input" type="text" autoComplete="off" value={deckName} onChange={(e) => setDeckName(e.target.value)} placeholder='Deck name'/>
                             <button type="submit" className='shadow-accent accent border'>Create</button>
                         </form>
                         

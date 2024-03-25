@@ -42,12 +42,14 @@ export default function CreateCard({
                     value={question}
                     onChange={(event) => setQuestion(event.target.value)}
                     className='card-input border text fill secondary shadow-secondary'
+                    autoComplete="off"
                     placeholder='Raw question'
                 />
                 <textarea
                     value={answer}
                     onChange={(event) => setAnswer(event.target.value)}
                     className='card-input border text fill secondary shadow-secondary'
+                    autoComplete="off"
                     placeholder='Raw answer'
                 />  
             </form>
