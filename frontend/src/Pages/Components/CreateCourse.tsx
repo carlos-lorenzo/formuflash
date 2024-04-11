@@ -64,7 +64,7 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
                 type: "error", 
                 isLoading: false,
                 autoClose: 1500,
-                hideProgressBar: false,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,

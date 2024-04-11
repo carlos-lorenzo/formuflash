@@ -179,6 +179,10 @@
     color: var(--primary);
 }
 
+.study-option {
+    width: 15vw;
+}
+
 .create {
     height: 15dvh;
     min-height: 15dvh;

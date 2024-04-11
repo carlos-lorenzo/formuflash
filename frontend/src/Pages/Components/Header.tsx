@@ -39,7 +39,7 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
     }
 
     return (
-        <div id="header" className='border'>
+        <div id="header">
             {
                 showBack ?
                 <Link to={profileClickLink()} className='pointer' id='back' onClick={handleBack}>

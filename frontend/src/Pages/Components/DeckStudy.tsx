@@ -81,7 +81,6 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
                 }
             }
         ).then((response) => {
-            console.log(response.data)
             setCard(response.data.card);
             setContent({
                 content: response.data.card.question,
@@ -113,19 +112,31 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
         }
     }
 
+    function handleShortcuts(event: any) {
+        event.preventDefault();
+        if (event.key === "s") {
+            handleSwap();
+        } else if(event.key === "1") {
+            handleConfidenceUpdate(Confidences.LOW);
+        } else if(event.key === "2") {
+            handleConfidenceUpdate(Confidences.MEDIUM);
+        } else if(event.key === "3") {
+            handleConfidenceUpdate(Confidences.HIGH);
+        }
 
+        }
 
     return (
-        <div id='study' className='fill place-center'>
+        <div id='study' className='fill place-center' onKeyDown={handleShortcuts} tabIndex={0}>
             <div id="study-content" className='text card border fill place-center shadow-secondary' onClick={() => handleSwap()}>
                 <div id="confidence-marker" className={`shadow-${getConfidenceClassName(card?.confidence)} border ${getConfidenceClassName(card?.confidence)}`}></div>
                 <MarkdownLatex content={content.content}/>
             </div>
             <div id='study-options' className='fill'>   
-                <button className='shadow-accent border deck-option' onClick={handleSwap}>Turn Around</button>
-                <button className='shadow-accent border deck-option' onClick={() => handleConfidenceUpdate(Confidences.LOW)}>LOW</button>
-                <button className='shadow-primary border deck-option primary' onClick={() => handleConfidenceUpdate(Confidences.MEDIUM)}>MEDIUM</button>
-                <button className='shadow-green border deck-option green' onClick={() => handleConfidenceUpdate(Confidences.HIGH)}>HIGH</button>
+                <button className='shadow-primary border primary study-option' onClick={handleSwap}>Turn Around</button>
+                <button className='shadow-accent border accent study-option' onClick={() => handleConfidenceUpdate(Confidences.LOW)}>LOW</button>
+                <button className='shadow-primary border primary study-option' onClick={() => handleConfidenceUpdate(Confidences.MEDIUM)}>MEDIUM</button>
+                <button className='shadow-green border green study-option' onClick={() => handleConfidenceUpdate(Confidences.HIGH)}>HIGH</button>
             </div>
             
         </div>

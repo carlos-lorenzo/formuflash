@@ -17,7 +17,7 @@ interface IDeckEdit {
     activeDeckId: number | undefined,
     activeCardId: number,
     setActiveCardId: React.Dispatch<React.SetStateAction<number>>,
-    getDeck: () => void
+    getDeck: (newCardId?: number) => void
 }
 
 
@@ -49,7 +49,7 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                 type: "success", 
                 isLoading: false,
                 autoClose: 1500,
-                hideProgressBar: false,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
@@ -62,7 +62,7 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                 type: "error", 
                 isLoading: false,
                 autoClose: 1500,
-                hideProgressBar: false,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
@@ -71,13 +71,44 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
         })
     }
 
+    function handleCardCreation() {
+        client.post('/create_card', 
+        {
+            deck_id: activeDeck.deck_id,
+            question: 'New Question',
+            answer: 'New Answer', 
+        },
+        {
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            }
+        }).then((response) => {
+            getDeck(response.data.card.card_id);
+        })
+
+    }
+
+    function handleShortcuts(event: any) {
+        
+        if (event.ctrlKey) {
+            
+            if (event.key === "s") {
+                handleCardUpdate();
+                event.preventDefault();
+            } else if (event.key === "d") {
+                handleCardCreation();
+                event.preventDefault();
+            }
+        }
+    }
+
     useEffect(() => {
         setQuestion(activeDeck.cards[activeCardId].question);
         setAnswer(activeDeck.cards[activeCardId].answer);
     }, [activeCardId])
 
     return (
-        <div id='deck-edit'>
+        <div id='deck-edit' onKeyDown={handleShortcuts} tabIndex={0}>
             <div className="whitespace"></div>
             <DeckEditPreview 
                 client={client} 
@@ -85,6 +116,7 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                 getDeck={getDeck}
                 setActiveCardId={setActiveCardId}
                 handleCardUpdate={handleCardUpdate}
+                handleCardCreation={handleCardCreation}
             />
 
             <CreateCard 

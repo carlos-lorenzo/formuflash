@@ -16,27 +16,13 @@ interface IDeckPreviewProps {
     activeDeck: IDeck,
     getDeck: (newCardId?: number) => void,
     setActiveCardId: React.Dispatch<React.SetStateAction<number>>
-    handleCardUpdate: () => void
+    handleCardUpdate: () => void,
+    handleCardCreation: () => void
 }
 
-export default function DeckEditPreview({ client, activeDeck, getDeck, setActiveCardId, handleCardUpdate }: IDeckPreviewProps) {
+export default function DeckEditPreview({ client, activeDeck, getDeck, setActiveCardId, handleCardUpdate, handleCardCreation }: IDeckPreviewProps) {
     
-    function handleCardCreation() {
-        client.post('/create_card', 
-        {
-            deck_id: activeDeck.deck_id,
-            question: 'New Question',
-            answer: 'New Answer', 
-        },
-        {
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('token')}`
-            }
-        }).then((response) => {
-            getDeck(response.data.card.card_id);
-        })
-
-    }
+    
 
     return (
         <div className='fill place-center deck-preview'>
