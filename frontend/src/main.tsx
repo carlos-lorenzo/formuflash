@@ -7,6 +7,7 @@ import App from './App.tsx'
 import "./styles/style.css";
 import "./styles/cards.css";
 import "./styles/page.css";
+import "./styles/hamburger.css";
 
 import 'react-toastify/dist/ReactToastify.css';
 

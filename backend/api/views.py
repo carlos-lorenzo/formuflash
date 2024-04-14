@@ -112,6 +112,30 @@ class DeleteCourse(APIView):
         return Response({"message": "Course deleted"}, status=status.HTTP_200_OK)
 
 
+class RenameCourse(APIView):
+    def post(self, request):
+        course_id: int = request.data.get('course_id', None)
+        name: str = request.data.get('name', None)
+        user = request.user
+
+        if not course_id:
+            return Response({"error": "course id is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not name:
+            return Response({"error": "New name not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        course = Course.objects.get(course_id=course_id)
+
+        if course.owner != user:
+            return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        course.name = name
+        course.save()
+
+        return Response({"message": "Course renamed",
+                         "name": name}, status=status.HTTP_200_OK)
+
+
 # Deck views
 class GetUserDecks(APIView):
 	permission_classes = (permissions.IsAuthenticated,)
@@ -240,6 +264,29 @@ class DeleteDeck(APIView):
 
         return Response({"message": "Deck deleted"}, status=status.HTTP_200_OK)
 
+
+class RenameDeck(APIView):
+    def post(self, request):
+        deck_id: int = request.data.get('deck_id', None)
+        name: str = request.data.get('name', None)
+        user = request.user
+
+        if not deck_id:
+            return Response({"error": "deck id is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not name:
+            return Response({"error": "New name not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        deck = Deck.objects.get(deck_id=deck_id)
+
+        if deck.owner != user:
+            return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        deck.name = name
+        deck.save()
+
+        return Response({"message": "Deck renamed",
+                         "name": name}, status=status.HTTP_200_OK)
 
 
 # Card views
@@ -430,3 +477,59 @@ class DeleteCard(APIView):
                 status=status.HTTP_200_OK)
 
 
+
+
+
+# Profile views
+class UpdateProfileInfo(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    
+    def post(self, request):
+        name: str = request.data.get('name', None)
+        email: str = request.data.get('email', None)
+        user = request.user
+        
+        if not name:
+            return Response({"error": "No name provided"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not email:
+            return Response({"error": "No email provided"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        user.name = name
+        user.email = email
+        
+        user.save()
+        
+        return Response({"message": "Profile updated",
+                         "user": UserSerialiser(user).data
+                        }, status=status.HTTP_200_OK)
+        
+        
+class ChangePassword(APIView):
+    def post(self, request):
+        
+        current_password: str = request.data.get('current_password', None)
+        new_password: str = request.data.get('new_password', None)
+        confirm_password: str = request.data.get('confirm_password', None)
+        user = request.user
+        
+        if not current_password:
+            return Response({"error": "Current password is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not new_password:
+            return Response({"error": "New password is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not confirm_password:
+            return Response({"error": "Password confirmation is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not new_password == confirm_password:
+            return Response({"error": "Passwords don't match"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not user.check_password(current_password):
+            return Response({"error": "Incorrect password"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        user.set_password(new_password)
+        user.save()
+        
+        return Response({"message": "Password changed"}, status=status.HTTP_200_OK)

@@ -42,7 +42,7 @@ export default function Logout({ client, setUser, setBack}: ILogoutProps) {
                 type: "info",
                 isLoading: false,
                 autoClose: 1500,
-                hideProgressBar: false,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
@@ -55,7 +55,7 @@ export default function Logout({ client, setUser, setBack}: ILogoutProps) {
                 type: "error",
                 isLoading: false,
                 autoClose: 1500,
-                hideProgressBar: false,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
@@ -66,8 +66,9 @@ export default function Logout({ client, setUser, setBack}: ILogoutProps) {
     }
 
     return (
-        <Link to={'/'} id="logout" className='pointer' onClick={handleLogout}>
-            <FontAwesomeIcon icon={faRightFromBracket} size='2x'/>
+        <Link to={'/'} id="logout" className='pointer hamburger-option' onClick={handleLogout}>
+                <FontAwesomeIcon icon={faRightFromBracket} size='lg'/> 
+                <p>Logout</p> 
         </Link>
     )
 }

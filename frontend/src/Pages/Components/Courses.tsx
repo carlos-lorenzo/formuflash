@@ -29,13 +29,13 @@ export default function Courses({ client, courses, getCourses, getCourseDecks, s
 
     const [deleteInfo, setDeleteInfo] = React.useState<IDeleteInfo>({show: false, id: undefined});
 
-    function handleDeckDelte(id: number | undefined) {
+    function handleCourseDelete(id: number | undefined) {
 
         if (id === undefined) {
             return;
         }
 
-        const toastId = toast.loading("Deleting deck...");
+        const toastId = toast.loading("Deleting course...");
 
         client.post(
             '/delete_course',
@@ -55,7 +55,7 @@ export default function Courses({ client, courses, getCourses, getCourseDecks, s
                 type: "info",
                 isLoading: false,
                 autoClose: 1500,
-                hideProgressBar: false,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
@@ -66,11 +66,11 @@ export default function Courses({ client, courses, getCourses, getCourseDecks, s
 
         }).catch(() => {
             toast.update(toastId, {
-                render: "Error deleting deck",
+                render: "Error deleting course",
                 type: "error",
                 isLoading: false,
                 autoClose: 1500,
-                hideProgressBar: false,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
@@ -85,6 +85,7 @@ export default function Courses({ client, courses, getCourses, getCourseDecks, s
             {courses.map((course) => (
                 <Course 
                     key={course.course_id}
+                    client={client}
                     courseData={course}
                     setActiveCourseId={setActiveCourseId}
                     getCourseDecks={getCourseDecks}
@@ -96,7 +97,7 @@ export default function Courses({ client, courses, getCourses, getCourseDecks, s
                 client={client} 
                 getCourses={getCourses}
             />
-            <DeletePopup popupInfo={deleteInfo} setPopupInfo={setDeleteInfo} handleDeletion={handleDeckDelte}/>
+            <DeletePopup popupInfo={deleteInfo} setPopupInfo={setDeleteInfo} handleDeletion={handleCourseDelete}/>
         </div>
     )
 }

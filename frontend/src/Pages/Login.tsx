@@ -41,7 +41,7 @@ export default function Login({ client, setUser }: ILoginProps) {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const id = toast.loading("Logging in...");
+        const id = toast.loading("Logging in");
 
     
         client.post('/login', { 
@@ -62,8 +62,8 @@ export default function Login({ client, setUser }: ILoginProps) {
             .then((response) => {
                 
                 setUser({
-                    name: response.data.name,
-                    email: response.data.email,
+                    name: response.data.user.name,
+                    email: response.data.user.email,
                     loggedIn: true
                 });
 

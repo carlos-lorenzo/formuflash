@@ -107,3 +107,20 @@
     position: absolute;
     left: 5rem;
 }
+
+#profile-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+    
+}
+
+#profile-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding-bottom: 3rem;
+}

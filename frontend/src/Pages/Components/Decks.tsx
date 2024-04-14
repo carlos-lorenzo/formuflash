@@ -37,7 +37,7 @@ export default function Decks({ client, activeCourseId, decks, setActiveDeckId, 
 
     const [deleteInfo, setDeleteInfo] = React.useState<IDeleteInfo>({show: false, id: undefined});
 
-    function handleDeckDelte(id: number | undefined) {
+    function handleDeckDelete(id: number | undefined) {
 
         if (id === undefined) {
             return;
@@ -63,7 +63,7 @@ export default function Decks({ client, activeCourseId, decks, setActiveDeckId, 
                 type: "info",
                 isLoading: false,
                 autoClose: 1500,
-                hideProgressBar: false,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
@@ -78,7 +78,7 @@ export default function Decks({ client, activeCourseId, decks, setActiveDeckId, 
                 type: "error",
                 isLoading: false,
                 autoClose: 1500,
-                hideProgressBar: false,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
@@ -114,7 +114,7 @@ export default function Decks({ client, activeCourseId, decks, setActiveDeckId, 
                 : null
             }
 
-            <DeletePopup popupInfo={deleteInfo} setPopupInfo={setDeleteInfo} handleDeletion={handleDeckDelte}/>
+            <DeletePopup popupInfo={deleteInfo} setPopupInfo={setDeleteInfo} handleDeletion={handleDeckDelete}/>
             
             
             

@@ -47,7 +47,7 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
                 type: "success", 
                 isLoading: false,
                 autoClose: 3000,
-                hideProgressBar: false,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
@@ -87,7 +87,7 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
                         <FontAwesomeIcon icon={faXmark} size='2x' className='pointer close-prompt' onClick={() => setPromptActive(false)}/>
                         <form onSubmit={(e) => handleCourseCreation(e)} className='create-prompt-form'>
                             <label htmlFor="create-course-input">Create Course</label>
-                            <input id="create-course-input" className="create-input" type="text" autoComplete="off" value={courseName} onChange={(e) => setCourseName(e.target.value)} placeholder='Course name'/>
+                            <input id="create-course-input" maxLength={50} className="create-input" type="text" autoComplete="off" value={courseName} onChange={(e) => setCourseName(e.target.value)} placeholder='Course name'/>
                             <button type="submit" className='shadow-accent accent border'>Create</button>
                         </form>
                         

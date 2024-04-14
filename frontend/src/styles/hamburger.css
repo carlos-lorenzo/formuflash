@@ -1,0 +1,88 @@
+
+:root {
+    --text: #dbdcf3;
+    --background: #111119;
+    --primary: #8d8fd9;
+    --secondary: #20222E;
+    --accent: #ca6069;
+    --green: #81B17E;
+}
+
+.hamburger {
+cursor: pointer;
+}
+
+.hamburger input {
+display: none;
+}
+
+.hamburger svg {
+/* The size of the SVG defines the overall size */
+height: 3em;
+/* Define the transition for transforming the SVG */
+transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line {
+fill: none;
+stroke: white;
+stroke-linecap: round;
+stroke-linejoin: round;
+stroke-width: 3;
+/* Define the transition for transforming the Stroke */
+transition: stroke-dasharray 350ms cubic-bezier(0.4, 0, 0.2, 1),
+			stroke-dashoffset 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+stroke-dasharray: 12 63;
+}
+
+.hamburger input:checked + svg {
+transform: rotate(-45deg);
+}
+
+.hamburger input:checked + svg .line-top-bottom {
+stroke-dasharray: 20 300;
+stroke-dashoffset: -32.42;
+}
+
+
+.hamburger-menu {
+	position: relative;
+	display: flex;
+	
+}
+
+.hamburger-options {
+	position: absolute;
+	top: 3.5em;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	width: 200px;
+	
+	backdrop-filter: blur(10px);
+
+	left: 50%;
+	transform: translateX(-50%);
+
+	background-color: rgba(32, 34, 46, 0.4);
+
+	
+	
+}
+
+
+.hamburger-option {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: left;
+	width: 50%;
+	gap: 10px;
+}
+

@@ -15,6 +15,7 @@ import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import LandingPage from "./Pages/LandingPage";
 import DeckView from "./Pages/DeckView";
+import Profile from "./Pages/Profile";
 
 import IUser from "./types/User";
 
@@ -95,7 +96,7 @@ function App() {
                 <Login 
                     client={client}
                     setUser={setUser}
-                    />} />
+                />} />
                 <Route path="/deck-view" element={
                 <DeckView 
                     client={client}
@@ -114,6 +115,13 @@ function App() {
                     setDeckAction={setDeckAction}
                     setShowBack={setShowBack}
                 />} />
+                <Route path="profile" element={
+                <Profile 
+                    client={client}
+                    user={user}
+                    setUser={setUser}
+                />} />
+
             </Routes>
 
             <ToastContainer
