@@ -303,13 +303,13 @@ class UpdateCard(APIView):
 			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not Deck.objects.get(deck_id=deck_id):
-			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Deck not found"}, status=status.HTTP_404_NOT_FOUND)
 		
 		if not question:
-			return Response({"error": "question is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "No question provided"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not answer:
-			return Response({"error": "answer is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "No answer provided"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		# Create card if it doesn't exist
 		if not FlashCard.objects.get(card_id=card_id):

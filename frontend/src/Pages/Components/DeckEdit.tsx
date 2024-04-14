@@ -58,7 +58,7 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
         }).catch((error) => {
             toast.update(id, 
                 { 
-                render: "Error saving card", 
+                render: error.response.data.error, 
                 type: "error", 
                 isLoading: false,
                 autoClose: 1500,

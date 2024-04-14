@@ -37,6 +37,43 @@
     padding-bottom: 20px;
 }
 
+.text.card-input {
+    padding-top: 0px;
+    padding-bottom: 20px;
+}
+
+.edit-info {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    width: 93%;
+}
+
+.edit-shortcuts {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.edit-shortcut {
+    transition: all 0.2s ease-in-out;
+}
+
+.edit-shortcut:hover {
+    transform: scale(1.10);
+    color: var(--primary);
+}
+
+.card-input-textarea {
+    width: 99%;
+    height: 85%;
+}
+
+
 .deck-preview {
     display: flex;
     flex-direction: column;
