@@ -297,6 +297,7 @@ class ImportCardsFromCsv(APIView):
 	def put(self, request):
 		user = request.user
 		deck_id = request.data.get('deck_id', None)	
+	
 		file = request.FILES["file"]
 		
 		if not deck_id:
@@ -310,11 +311,19 @@ class ImportCardsFromCsv(APIView):
 		if not deck.owner == user:
 			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
+		
 		df = pd.read_csv(file)
   
-		print(df.head())
+		objs = [
+			FlashCard(deck=deck, question=row['Question'], answer=row['Answer'], owner=user)
+			for index, row in df.iterrows()
+		]
+		created = FlashCard.objects.bulk_create(objs, batch_size=1000)
+		
+  		# Save changes after creation
+		FlashCard.objects.bulk_update(created, ["question", "answer", "deck"], batch_size=1000)
   
-		return Response({"message": "Not implemented"}, status=status.HTTP_501_NOT_IMPLEMENTED) # TODO: Implement this view
+		return Response({"message": "Cards imported"}, status=status.HTTP_200_OK)
 
 
 
