@@ -80,6 +80,7 @@ export default function Home({
                     setActiveCourseId(response.data.courses[0].course_id);
                     
                 }
+                
                 setCourses(response.data.courses);
                 getCourseDecks(activeCourseId);
                 setActiveCourseName(response.data.courses[0].name);

@@ -27,11 +27,12 @@ urlpatterns = [
     path("delete_deck", views.DeleteDeck.as_view(), name="delete_deck"),
     path("rename_deck", views.RenameDeck.as_view(), name="rename_deck"),
     
+    
     path("create_card", views.CreateCard.as_view(), name="create_card"),
     path("fetch_deck_card", views.GetCard.as_view(), name="fetch_card"),
     path("update_card", views.UpdateCard.as_view(), name="update_card"),
     path("update_confidence", views.UpdateCardConfidence.as_view(), name="update_confidence"),
     path("delete_card", views.DeleteCard.as_view(), name="delete_card"),
-    
+    path("upload_cards_csv", views.ImportCardsFromCsv.as_view(), name="upload_cards_csv"),
     
 ]

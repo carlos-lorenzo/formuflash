@@ -8,7 +8,9 @@ from django.middleware.csrf import get_token
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
+from rest_framework.parsers import  MultiPartParser, FormParser
 
+import pandas as pd
 
 from flashcards.models import Deck, FlashCard, Course
 from flashcards.serialisers import FlashCardSerialiser, DeckSerialiser, CourseSerialiser
@@ -48,9 +50,9 @@ class User(APIView):
 
 
 class Logout(APIView):
-    def get(self, request):
-        request.user.auth_token.delete()
-        return Response(status=status.HTTP_200_OK)
+	def get(self, request):
+		request.user.auth_token.delete()
+		return Response(status=status.HTTP_200_OK)
 
 # Course views
 class GetUserCourses(APIView):
@@ -92,48 +94,48 @@ class CreateCourse(APIView):
 
 
 class DeleteCourse(APIView):
-    def post(self, request):
-        course_id: int = request.data.get('id', None)
-        user = request.user
+	def post(self, request):
+		course_id: int = request.data.get('id', None)
+		user = request.user
 
-        if not course_id:
-            return Response({"error": "course_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+		if not course_id:
+			return Response({"error": "course_id is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        if not Course.objects.get(course_id=course_id):
-            return Response({"error": "course not found"}, status=status.HTTP_404_NOT_FOUND)
+		if not Course.objects.get(course_id=course_id):
+			return Response({"error": "course not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        course = Course.objects.get(course_id=course_id)
+		course = Course.objects.get(course_id=course_id)
 
-        if course.owner != user:
-            return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+		if course.owner != user:
+			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        course.delete()
+		course.delete()
 
-        return Response({"message": "Course deleted"}, status=status.HTTP_200_OK)
+		return Response({"message": "Course deleted"}, status=status.HTTP_200_OK)
 
 
 class RenameCourse(APIView):
-    def post(self, request):
-        course_id: int = request.data.get('course_id', None)
-        name: str = request.data.get('name', None)
-        user = request.user
+	def post(self, request):
+		course_id: int = request.data.get('course_id', None)
+		name: str = request.data.get('name', None)
+		user = request.user
 
-        if not course_id:
-            return Response({"error": "course id is required"}, status=status.HTTP_400_BAD_REQUEST)
+		if not course_id:
+			return Response({"error": "course id is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        if not name:
-            return Response({"error": "New name not provided"}, status=status.HTTP_400_BAD_REQUEST)
+		if not name:
+			return Response({"error": "New name not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-        course = Course.objects.get(course_id=course_id)
+		course = Course.objects.get(course_id=course_id)
 
-        if course.owner != user:
-            return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+		if course.owner != user:
+			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        course.name = name
-        course.save()
+		course.name = name
+		course.save()
 
-        return Response({"message": "Course renamed",
-                         "name": name}, status=status.HTTP_200_OK)
+		return Response({"message": "Course renamed",
+						 "name": name}, status=status.HTTP_200_OK)
 
 
 # Deck views
@@ -237,7 +239,7 @@ class GetDeck(APIView):
 			'deck_id': deck.deck_id,
 			'name': deck.name,
 			'course': deck.course.name,
-            'course_id': deck.course.course_id,
+			'course_id': deck.course.course_id,
 			'cards': serialised_cards
 		}
 		
@@ -245,48 +247,75 @@ class GetDeck(APIView):
 
 
 class DeleteDeck(APIView):
-    def post(self, request):
-        deck_id: int = request.data.get('id', None)
-        user = request.user
+	def post(self, request):
+		deck_id: int = request.data.get('id', None)
+		user = request.user
 
-        if not deck_id:
-            return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+		if not deck_id:
+			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        if not Deck.objects.get(deck_id=deck_id):
-            return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+		if not Deck.objects.get(deck_id=deck_id):
+			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        deck = Deck.objects.get(deck_id=deck_id)
+		deck = Deck.objects.get(deck_id=deck_id)
 
-        if deck.owner != user:
-            return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+		if deck.owner != user:
+			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        deck.delete()
+		deck.delete()
 
-        return Response({"message": "Deck deleted"}, status=status.HTTP_200_OK)
+		return Response({"message": "Deck deleted"}, status=status.HTTP_200_OK)
 
 
 class RenameDeck(APIView):
-    def post(self, request):
-        deck_id: int = request.data.get('deck_id', None)
-        name: str = request.data.get('name', None)
-        user = request.user
+	def post(self, request):
+		deck_id: int = request.data.get('deck_id', None)
+		name: str = request.data.get('name', None)
+		user = request.user
 
-        if not deck_id:
-            return Response({"error": "deck id is required"}, status=status.HTTP_400_BAD_REQUEST)
+		if not deck_id:
+			return Response({"error": "deck id is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        if not name:
-            return Response({"error": "New name not provided"}, status=status.HTTP_400_BAD_REQUEST)
+		if not name:
+			return Response({"error": "New name not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-        deck = Deck.objects.get(deck_id=deck_id)
+		deck = Deck.objects.get(deck_id=deck_id)
 
-        if deck.owner != user:
-            return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+		if deck.owner != user:
+			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        deck.name = name
-        deck.save()
+		deck.name = name
+		deck.save()
 
-        return Response({"message": "Deck renamed",
-                         "name": name}, status=status.HTTP_200_OK)
+		return Response({"message": "Deck renamed",
+						 "name": name}, status=status.HTTP_200_OK)
+
+
+class ImportCardsFromCsv(APIView):
+	parser_classes = (MultiPartParser, FormParser)
+	
+	def put(self, request):
+		user = request.user
+		deck_id = request.data.get('deck_id', None)	
+		file = request.FILES["file"]
+		
+		if not deck_id:
+			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+		if not Deck.objects.get(deck_id=deck_id):
+			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+
+		deck = Deck.objects.get(deck_id=deck_id)
+  
+		if not deck.owner == user:
+			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+
+		df = pd.read_csv(file)
+  
+		print(df.head())
+  
+		return Response({"message": "Not implemented"}, status=status.HTTP_501_NOT_IMPLEMENTED) # TODO: Implement this view
+
 
 
 # Card views
@@ -472,9 +501,9 @@ class DeleteCard(APIView):
 		
 		return Response({
 					"message": "Card deleted", 
-     				"new_card_id": other_card.card_id
+	 				"new_card_id": other_card.card_id
 					}, 
-                status=status.HTTP_200_OK)
+				status=status.HTTP_200_OK)
 
 
 
@@ -482,54 +511,54 @@ class DeleteCard(APIView):
 
 # Profile views
 class UpdateProfileInfo(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    
-    def post(self, request):
-        name: str = request.data.get('name', None)
-        email: str = request.data.get('email', None)
-        user = request.user
-        
-        if not name:
-            return Response({"error": "No name provided"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        if not email:
-            return Response({"error": "No email provided"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        user.name = name
-        user.email = email
-        
-        user.save()
-        
-        return Response({"message": "Profile updated",
-                         "user": UserSerialiser(user).data
-                        }, status=status.HTTP_200_OK)
-        
-        
+	permission_classes = (permissions.IsAuthenticated,)
+	
+	def post(self, request):
+		name: str = request.data.get('name', None)
+		email: str = request.data.get('email', None)
+		user = request.user
+		
+		if not name:
+			return Response({"error": "No name provided"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		if not email:
+			return Response({"error": "No email provided"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		user.name = name
+		user.email = email
+		
+		user.save()
+		
+		return Response({"message": "Profile updated",
+						 "user": UserSerialiser(user).data
+						}, status=status.HTTP_200_OK)
+		
+		
 class ChangePassword(APIView):
-    def post(self, request):
-        
-        current_password: str = request.data.get('current_password', None)
-        new_password: str = request.data.get('new_password', None)
-        confirm_password: str = request.data.get('confirm_password', None)
-        user = request.user
-        
-        if not current_password:
-            return Response({"error": "Current password is required"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        if not new_password:
-            return Response({"error": "New password is required"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        if not confirm_password:
-            return Response({"error": "Password confirmation is required"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        if not new_password == confirm_password:
-            return Response({"error": "Passwords don't match"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        if not user.check_password(current_password):
-            return Response({"error": "Incorrect password"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        
-        user.set_password(new_password)
-        user.save()
-        
-        return Response({"message": "Password changed"}, status=status.HTTP_200_OK)
+	def post(self, request):
+		
+		current_password: str = request.data.get('current_password', None)
+		new_password: str = request.data.get('new_password', None)
+		confirm_password: str = request.data.get('confirm_password', None)
+		user = request.user
+		
+		if not current_password:
+			return Response({"error": "Current password is required"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		if not new_password:
+			return Response({"error": "New password is required"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		if not confirm_password:
+			return Response({"error": "Password confirmation is required"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		if not new_password == confirm_password:
+			return Response({"error": "Passwords don't match"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		if not user.check_password(current_password):
+			return Response({"error": "Incorrect password"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		
+		user.set_password(new_password)
+		user.save()
+		
+		return Response({"message": "Password changed"}, status=status.HTTP_200_OK)
