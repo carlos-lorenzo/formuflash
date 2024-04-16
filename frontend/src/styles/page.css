@@ -124,3 +124,8 @@
     gap: 2rem;
     padding-bottom: 3rem;
 }
+
+
+.file-input {
+    text-decoration: none;
+}

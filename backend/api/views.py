@@ -300,11 +300,14 @@ class ImportCardsFromCsv(APIView):
 	
 		file = request.FILES["file"]
 		
+		if not file:
+			return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
+  
 		if not deck_id:
 			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
 
 		if not Deck.objects.get(deck_id=deck_id):
-			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Deck not found"}, status=status.HTTP_404_NOT_FOUND)
 
 		deck = Deck.objects.get(deck_id=deck_id)
   
@@ -313,20 +316,52 @@ class ImportCardsFromCsv(APIView):
 
 		
 		df = pd.read_csv(file)
+
+		if len(df) == 0:
+			return Response({"error": "No data in file"}, status=status.HTTP_400_BAD_REQUEST)
+
+		if len(df) >= 1000:
+			return Response({"error": "File too large"}, status=status.HTTP_400_BAD_REQUEST)
   
 		objs = [
-			FlashCard(deck=deck, question=row['Question'], answer=row['Answer'], owner=user)
+			FlashCard(deck=deck, question=row['question'], answer=row['answer'], owner=user)
 			for index, row in df.iterrows()
 		]
 		created = FlashCard.objects.bulk_create(objs, batch_size=1000)
 		
   		# Save changes after creation
 		FlashCard.objects.bulk_update(created, ["question", "answer", "deck"], batch_size=1000)
+
+		deck.number_of_cards += len(created)
+		deck.save()
   
 		return Response({"message": "Cards imported"}, status=status.HTTP_200_OK)
 
+class DeckToCsv(APIView):
+	def get(self, request):
+		deck_id = request.GET.get('deck_id', None)
+		
+		if not deck_id:
+			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
 
+		if not Deck.objects.get(deck_id=deck_id):
+			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
 
+		deck = Deck.objects.get(deck_id=deck_id)
+
+		cards = FlashCard.objects.filter(deck=deck)
+
+		# Save the cards to a pandas dataframe
+		df = pd.DataFrame(
+			list(
+				cards.values("question", "answer")
+			)
+		)
+  
+		# Write the dataframe to a CSV file
+		df.to_csv("cards.csv", index=False)
+
+		return Response({"message": "Cards exported"}, status=status.HTTP_200_OK)
 # Card views
 class UpdateCard(APIView):
 	permission_classes = (permissions.IsAuthenticated,)
