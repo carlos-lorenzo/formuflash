@@ -128,7 +128,7 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
 
     return (
         <div id='study' className='fill place-center' onKeyDown={handleShortcuts} tabIndex={0}>
-            <div id="study-content" className='text card border fill place-center shadow-secondary' onClick={() => handleSwap()}>
+            <div id="study-content" className={`text card border fill shadow-secondary ${content.questionShown ? "place-center" : ""}`} onClick={() => handleSwap()}>
                 <div id="confidence-marker" className={`shadow-${getConfidenceClassName(card?.confidence)} border ${getConfidenceClassName(card?.confidence)}`}></div>
                 <MarkdownLatex content={content.content}/>
             </div>
