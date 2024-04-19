@@ -108,7 +108,7 @@ export default function Login({ client, setUser }: ILoginProps) {
 
     return (
         <div id='login' className='fill place-center'>
-            <form onSubmit={handleSubmit} id='login-form'>
+            <form onSubmit={handleSubmit} className='login-register-form'>
                     <div className="login-input border secondary shadow-secondary">
                         <input id="email" className="input" placeholder="Email" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} />
                     </div>

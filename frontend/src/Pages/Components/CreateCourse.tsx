@@ -75,7 +75,7 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
 
     return (
         <>
-            <div id="create-deck-button" className='create place-center secondary shadow-secondary pointer border shadow-margin' onClick={handleCreateClick}>
+            <div id="create-course-button" className='create place-center secondary shadow-secondary pointer border shadow-margin' onClick={handleCreateClick}>
                 <FontAwesomeIcon icon={faCirclePlus} size='2x'/>
             </div>
 

@@ -4,10 +4,14 @@ import { AxiosInstance } from 'axios';
 
 import { toast } from 'react-toastify';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 import CreateDeck from './CreateDeck';
 
 import Deck from './Deck';
 import DeletePopup from './DeletePopup';
+
 
 import IBriefDeck from '../../types/BriefDeck';
 
@@ -21,10 +25,11 @@ interface IDecksProps {
     client: AxiosInstance,
     activeCourseId: number | undefined,
     decks: IBriefDeck[],
+    activeCourseName: string,
     setActiveDeckId: React.Dispatch<React.SetStateAction<number | undefined>>,
     getCourseDecks: (courseId: number | undefined) => void,
     setDeckAction: React.Dispatch<React.SetStateAction<DeckAction>>,
-    activeCourseName: string,
+    setShowingCourses: React.Dispatch<React.SetStateAction<boolean>>,
     setShowBack: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -33,7 +38,7 @@ interface IDeleteInfo {
     id: number | undefined
 }
 
-export default function Decks({ client, activeCourseId, decks, setActiveDeckId, getCourseDecks, setDeckAction, activeCourseName, setShowBack }: IDecksProps) {
+export default function Decks({ client, activeCourseId, decks, activeCourseName, setActiveDeckId, getCourseDecks, setDeckAction, setShowingCourses, setShowBack }: IDecksProps) {
 
     const [deleteInfo, setDeleteInfo] = React.useState<IDeleteInfo>({show: false, id: undefined});
 
@@ -90,7 +95,13 @@ export default function Decks({ client, activeCourseId, decks, setActiveDeckId, 
     return (
         <div id='decks'>
             {
-                activeCourseId ? <h1>{activeCourseName}</h1> : null
+                activeCourseId ? 
+                <div id="course-decks-title" onClick={() => setShowingCourses(true)}>
+                    <FontAwesomeIcon icon={faArrowLeft} size='lg' className='course-redirect pointer'/>
+                    <h3>{activeCourseName}</h3> 
+                </div>
+                
+                : null
             }
             
             {

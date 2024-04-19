@@ -26,7 +26,7 @@ import IUser from "./types/User";
 // Axios settings for authentication
 axios.defaults.xsrfCookieName = 'X-CSRFToken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = false;
 
 const client = axios.create({
     baseURL: `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/api`, 

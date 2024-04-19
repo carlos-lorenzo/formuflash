@@ -41,7 +41,7 @@ class UserManager(BaseUserManager):
 		user.save()
 		return user
 
-
+ 
 class User(AbstractBaseUser, PermissionsMixin):
 	
 	user_id = models.AutoField(primary_key=True)

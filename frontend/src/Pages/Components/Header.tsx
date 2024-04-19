@@ -49,7 +49,7 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
             }
             
             
-            <Link to={"/"} className='pointer'>
+            <Link to={"/"} className='pointer' id='page-logo'>
                 <h1>Free Flash</h1>
             </Link>
 

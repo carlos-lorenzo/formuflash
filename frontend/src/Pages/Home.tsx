@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { AxiosInstance } from 'axios';
 
+import { useMediaQuery } from 'react-responsive';
+import MediaQuery from 'react-responsive';
+
 import Courses from './Components/Courses';
 import Decks from './Components/Decks';
 
@@ -42,7 +45,7 @@ export default function Home({
 }: IHome) {
 
     const navigate = useNavigate();
-
+    const [showingCourses, setShowingCourses] = useState<boolean>(false);
     const [courses, setCourses] = useState<ICourse[]>([]);
     const [decks, setDecks] = useState<IBriefDeck[]>([]);
     const [activeCourseName, setActiveCourseName] = useState<string>('');
@@ -103,28 +106,62 @@ export default function Home({
 
 	return (
 		<div id='user-view' className='fill'>
-            <div className='whitespace'></div>
-            <Courses
-                client={client}
-                courses={courses}
-                activeCourseId={activeCourseId}
-                getCourses={getCourses}
-                getCourseDecks={getCourseDecks}
-                setActiveCourseId={setActiveCourseId}
-                setActiveCourseName={setActiveCourseName}
-            />
+            <MediaQuery query='(min-width: 1281px)'>
+                <div className='whitespace'></div>
+                <Courses
+                    client={client}
+                    courses={courses}
+                    activeCourseId={activeCourseId}
+                    getCourses={getCourses}
+                    getCourseDecks={getCourseDecks}
+                    setActiveCourseId={setActiveCourseId}
+                    setActiveCourseName={setActiveCourseName}
+                    setShowingCourses={setShowingCourses}
+                />
 
-            <Decks
-                client={client}
-                activeCourseId={activeCourseId}
-                decks={decks}
-                setActiveDeckId={setActiveDeckId}
-                getCourseDecks={getCourseDecks}
-                setDeckAction={setDeckAction}
-                activeCourseName={activeCourseName}
-                setShowBack={setShowBack}
-            />
-            <div className='whitespace'></div>
+                <Decks
+                    client={client}
+                    activeCourseId={activeCourseId}
+                    decks={decks}
+                    setActiveDeckId={setActiveDeckId}
+                    getCourseDecks={getCourseDecks}
+                    setDeckAction={setDeckAction}
+                    activeCourseName={activeCourseName}
+                    setShowingCourses={setShowingCourses}
+                    setShowBack={setShowBack}
+                />
+                <div className='whitespace'></div>
+            </MediaQuery>
+            <MediaQuery query='(max-width: 1280px)'>
+                {
+                    showingCourses ? (
+                        <Courses
+                        client={client}
+                        courses={courses}
+                        activeCourseId={activeCourseId}
+                        getCourses={getCourses}
+                        getCourseDecks={getCourseDecks}
+                        setActiveCourseId={setActiveCourseId}
+                        setActiveCourseName={setActiveCourseName}
+                        setShowingCourses={setShowingCourses}
+                    />
+                    ) : (
+                        
+                        <Decks
+                        client={client}
+                        activeCourseId={activeCourseId}
+                        decks={decks}
+                        setActiveDeckId={setActiveDeckId}
+                        getCourseDecks={getCourseDecks}
+                        setDeckAction={setDeckAction}
+                        activeCourseName={activeCourseName}
+                        setShowingCourses={setShowingCourses}
+                        setShowBack={setShowBack}
+                    />
+                    )
+                }
+
+            </MediaQuery>
 
         </div>
 	)

@@ -18,8 +18,8 @@ export default function DeletePopup({ popupInfo, setPopupInfo, handleDeletion }:
                     <div id='delete-popup' className="delete-prompt secondary shadow-accent border place-center">
                         <p>Are you sure you want to delete this?</p>
                         <div className="delete-options">
-                            <button onClick={() => handleDeletion(popupInfo.id)} className='accent shadow-accent border'>Yes</button>
-                            <button onClick={() => setPopupInfo({show: false, id: undefined})} className='accent shadow-accent border'>No</button>
+                            <button onClick={() => handleDeletion(popupInfo.id)} className='delete-option accent shadow-accent border'>Yes</button>
+                            <button onClick={() => setPopupInfo({show: false, id: undefined})} className='delete-option accent shadow-accent border'>No</button>
                         </div>
                         
                     </div>

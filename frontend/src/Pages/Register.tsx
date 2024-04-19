@@ -81,8 +81,8 @@ export default function Register({ client }: IRegisterProps) {
     }
 
     return (
-        <div id='login' className='fill place-center'>
-            <form onSubmit={handleSubmit} id='login-form'>
+        <div id='register' className='fill place-center'>
+            <form onSubmit={handleSubmit} className='login-register-form'>
                     <div className="login-input border secondary shadow-secondary">
                         <input id="name" className="input" placeholder="Name" type="text" value={name} onChange={(event) => setName(event.target.value)} />
                     </div>

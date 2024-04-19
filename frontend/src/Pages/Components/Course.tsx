@@ -16,10 +16,11 @@ interface ICourseProps {
     setActiveCourseId: (courseId: number) => void,
     getCourseDecks: (courseId: number | undefined) => void,
     setActiveCourseName: React.Dispatch<React.SetStateAction<string>>,
-    setDeleteInfo: React.Dispatch<React.SetStateAction<{show: boolean, id: number | undefined}>>
+    setDeleteInfo: React.Dispatch<React.SetStateAction<{show: boolean, id: number | undefined}>>,
+    setShowingCourses: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Course({ client, courseData, activeCourseId, setActiveCourseId, getCourseDecks, setActiveCourseName, setDeleteInfo }: ICourseProps) {
+export default function Course({ client, courseData, activeCourseId, setActiveCourseId, getCourseDecks, setActiveCourseName, setDeleteInfo, setShowingCourses }: ICourseProps) {
 
     const [renamingCourse, setRenamingCourse] = useState(false);
     const [newCourseName, setNewCourseName] = useState(courseData.name);
@@ -29,11 +30,13 @@ export default function Course({ client, courseData, activeCourseId, setActiveCo
         setActiveCourseId(courseData.course_id);
         getCourseDecks(courseData.course_id);
         setActiveCourseName(courseData.name);
+        setShowingCourses(false);
     }
 
-    function handleCourseRename() {
+    function handleCourseRename(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+        e.stopPropagation();
         const id = toast.loading("Renaming course");
-
+        
         client.post(
             '/rename_course',
             {
@@ -48,6 +51,7 @@ export default function Course({ client, courseData, activeCourseId, setActiveCo
         ).then((response) => {
             setRenamingCourse(false);
             setCourseName(response.data.name);
+            
             courseData.name = response.data.name;
             
             if (activeCourseId === courseData.course_id) {
@@ -83,24 +87,40 @@ export default function Course({ client, courseData, activeCourseId, setActiveCo
         })
     }
 
+    function handleTrashIconClick(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+        e.stopPropagation();
+        setDeleteInfo({ show: true, id: courseData.course_id });
+    };
+    
+    function handlePenClick(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+        e.stopPropagation();
+        setRenamingCourse(true);
+    }
+
+    function handleRenameCancelClick(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+        e.stopPropagation();
+        setRenamingCourse(false);
+    }
+
+
     return (
         <div className='course secondary border place-center shadow-secondary pointer shadow-margin' onClick={handleCourseClick}>
             {
                 renamingCourse ? 
                 <div className="rename">
-                    <input type='text' maxLength={50} className="rename-input" value={newCourseName} onChange={(event) => setNewCourseName(event.target.value)}/>
-                    <FontAwesomeIcon icon={faCircleCheck} size='lg' className='pointer deck-option' onClick={() => handleCourseRename()}/>
-                    <FontAwesomeIcon icon={faCircleXmark} size='lg' className='pointer deck-option' onClick={() => setRenamingCourse(false)}/>
+                    <input type='text' maxLength={50} className="rename-input" value={newCourseName} onChange={(event) => setNewCourseName(event.target.value)} onClick={(e) => e.stopPropagation()}/>
+                    <FontAwesomeIcon icon={faCircleCheck} size='lg' className='pointer deck-option' onClick={(e) => handleCourseRename(e)}/>
+                    <FontAwesomeIcon icon={faCircleXmark} size='lg' className='pointer deck-option' onClick={(e) => handleRenameCancelClick(e)}/>
                 </div>
                 
                 : 
 
                 <div className="current-name">
                     <h3>{courseName}</h3>
-                    <FontAwesomeIcon icon={faPen} size='lg' className='pointer deck-option' onClick={() => setRenamingCourse(true)}/>
+                    <FontAwesomeIcon icon={faPen} size='lg' className='pointer deck-option' onClick={(e) => handlePenClick(e)}/>
                 </div>
             }
-            <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={() => setDeleteInfo({show: true, id: courseData.course_id})}/>
+            <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={(e) => handleTrashIconClick(e)}/>
         </div>
     )
 }

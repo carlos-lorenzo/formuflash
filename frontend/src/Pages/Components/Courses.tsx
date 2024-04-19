@@ -17,7 +17,8 @@ interface ICoursesProps {
     getCourses: () => void,
     getCourseDecks: (courseId: number | undefined) => void,
     setActiveCourseId: (courseId: number) => void,
-    setActiveCourseName: React.Dispatch<React.SetStateAction<string>>
+    setActiveCourseName: React.Dispatch<React.SetStateAction<string>>,
+    setShowingCourses: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface IDeleteInfo {
@@ -25,7 +26,7 @@ interface IDeleteInfo {
     id: number | undefined
 }
 
-export default function Courses({ client, courses, activeCourseId, getCourses, getCourseDecks, setActiveCourseId, setActiveCourseName }: ICoursesProps) {
+export default function Courses({ client, courses, activeCourseId, getCourses, getCourseDecks, setActiveCourseId, setActiveCourseName, setShowingCourses }: ICoursesProps) {
 
 
     const [deleteInfo, setDeleteInfo] = React.useState<IDeleteInfo>({show: false, id: undefined});
@@ -93,6 +94,7 @@ export default function Courses({ client, courses, activeCourseId, getCourses, g
                     getCourseDecks={getCourseDecks}
                     setActiveCourseName={setActiveCourseName}
                     setDeleteInfo={setDeleteInfo}
+                    setShowingCourses={setShowingCourses}
                 />
             ))}
             <CreateCourse 
