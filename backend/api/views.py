@@ -40,6 +40,17 @@ class GetCSRFToken(APIView):
 		csrf_token = get_token(request)
 		return JsonResponse({'csrfToken': csrf_token})
 
+class Register(APIView):
+    
+    permission_classes = (permissions.AllowAny,)
+    
+    def post(self, request):
+        serialiser = UserRegisterSerialiser(data=request.data)
+        if serialiser.is_valid():
+            serialiser.save()
+            return Response(serialiser.data, status=status.HTTP_201_CREATED)
+        return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class User(APIView):
 	permission_classes = (permissions.IsAuthenticated,)

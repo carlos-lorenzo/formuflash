@@ -20,6 +20,13 @@ export default function Profile({ client, user, setUser }: IProfileProps) {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    
+    /**
+     * Handles the update of the user profile information.
+     *
+     * @param {React.FormEvent} e - The event triggering the profile update.
+     * @return {void} No return value.
+     */
     function handleProfileUpdate(e: React.FormEvent) {
         e.preventDefault();
 

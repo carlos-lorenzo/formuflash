@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 
 import Header from "./Pages/Components/Header";
 import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 import Home from "./Pages/Home";
 import LandingPage from "./Pages/LandingPage";
 import DeckView from "./Pages/DeckView";
@@ -69,6 +70,7 @@ function App() {
                     }
                 }
             ).then((response) => {
+                
                 setUser({
                     name: response.data.name,
                     email: response.data.email,
@@ -100,6 +102,10 @@ function App() {
                     client={client}
                     setUser={setUser}
                 />} />
+                <Route path="/register" element={
+                <Register 
+                    client={client}
+                />}/>
                 <Route path="/deck-view" element={
                 <DeckView 
                     client={client}

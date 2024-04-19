@@ -9,6 +9,7 @@ urlpatterns = [
     path("get_csrf_token", views.GetCSRFToken.as_view(), name="csrftoken"),
     
     path("login", obtain_auth_token, name="login"),
+    path("register", views.Register.as_view(), name="register"),
     path("get_user", views.User.as_view(), name="user"),
     path("logout", views.Logout.as_view(), name="logout"),
     

@@ -47,7 +47,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 	user_id = models.AutoField(primary_key=True)
 	email = models.EmailField(max_length=50, unique=True)
 	name = models.CharField(max_length=50)
-	surname = models.CharField(max_length=50)
 	is_staff = models.BooleanField(default=False)
 
 	USERNAME_FIELD = 'email'
@@ -58,5 +57,5 @@ class User(AbstractBaseUser, PermissionsMixin):
 	objects = UserManager()
  
 	def __str__(self):
-		return f"{self.name.capitalize()} {self.surname.capitalize()}"
+		return f"{self.email}"
 		

@@ -10,87 +10,39 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 import { toast } from 'react-toastify';
 
-import IUser from '../types/User';
 
 
-interface ILoginProps {
+interface IRegisterProps {
     client: AxiosInstance
-    setUser: React.Dispatch<React.SetStateAction<IUser>>
 }
 
-export default function Login({ client, setUser }: ILoginProps) {
+export default function Register({ client }: IRegisterProps) {
     
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
 
-    function handleErrorMessage(error: any): string {        
-        if (error.response.data.username || error.response.data.password) {
-            return "Fields cannot be empty";
-        }
-
-        if (error.response.data.non_field_errors) {
-            return "Invalid credentials";
-        }
-
-        return "Unexpected error";
-
-    }
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const id = toast.loading("Logging in");
+        const id = toast.loading("Creating account");
 
     
-        client.post('/login', { 
-            username: email, 
+        client.post('/register', { 
+            name: name,
+            email: email, 
             password: password 
         }).then((response) => {
             axios.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
             
 
-            localStorage.setItem('token', response.data.token);
-            
-            client.get('/get_user',
-                {
-                    headers: {
-                        'Authorization': `Token ${localStorage.getItem('token')}`
-                    }
-                })
-            .then((response) => {
-                
-                setUser({
-                    name: response.data.user.name,
-                    email: response.data.user.email,
-                    loggedIn: true
-                });
-
-                toast.update(id, {
-                    render: "Logged in",
-                    type: "success",
-                    isLoading: false,
-                    autoClose: 1500,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-
-                setEmail('');
-                setPassword('');
-                navigate("/home");
-            })
-        }).catch((error) => {
-            console.error(error);
-        
             toast.update(id, {
-                render: handleErrorMessage(error),
-                
-                type: "error",
+                render: "Account created",
+                type: "success",
                 isLoading: false,
                 autoClose: 1500,
                 hideProgressBar: true,
@@ -98,8 +50,30 @@ export default function Login({ client, setUser }: ILoginProps) {
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-            })
-        }) 
+            });
+
+            setEmail('');
+            setPassword('');
+            navigate("/login");
+                
+                
+            }).catch((error) => {
+                console.error(error);
+            
+                toast.update(id, {
+                    render: error.response.data.error,
+                    
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 1500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+            }) 
+        
     }
 
     const togglePasswordVisiblity = () => {
@@ -110,6 +84,10 @@ export default function Login({ client, setUser }: ILoginProps) {
         <div id='login' className='fill place-center'>
             <form onSubmit={handleSubmit} id='login-form'>
                     <div className="login-input border secondary shadow-secondary">
+                        <input id="name" className="input" placeholder="Name" type="text" value={name} onChange={(event) => setName(event.target.value)} />
+                    </div>
+
+                    <div className="login-input border secondary shadow-secondary">
                         <input id="email" className="input" placeholder="Email" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} />
                     </div>
                    
@@ -118,13 +96,11 @@ export default function Login({ client, setUser }: ILoginProps) {
                         <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="password-toggle pointer" onClick={togglePasswordVisiblity} size='xl'/>
                     </div>
                 
-                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Login</b></button>
+                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Register</b></button>
                 <div className='redirect-form'>
-                    <p>Don't have an account?</p><Link to="/register" className='redirect-link'><p><b>Register</b></p></Link>
+                    <p>Already have an account?</p><Link to="/login" className='redirect-link'><p><b>Login</b></p></Link>
                 </div>
-                
             </form>
-           
         </div>
     )
 }
