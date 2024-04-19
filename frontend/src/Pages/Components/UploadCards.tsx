@@ -107,7 +107,7 @@ export default function UploadCards({ client, deckId}: IUploadCardsProps) {
 
     return (
         <div>
-            <FontAwesomeIcon icon={faUpload} onClick={() => setShowUpload(true)} size='2x'/>
+            <FontAwesomeIcon className='pointer grow transition-to-primary' icon={faUpload} onClick={() => setShowUpload(true)} size='lg'/>
             {
                 showUpload ? 
                 <div className='screen-cover'>

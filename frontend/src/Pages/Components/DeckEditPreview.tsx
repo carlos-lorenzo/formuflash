@@ -5,7 +5,8 @@ import { AxiosInstance } from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
-import CardPreview from './CardPreview'
+
+import UploadCards from './UploadCards';
 import CardEditPreview from './CardEditPreview'
 
 import IDeck from '../../types/Deck';
@@ -29,8 +30,10 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
             
             <div className="deck-info">
                 <h3>{activeDeck.name}</h3>
+                <UploadCards client={client} deckId={activeDeck.deck_id}/>
                 <button id="update-card" onClick={handleCardUpdate} className='green shadow-green border'>Save</button>
             </div>
+            
             
             
 

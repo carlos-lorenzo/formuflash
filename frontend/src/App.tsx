@@ -93,7 +93,7 @@ function App() {
             <Routes>
                 <Route path="/" element={
                 <LandingPage 
-                    client={client}
+                    
                 />} />
                 <Route path="/login" element={
                 <Login 

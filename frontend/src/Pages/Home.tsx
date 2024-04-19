@@ -33,8 +33,8 @@ export default function Home({
     client, 
     user,
     activeCourseId,
-    setActiveCourseId,
     activeDeckId,
+    setActiveCourseId,
     setActiveDeckId,
     setDeckAction,
     setShowBack
@@ -59,6 +59,7 @@ export default function Home({
         }
         ).then((response) => {
             setDecks(response.data.decks);
+            
         });
     }
 
@@ -76,13 +77,13 @@ export default function Home({
                 setActiveCourseId(undefined);
                 
             } else {
+                const courseId = response.data.courses[0].course_id;
                 if (activeCourseId === undefined) {
-                    setActiveCourseId(response.data.courses[0].course_id);
-                    
+                    setActiveCourseId(courseId);
                 }
                 
                 setCourses(response.data.courses);
-                getCourseDecks(activeCourseId);
+                getCourseDecks(courseId);
                 setActiveCourseName(response.data.courses[0].name);
             }
 
@@ -106,6 +107,7 @@ export default function Home({
             <Courses
                 client={client}
                 courses={courses}
+                activeCourseId={activeCourseId}
                 getCourses={getCourses}
                 getCourseDecks={getCourseDecks}
                 setActiveCourseId={setActiveCourseId}

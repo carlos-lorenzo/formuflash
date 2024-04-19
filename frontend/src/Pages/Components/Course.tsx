@@ -12,13 +12,14 @@ import ICourse from '../../types/ICourse';
 interface ICourseProps {
     client: AxiosInstance
     courseData: ICourse,
+    activeCourseId: number | undefined,
     setActiveCourseId: (courseId: number) => void,
     getCourseDecks: (courseId: number | undefined) => void,
     setActiveCourseName: React.Dispatch<React.SetStateAction<string>>,
     setDeleteInfo: React.Dispatch<React.SetStateAction<{show: boolean, id: number | undefined}>>
 }
 
-export default function Course({ client, courseData, setActiveCourseId, getCourseDecks, setActiveCourseName, setDeleteInfo }: ICourseProps) {
+export default function Course({ client, courseData, activeCourseId, setActiveCourseId, getCourseDecks, setActiveCourseName, setDeleteInfo }: ICourseProps) {
 
     const [renamingCourse, setRenamingCourse] = useState(false);
     const [newCourseName, setNewCourseName] = useState(courseData.name);
@@ -47,6 +48,12 @@ export default function Course({ client, courseData, setActiveCourseId, getCours
         ).then((response) => {
             setRenamingCourse(false);
             setCourseName(response.data.name);
+            courseData.name = response.data.name;
+            
+            if (activeCourseId === courseData.course_id) {
+                setActiveCourseName(response.data.name);
+            }
+
             toast.update(id, {
                 render: "Course renamed",
                 

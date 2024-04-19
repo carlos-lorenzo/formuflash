@@ -185,3 +185,19 @@ input {
 .shadow-margin {
     margin: 10px;
 }
+
+.grow {
+    transition: all 0.2s ease-in-out;
+}
+
+.grow:hover {
+    transform: scale(1.1);
+}
+
+.transition-to-primary {
+    transition: all 0.2s ease-in-out;
+}
+
+.transition-to-primary:hover {
+    color: var(--primary);
+}

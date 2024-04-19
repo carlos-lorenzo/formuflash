@@ -13,6 +13,7 @@ import ICourse from '../../types/ICourse';
 interface ICoursesProps {
     client: AxiosInstance,
     courses: ICourse[],
+    activeCourseId: number | undefined,
     getCourses: () => void,
     getCourseDecks: (courseId: number | undefined) => void,
     setActiveCourseId: (courseId: number) => void,
@@ -24,7 +25,7 @@ interface IDeleteInfo {
     id: number | undefined
 }
 
-export default function Courses({ client, courses, getCourses, getCourseDecks, setActiveCourseId, setActiveCourseName }: ICoursesProps) {
+export default function Courses({ client, courses, activeCourseId, getCourses, getCourseDecks, setActiveCourseId, setActiveCourseName }: ICoursesProps) {
 
 
     const [deleteInfo, setDeleteInfo] = React.useState<IDeleteInfo>({show: false, id: undefined});
@@ -84,6 +85,7 @@ export default function Courses({ client, courses, getCourses, getCourseDecks, s
             <h3 style={{textAlign: 'left', marginLeft: "1rem"}}>Courses</h3>
             {courses.map((course) => (
                 <Course 
+                    activeCourseId={activeCourseId}
                     key={course.course_id}
                     client={client}
                     courseData={course}

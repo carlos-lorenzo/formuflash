@@ -1,14 +1,6 @@
 import React from 'react'
 
-import { AxiosInstance } from 'axios';
-
-import UploadCards from './Components/UploadCards';
-
-interface ILandingPageProps {
-    client: AxiosInstance
-}
-
-export default function LandingPage({ client }: ILandingPageProps) {
+export default function LandingPage() {
 
    
     return (
@@ -16,9 +8,6 @@ export default function LandingPage({ client }: ILandingPageProps) {
             <h1 style={{textAlign: 'center'}}>
                 Landing Page
             </h1>
-            
-            <UploadCards client={client} deckId={6}/>
-            
         </>
         
 
