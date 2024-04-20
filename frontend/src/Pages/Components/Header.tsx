@@ -39,12 +39,18 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
         setShowBack(false);
     }
 
+    function handleHomeClick() {
+        setShowBack(false);
+        setShowHamburgerMenu(false);
+    }
+
     return (
         <nav id="header">
             {
                 showBack ?
                 <Link to={profileClickLink()} className='pointer' id='back' onClick={handleBack}>
                     <FontAwesomeIcon icon={faArrowLeftLong} size='2x'/>
+                    <h3>Cards</h3>
                 </Link> : null
             }
             
@@ -68,7 +74,7 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
                     <div className="hamburger-options border">
                         {
                             user.loggedIn ?
-                            <Link to={'/home'} className='pointer hamburger-option' onClick={() => setShowHamburgerMenu(!showHamburgerMenu)}>
+                            <Link to={'/home'} className='pointer hamburger-option' onClick={() => handleHomeClick()}>
                                 <FontAwesomeIcon icon={faHouse} size='lg'/>
                                 <p>Cards</p>
                             </Link> : null

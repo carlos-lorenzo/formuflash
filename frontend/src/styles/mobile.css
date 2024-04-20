@@ -65,5 +65,56 @@
     .create-prompt {
         width: 70vw;
     }
+
+    #deck-edit {
+        display: grid;
+        grid-template-rows: 1fr 15fr;
+        grid-template-columns: 1fr;
+        place-items: center;
+        height: 85dvh;
+        row-gap: 0rem;
+
+    }
+    #edit-select {
+        grid-area: 1 / 1 / 2 / 2;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10rem;
+        
+    }
+
+    .deck-preview {
+        margin-right: 2rem;
+    }
+
+    .deck-info-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    #card-creation {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 3rem;
+        height: 190dvh;
+        overflow: scroll;
+        place-items: center;
+        margin-right: 20px;
+    }
+
+    #create-card-form {
+        margin-top: 1rem;
+        width: 90vw;
+    }
+
+    #formatted-output {
+        width: 90vw;
+    }
 }
 

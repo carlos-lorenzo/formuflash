@@ -27,7 +27,8 @@
 .card-input {
     height: 100%;
     max-height: 43dvh;
-    overflow: scroll;
+    
+    overflow: hidden;
 }
 
 .formatted {
@@ -75,6 +76,9 @@
 .card-input-textarea {
     width: 99%;
     height: 85%;
+    overflow: scroll;
+    resize: none;
+
 }
 
 
@@ -84,6 +88,7 @@
     gap: 1rem;
     overflow-y: auto;
     margin-bottom: 1rem;
+    
 }
 
 .card-preview:last-child {
@@ -332,6 +337,14 @@
     width: 90%;
     margin-top: 1rem;
     justify-content: space-between;
+}
+
+.deck-info-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
 }
 
 .current-name,

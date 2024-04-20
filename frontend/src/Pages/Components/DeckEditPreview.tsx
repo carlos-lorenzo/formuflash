@@ -18,10 +18,11 @@ interface IDeckPreviewProps {
     getDeck: (newCardId?: number) => void,
     setActiveCardId: React.Dispatch<React.SetStateAction<number>>
     handleCardUpdate: () => void,
-    handleCardCreation: () => void
+    handleCardCreation: () => void,
+    setEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function DeckEditPreview({ client, activeDeck, getDeck, setActiveCardId, handleCardUpdate, handleCardCreation }: IDeckPreviewProps) {
+export default function DeckEditPreview({ client, activeDeck, getDeck, setActiveCardId, handleCardUpdate, handleCardCreation, setEditing }: IDeckPreviewProps) {
     
     
 
@@ -30,8 +31,11 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
             
             <div className="deck-info">
                 <h3>{activeDeck.name}</h3>
-                <UploadCards client={client} deckId={activeDeck.deck_id}/>
-                <button id="update-card" onClick={handleCardUpdate} className='green shadow-green border'>Save</button>
+                <div className="deck-info-actions">
+                    <UploadCards client={client} deckId={activeDeck.deck_id} getDeck={getDeck}/>
+                    <button id="update-card" onClick={handleCardUpdate} className='green shadow-green border'>Save</button>
+                </div>
+                
             </div>
             
             
@@ -41,7 +45,7 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
                 const i = parseInt(key)
 
                 return (
-                    <CardEditPreview key={i} client={client} getDeck={getDeck} card={card} setActiveCardId={setActiveCardId}/>
+                    <CardEditPreview key={i} client={client} getDeck={getDeck} card={card} setActiveCardId={setActiveCardId} setEditing={setEditing}/>
                 )
             })}
             

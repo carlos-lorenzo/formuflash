@@ -16,10 +16,11 @@ interface ICardEditPreviewProps {
     client: AxiosInstance,
     getDeck: (newCardId?: number) => void,
     card: ICard,
-    setActiveCardId: React.Dispatch<React.SetStateAction<number>>
+    setActiveCardId: React.Dispatch<React.SetStateAction<number>>,
+    setEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function CardEditPreview({ client, getDeck, card, setActiveCardId }: ICardEditPreviewProps) {
+export default function CardEditPreview({ client, getDeck, card, setActiveCardId, setEditing }: ICardEditPreviewProps) {
 
 
     function handleErrorResponse(error: any): string {
@@ -77,9 +78,14 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
             });
         })
     }
+
+    function handleCardClick() {
+        setActiveCardId(card.card_id);
+        setEditing(true);
+    }
     
     return (
-        <div className='border secondary shadow-secondary card-edit-preview place-center pointer' onClick={() => setActiveCardId(card.card_id)}>
+        <div className='border secondary shadow-secondary card-edit-preview place-center pointer' onClick={() => handleCardClick()}>
             <p><MarkdownLatex content={card.question ? card.question : 'New Card'}/></p>
             <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={handleCardDeletion}/>
         </div>

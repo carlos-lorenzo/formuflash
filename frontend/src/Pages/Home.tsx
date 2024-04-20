@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { AxiosInstance } from 'axios';
 
-import { useMediaQuery } from 'react-responsive';
 import MediaQuery from 'react-responsive';
 
 import Courses from './Components/Courses';

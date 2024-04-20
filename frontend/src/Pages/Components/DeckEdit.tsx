@@ -2,12 +2,14 @@ import React, {useState, useEffect} from 'react';
 
 import { AxiosInstance } from 'axios';
 
-import DeckEditPreview from './DeckEditPreview';
-import CreateCard from './CreateCard';
+import MediaQuery from 'react-responsive';
 
 import { toast } from 'react-toastify';
 
-import ICard from '../../types/Card';
+
+import DeckEditPreview from './DeckEditPreview';
+import CreateCard from './CreateCard';
+
 import IDeck from '../../types/Deck';
 
 
@@ -24,7 +26,7 @@ interface IDeckEdit {
 export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardId, setActiveCardId, getDeck }: IDeckEdit) {
 
     
-    
+    const [editing, setEditing] = useState(false);
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
 
@@ -108,28 +110,65 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
     }, [activeCardId])
 
     return (
-        <div id='deck-edit' onKeyDown={handleShortcuts} tabIndex={0}>
-            <div className="whitespace"></div>
-            <DeckEditPreview 
-                client={client} 
-                activeDeck={activeDeck} 
-                getDeck={getDeck}
-                setActiveCardId={setActiveCardId}
-                handleCardUpdate={handleCardUpdate}
-                handleCardCreation={handleCardCreation}
-            />
+        <>
+            <MediaQuery query='(min-width: 1281px)'>
+                <div id='deck-edit' onKeyDown={handleShortcuts} tabIndex={0}>
+                    <div className="whitespace"></div>
+                    <DeckEditPreview 
+                        client={client} 
+                        activeDeck={activeDeck} 
+                        getDeck={getDeck}
+                        setActiveCardId={setActiveCardId}
+                        handleCardUpdate={handleCardUpdate}
+                        handleCardCreation={handleCardCreation}
+                        setEditing={setEditing}
+                    />
 
-            <CreateCard 
-                client={client}
-                question={question}
-                answer={answer}
-                setQuestion={setQuestion} 
-                setAnswer={setAnswer}
-                activeCardId={activeCardId}
-                activeDeckId={activeDeckId}
-                getDeck={getDeck}
-            />
-        
-        </div>
+                    <CreateCard 
+                        client={client}
+                        question={question}
+                        answer={answer}
+                        setQuestion={setQuestion} 
+                        setAnswer={setAnswer}
+                        activeCardId={activeCardId}
+                        activeDeckId={activeDeckId}
+                        getDeck={getDeck}
+                    />
+                </div>
+            </MediaQuery>
+            <MediaQuery query='(max-width: 1280px)'>
+                <div id='deck-edit' onKeyDown={handleShortcuts} tabIndex={0}>
+                    <div id="edit-select">
+                        <h3 className='pointer' onClick={() => setEditing(false)} style={{color: editing ? 'var(--text)' : 'var(--primary)'}}>Deck</h3>
+                        <h3 className='pointer' onClick={() => setEditing(true)} style={{color: editing ? 'var(--primary)' : 'var(--text)'}}>Edit</h3>
+                    </div>
+                    <div className='whitespace'></div>
+                    {
+                        editing ? 
+                        <CreateCard 
+                            client={client}
+                            question={question}
+                            answer={answer}
+                            setQuestion={setQuestion} 
+                            setAnswer={setAnswer}
+                            activeCardId={activeCardId}
+                            activeDeckId={activeDeckId}
+                            getDeck={getDeck}
+                        /> : 
+                        <DeckEditPreview 
+                            client={client} 
+                            activeDeck={activeDeck} 
+                            getDeck={getDeck}
+                            setActiveCardId={setActiveCardId}
+                            handleCardUpdate={handleCardUpdate}
+                            handleCardCreation={handleCardCreation}
+                            setEditing={setEditing}
+                        />
+                    }
+                    
+                    </div>
+            </MediaQuery>
+        </>
+       
     )
 }

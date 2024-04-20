@@ -9,10 +9,11 @@ import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface IUploadCardsProps {
     client: AxiosInstance,
-    deckId: number
+    deckId: number,
+    getDeck: () => void
 }
 
-export default function UploadCards({ client, deckId}: IUploadCardsProps) {
+export default function UploadCards({ client, deckId, getDeck}: IUploadCardsProps) {
 
     const [file, setFile] = React.useState<File | null>(null);
     const [showUpload, setShowUpload] = React.useState<boolean>(false);
@@ -28,8 +29,6 @@ export default function UploadCards({ client, deckId}: IUploadCardsProps) {
             return;
         }
         setFile(file);
-
-        handleFileUpload()
     }
 
     function handleFileDrag(e: React.DragEvent<HTMLDivElement>) {
@@ -43,11 +42,11 @@ export default function UploadCards({ client, deckId}: IUploadCardsProps) {
 
         setFile(file);
 
-        handleFileUpload();
+        
     }
 
-    function handleFileUpload() {
-
+    function handleFileUpload(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
         const id = toast.loading("Uploading file");
         
         if (!file) {
@@ -90,6 +89,8 @@ export default function UploadCards({ client, deckId}: IUploadCardsProps) {
                 draggable: true,
                 progress: undefined,
             });
+            getDeck();
+            setShowUpload(false);
         }).catch((error) => {
             toast.update(id, {
                 render: error.response.data.error,
@@ -107,7 +108,7 @@ export default function UploadCards({ client, deckId}: IUploadCardsProps) {
 
     return (
         <div>
-            <FontAwesomeIcon className='pointer grow transition-to-primary' icon={faUpload} onClick={() => setShowUpload(true)} size='lg'/>
+            <FontAwesomeIcon className='pointer grow transition-to-primary' icon={faUpload} onClick={() => setShowUpload(true)} size='xl'/>
             {
                 showUpload ? 
                 <div className='screen-cover'>
@@ -115,9 +116,10 @@ export default function UploadCards({ client, deckId}: IUploadCardsProps) {
                          onDragOver={(e) => e.preventDefault()}
                          onDrop={(e) => handleFileDrag(e)}>
                         <FontAwesomeIcon icon={faXmark} className='pointer delete-card' onClick={() => setShowUpload(false)} size='xl'/>
-                        <form id='upload-form'>
+                        <form id='upload-form' onSubmit={(e) => handleFileUpload(e)}>
                             <label htmlFor="file">Upload</label>
                             <input onChange={(e) => handleFileSubmit(e)} id="file" className="file-input" type="file" accept=".csv"/>
+                            <button type='submit'>Upload</button>
                         </form>
                     </div>
                 </div> :

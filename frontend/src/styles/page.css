@@ -119,6 +119,11 @@
 #back {
     position: absolute;
     left: 5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
 }
 
 #profile-page {
