@@ -127,6 +127,7 @@
 
 
 .card-preview {
+    position: relative;
     display: grid;
     background-color: var(--secondary);
     grid-template-columns: 1fr 1fr;

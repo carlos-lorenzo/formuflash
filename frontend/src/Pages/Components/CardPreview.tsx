@@ -9,6 +9,31 @@ interface ICardPreviewProps {
 }
 
 export default function CardPreview({ card }: ICardPreviewProps) {
+    
+    enum Confidences {
+        NONE = 0,
+        LOW = 1,
+        MEDIUM = 2,
+        HIGH = 3
+    }
+
+    function getConfidenceClassName(confidence?: number): string {
+        if (confidence === undefined) {
+            return "none";
+        }
+
+        switch (confidence) {
+            case Confidences.LOW:
+                return "accent";
+            case Confidences.MEDIUM:
+                return "primary";
+            case Confidences.HIGH:
+                return "green";
+            default:
+                return "none";
+        }
+    }
+
     return (
 
         <div className='card-preview border secondary shadow-secondary'>
@@ -23,6 +48,7 @@ export default function CardPreview({ card }: ICardPreviewProps) {
                 <MarkdownLatex content={card.answer} />
 
             </div>
+            <div id="confidence-marker" className={`shadow-${getConfidenceClassName(card?.confidence)} border ${getConfidenceClassName(card?.confidence)}`}></div>
             
 
 

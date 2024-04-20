@@ -114,7 +114,7 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
 
     function handleShortcuts(event: any) {
         event.preventDefault();
-        if (event.key === "s") {
+        if (event.key === " ") {
             handleSwap();
         } else if(event.key === "1") {
             handleConfidenceUpdate(Confidences.LOW);
