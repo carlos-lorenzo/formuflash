@@ -109,6 +109,14 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
         setAnswer(activeDeck.cards[activeCardId].answer);
     }, [activeCardId])
 
+    function handleDeckSwitch() {
+        if (!editing) {
+            return;
+        }
+        setEditing(!editing);
+        handleCardUpdate();
+    }
+
     return (
         <>
             <MediaQuery query='(min-width: 1281px)'>
@@ -139,10 +147,10 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
             <MediaQuery query='(max-width: 1280px)'>
                 <div id='deck-edit' onKeyDown={handleShortcuts} tabIndex={0}>
                     <div id="edit-select">
-                        <h3 className='pointer' onClick={() => setEditing(false)} style={{color: editing ? 'var(--text)' : 'var(--primary)'}}>Deck</h3>
+                        <h3 className='pointer' onClick={() => handleDeckSwitch()} style={{color: editing ? 'var(--text)' : 'var(--primary)'}}>Deck</h3>
                         <h3 className='pointer' onClick={() => setEditing(true)} style={{color: editing ? 'var(--primary)' : 'var(--text)'}}>Edit</h3>
                     </div>
-                    <div className='whitespace'></div>
+                    
                     {
                         editing ? 
                         <CreateCard 

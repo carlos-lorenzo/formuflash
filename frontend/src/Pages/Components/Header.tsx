@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AxiosInstance } from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faArrowLeftLong, faArrowRightToBracket, faHouse } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faArrowLeftLong, faArrowRightToBracket, faHouse, faF } from '@fortawesome/free-solid-svg-icons';
 
 import Logout from './Logout';
 
@@ -54,10 +54,7 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
                 </Link> : null
             }
             
-            
-            <Link to={"/"} className='pointer' id='page-logo'>
-                <h1>Free Flash</h1>
-            </Link>
+            <div className="whitespace"></div>
 
             <div className="hamburger-menu">
 
@@ -72,6 +69,12 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
                 {
                     showHamburgerMenu ? 
                     <div className="hamburger-options border">
+                        
+                        <Link to={'/'} className='pointer hamburger-option' onClick={() => setShowHamburgerMenu(!showHamburgerMenu)}>
+                            <FontAwesomeIcon icon={faF} size='lg'/>
+                            <p>FreeFlash</p>
+                        </Link> 
+
                         {
                             user.loggedIn ?
                             <Link to={'/home'} className='pointer hamburger-option' onClick={() => handleHomeClick()}>

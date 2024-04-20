@@ -170,8 +170,8 @@
     
     position: absolute;
     margin: 2%;
-    top: 0;
-    right: 0;
+    top: 1rem;
+    right: 1rem;
     height: 35px;
     width: 35px;
     border-radius: 100%;
@@ -232,6 +232,14 @@
 
 .study-option {
     width: 15vw;
+}
+
+.side-preview {
+    overflow: scroll;
+}
+
+#study-content.text {
+    padding-top: 20px;
 }
 
 .create {

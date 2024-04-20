@@ -116,7 +116,6 @@ input {
 }
 
 .text {
-    padding-top: 20px;
     padding-left: 20px;
 }
 
@@ -166,9 +165,15 @@ input {
     box-shadow: 0px 1px 10px 0px var(--green);
 }
 
+.primary-text {
+    color: var(--primary);
+}
+
 .primary {
     background-color: var(--primary);
 }
+
+
 
 .shadow-primary {
     box-shadow: 0px 1px 10px 0px var(--primary);

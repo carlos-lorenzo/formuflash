@@ -41,15 +41,15 @@ class GetCSRFToken(APIView):
 		return JsonResponse({'csrfToken': csrf_token})
 
 class Register(APIView):
-    
-    permission_classes = (permissions.AllowAny,)
-    
-    def post(self, request):
-        serialiser = UserRegisterSerialiser(data=request.data)
-        if serialiser.is_valid():
-            serialiser.save()
-            return Response(serialiser.data, status=status.HTTP_201_CREATED)
-        return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
+	
+	permission_classes = (permissions.AllowAny,)
+	
+	def post(self, request):
+		serialiser = UserRegisterSerialiser(data=request.data)
+		if serialiser.is_valid():
+			serialiser.save()
+			return Response(serialiser.data, status=status.HTTP_201_CREATED)
+		return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class User(APIView):
@@ -325,28 +325,39 @@ class ImportCardsFromCsv(APIView):
 		if not deck.owner == user:
 			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
+		try:
+			df = pd.read_csv(file)
+			df.rename(columns={column: column.lower() for column in df.columns}, inplace=True)
+   
+			#If columns are missing return error
+			if 'question' not in df.columns or 'answer' not in df.columns:
+				return Response({"error": "Missing columns"}, status=status.HTTP_400_BAD_REQUEST)
+			
+			
+			if len(df) == 0:
+				return Response({"error": "No data in file"}, status=status.HTTP_400_BAD_REQUEST)
+
+			if len(df) >= 1000:
+				return Response({"error": "File too large"}, status=status.HTTP_400_BAD_REQUEST)
+
 		
-		df = pd.read_csv(file)
+			objs = [
+				FlashCard(deck=deck, question=row['question'], answer=row['answer'], owner=user)
+				for index, row in df.iterrows()
+			]
+			created = FlashCard.objects.bulk_create(objs, batch_size=1000)
+			
+			# Save changes after creation
+			FlashCard.objects.bulk_update(created, ["question", "answer", "deck"], batch_size=1000)
 
-		if len(df) == 0:
-			return Response({"error": "No data in file"}, status=status.HTTP_400_BAD_REQUEST)
-
-		if len(df) >= 1000:
-			return Response({"error": "File too large"}, status=status.HTTP_400_BAD_REQUEST)
+			deck.number_of_cards += len(created)
+			deck.save()
   
-		objs = [
-			FlashCard(deck=deck, question=row['question'], answer=row['answer'], owner=user)
-			for index, row in df.iterrows()
-		]
-		created = FlashCard.objects.bulk_create(objs, batch_size=1000)
-		
-  		# Save changes after creation
-		FlashCard.objects.bulk_update(created, ["question", "answer", "deck"], batch_size=1000)
+			return Response({"message": "Cards imported"}, status=status.HTTP_200_OK)
 
-		deck.number_of_cards += len(created)
-		deck.save()
-  
-		return Response({"message": "Cards imported"}, status=status.HTTP_200_OK)
+		except Exception as e:
+			
+			return Response({"error": "Something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
 
 class DeckToCsv(APIView):
 	def get(self, request):

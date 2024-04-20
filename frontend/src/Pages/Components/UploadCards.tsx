@@ -29,27 +29,14 @@ export default function UploadCards({ client, deckId, getDeck}: IUploadCardsProp
             return;
         }
         setFile(file);
+
+        handleFileUpload(file);
     }
 
-    function handleFileDrag(e: React.DragEvent<HTMLDivElement>) {
-        console.log(e);
-        const file = e.dataTransfer.files[0];
-
-        if(file.size > 100000) {
-            alert("File too big");
-            return;
-        }
-
-        setFile(file);
-
-        
-    }
-
-    function handleFileUpload(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
+    function handleFileUpload(fileToUpload: File | null = file) {
         const id = toast.loading("Uploading file");
         
-        if (!file) {
+        if (!fileToUpload) {
             toast.update(id, {
                 render: "No file selected",
                 type: "error",
@@ -66,7 +53,7 @@ export default function UploadCards({ client, deckId, getDeck}: IUploadCardsProp
         }
 
         const formData = new FormData();
-        formData.append('file', file as Blob);
+        formData.append('file', fileToUpload as Blob);
         formData.append('deck_id', deckId.toString());
 
         client.put(
@@ -91,7 +78,9 @@ export default function UploadCards({ client, deckId, getDeck}: IUploadCardsProp
             });
             getDeck();
             setShowUpload(false);
+
         }).catch((error) => {
+            
             toast.update(id, {
                 render: error.response.data.error,
                 type: "error",
@@ -106,21 +95,26 @@ export default function UploadCards({ client, deckId, getDeck}: IUploadCardsProp
         })
     }
 
+    function handleClosePrompt() {
+        setFile(null);
+        setShowUpload(false);
+    }
+
     return (
         <div>
             <FontAwesomeIcon className='pointer grow transition-to-primary' icon={faUpload} onClick={() => setShowUpload(true)} size='xl'/>
             {
                 showUpload ? 
                 <div className='screen-cover'>
-                    <div id='upload-popup' className="upload-prompt secondary shadow-accent border place-center"
-                         onDragOver={(e) => e.preventDefault()}
-                         onDrop={(e) => handleFileDrag(e)}>
-                        <FontAwesomeIcon icon={faXmark} className='pointer delete-card' onClick={() => setShowUpload(false)} size='xl'/>
-                        <form id='upload-form' onSubmit={(e) => handleFileUpload(e)}>
-                            <label htmlFor="file">Upload</label>
-                            <input onChange={(e) => handleFileSubmit(e)} id="file" className="file-input" type="file" accept=".csv"/>
-                            <button type='submit'>Upload</button>
-                        </form>
+                    <div id='upload-popup' className="upload-prompt secondary shadow-accent border place-center">
+                        <FontAwesomeIcon icon={faXmark} className='pointer delete-card' onClick={() => handleClosePrompt()} size='xl'/>
+
+                        <label className='file-lable pointer' htmlFor='file'>
+                            <p>Select <b>.csv</b> file to upload</p>
+                            <p><em>column format: question,answer</em></p>
+                            <p><b>{file?.name}</b></p>
+                        </label>
+                        <input onChange={(e) => handleFileSubmit(e)} id="file" className="file-input" type="file" accept=".csv"/>
                     </div>
                 </div> :
                 null

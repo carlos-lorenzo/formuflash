@@ -32,7 +32,9 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
     }
 
 
-    function handleCardDeletion() {
+    function handleCardDeletion(e: React.MouseEvent<SVGElement, MouseEvent>) {
+
+        e.stopPropagation();
 
         const id = toast.loading("Deleting card...");
 
@@ -87,7 +89,7 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
     return (
         <div className='border secondary shadow-secondary card-edit-preview place-center pointer' onClick={() => handleCardClick()}>
             <p><MarkdownLatex content={card.question ? card.question : 'New Card'}/></p>
-            <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={handleCardDeletion}/>
+            <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={(e) => handleCardDeletion(e)}/>
         </div>
     )
 }
