@@ -143,5 +143,49 @@
         width: 70vw;
     }
 
+    #hero-content {
+        font-size: large;
+    }
+    
+    #features {
+        margin-bottom: 10dvh;
+    }
+
+    .feature {
+        background-color: var(--background-900);
+        height: 20dvh;
+        width: 80vw;
+    
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px; /* Adjust padding as needed */
+        
+        position: relative; /* For absolute positioning within the container */
+        margin-bottom: 10dvh;
+    }
+
+    
+    .text-container {
+        display: grid;
+        text-align: center;
+        place-items: center;
+        width: 90%;
+    }
+
+
+    .info-image {
+        display: none;
+        
+    }
+
+    #feature-2 .info-image {
+        bottom: -40%;
+        left: 0px;
+    }
+
+    #feature-2 .text-container {
+        padding-left: 0;
+    }
 }
 

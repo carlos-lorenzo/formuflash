@@ -9,7 +9,7 @@
 #card-creation {
     display: grid;
     grid-template-columns: 1fr 1fr 0rem;
-    gap: 3rem;
+    gap: 2rem;
 }
 
 #create-card-form {
@@ -102,7 +102,7 @@
 
 .card-edit-preview {
     position: relative;
-    width: 100%;
+    width: 97%;
     place-self: center;
     height: 20dvh ;
     min-height: 20dvh;

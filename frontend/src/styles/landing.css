@@ -1,0 +1,172 @@
+:root {
+    --text-50: #ecedf9;
+    --text-100: #d9daf2;
+    --text-200: #b3b5e6;
+    --text-300: #8c90d9;
+    --text-400: #666bcc;
+    --text-500: #4046bf;
+    --text-600: #333899;
+    --text-700: #262a73;
+    --text-800: #191c4d;
+    --text-900: #0d0e26;
+    --text-950: #060713;
+
+    --background-50: #f0f0f5;
+    --background-100: #e1e1ea;
+    --background-200: #c2c2d6;
+    --background-300: #a4a4c1;
+    --background-400: #8686ac;
+    --background-500: #676798;
+    --background-600: #535379;
+    --background-700: #3e3e5b;
+    --background-800: #29293d;
+    --background-900: #15151e;
+    --background-950: #0a0a0f;
+
+    --primary-50: #ececf9;
+    --primary-100: #d9daf2;
+    --primary-200: #b3b4e6;
+    --primary-300: #8c8fd9;
+    --primary-400: #6669cc;
+    --primary-500: #4044bf;
+    --primary-600: #333699;
+    --primary-700: #262973;
+    --primary-800: #191b4d;
+    --primary-900: #0d0e26;
+    --primary-950: #060713;
+
+    --secondary-50: #f0f1f5;
+    --secondary-100: #e1e2ea;
+    --secondary-200: #c3c6d5;
+    --secondary-300: #a5a9c0;
+    --secondary-400: #878cab;
+    --secondary-500: #696f96;
+    --secondary-600: #545978;
+    --secondary-700: #3f435a;
+    --secondary-800: #2a2d3c;
+    --secondary-900: #15161e;
+    --secondary-950: #0a0b0f;
+
+    --accent-50: #f9eced;
+    --accent-100: #f2d9db;
+    --accent-200: #e6b3b7;
+    --accent-300: #d98c93;
+    --accent-400: #cc666e;
+    --accent-500: #bf404a;
+    --accent-600: #99333b;
+    --accent-700: #73262d;
+    --accent-800: #4d191e;
+    --accent-900: #260d0f;
+    --accent-950: #130607;
+}
+
+#landing {
+    display: grid;
+    place-items: center;
+    width: 100vw;
+    height: fit-content;
+}
+
+#hero {
+    /*background-image: url('https://i.imgur.com/nhX3VEW.jpeg');*/
+    background-size: cover;
+    
+    height: 100dvh;
+    width: 100vw;
+    padding:0;
+    margin:0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#hero-content {
+    text-align: left;
+    font-size: x-large;
+    margin-left: 5vw;
+    width: 70vw;
+}
+
+#cta {
+    font-size: 18px;
+    padding: 10px 20px;
+}
+
+#hero-content h1 {
+    margin-bottom: 0rem !important;
+}
+  
+#hero-content h3 {
+    margin-bottom: 2rem;
+}
+
+
+#description {
+
+    background-color: var(--background-100);
+    color: var(--background);
+    height: 80dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15dvh;
+}
+
+#features {
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+    margin-bottom: 20dvh;
+}
+
+
+.feature {
+    background-color: var(--background-900);
+    height: 30vh;
+    width: 80vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px; /* Adjust padding as needed */
+    
+    position: relative; /* For absolute positioning within the container */
+    margin-bottom: 150px;
+}
+
+
+.text-container {
+    display: grid;
+    text-align: center;
+    place-items: center;
+    width: calc(100% - 30vw - 100px); /* Adjust width to occupy the left half minus padding */
+}
+
+
+.info-image {
+    height: calc(30vh + 100px); /* Increase height to overflow container by 20px on each side */
+    width: auto; /* Allow width to adjust based on height */
+    object-fit: cover; /* Maintain aspect ratio */
+    position: absolute;
+    right: -20px; /* Adjust the negative value to control the overflow */
+    border-radius: 10px; /* Optional: add border-radius */
+}
+
+
+#feature-2 .info-image {
+    left: -20px;
+}
+
+#feature-2 .text-container {
+    padding-left: calc(30vh + 100px);
+}
+
+#footer {
+    height: 10dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}

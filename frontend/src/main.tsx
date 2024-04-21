@@ -8,6 +8,7 @@ import "./styles/style.css";
 import "./styles/cards.css";
 import "./styles/page.css";
 import "./styles/hamburger.css";
+import "./styles/landing.css";
 
 import "./styles/mobile.css";
 
