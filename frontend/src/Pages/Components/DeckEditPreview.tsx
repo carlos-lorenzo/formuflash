@@ -3,14 +3,15 @@ import React from 'react'
 import { AxiosInstance } from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faArrowRotateLeft, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 
+import { toast } from 'react-toastify';
 
 import UploadCards from './UploadCards';
 import CardEditPreview from './CardEditPreview'
 
 import IDeck from '../../types/Deck';
-import ICard from '../../types/Card';
+
 
 interface IDeckPreviewProps {
     client: AxiosInstance,
@@ -24,7 +25,47 @@ interface IDeckPreviewProps {
 
 export default function DeckEditPreview({ client, activeDeck, getDeck, setActiveCardId, handleCardUpdate, handleCardCreation, setEditing }: IDeckPreviewProps) {
     
-    
+    function resetConfidences() {
+
+        const id = toast.loading("Resetting confidences");
+
+        client.post("/reset_confidences",
+        {
+            deck_id: activeDeck.deck_id
+        },
+        {
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            }
+        }).then((response) => {
+            getDeck();
+
+            toast.update(id, {
+                render: response.data.message,
+                type: "success",
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+
+        }).catch((error) => {
+            toast.update(id, {
+                render: error.response.data.error,
+                type: "error",
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }) 
+    }
 
     return (
         <div className='fill place-center deck-preview'>
@@ -32,8 +73,9 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
             <div className="deck-info">
                 <h3>{activeDeck.name}</h3>
                 <div className="deck-info-actions">
+                    <FontAwesomeIcon icon={faArrowRotateLeft} size='xl' onClick={resetConfidences} className='pointer grow transition-to-primary'/>
                     <UploadCards client={client} deckId={activeDeck.deck_id} getDeck={getDeck}/>
-                    <button id="update-card" onClick={handleCardUpdate} className='green shadow-green border'>Save</button>
+                    <FontAwesomeIcon icon={faFloppyDisk} size='xl' onClick={handleCardUpdate} className='pointer grow transition-to-primary'/>
                 </div>
                 
             </div>

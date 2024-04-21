@@ -475,6 +475,8 @@ class GetCard(APIView):
 		
 		cards = FlashCard.objects.filter(deck=deck_id)
 		
+		
+  
 		# if last_card_id is set, remove it from possible cards to be selected
 		if deck.last_seen_card_id and len(cards) > 1:
 			cards = cards.exclude(card_id=deck.last_seen_card_id)
@@ -482,8 +484,10 @@ class GetCard(APIView):
 		# calculate weights for each card
 		weights = []
 		for card in cards.iterator():
-			weights.append(card.confidence)
+			weights.append(4 - card.confidence)
 		
+		print(weights)
+  
 		# select a card with weighted probability
 		total_weight = sum(weights)
 		r = random.uniform(0, total_weight)
@@ -503,6 +507,32 @@ class GetCard(APIView):
 		return Response({"card": serializer.data}, status=status.HTTP_200_OK)
 
 	
+
+class ResetDeckConfidence(APIView):
+	permission_classes = (permissions.IsAuthenticated,)
+	
+	def post(self, request):
+		deck_id: int = request.data.get('deck_id', None)
+		user = request.user
+		
+		if not deck_id:
+			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		deck = Deck.objects.get(deck_id=deck_id)
+		
+		if not deck:
+			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+		
+		if deck.owner != user:
+			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+		
+		FlashCard.objects.filter(deck=deck_id).update(confidence=FlashCard.Confidence.NONE)
+
+		deck.last_seen_card_id = None
+		
+		deck.save()
+		
+		return Response({"message": "Deck confidence reset"}, status=status.HTTP_200_OK)
 
 
 class UpdateCardConfidence(APIView):
