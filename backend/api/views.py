@@ -1,6 +1,7 @@
 import random
+import io
 
-from django.http import HttpRequest
+from django.http import HttpRequest, FileResponse
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 
@@ -379,11 +380,14 @@ class DeckToCsv(APIView):
 				cards.values("question", "answer")
 			)
 		)
-  
-		# Write the dataframe to a CSV file
-		df.to_csv("cards.csv", index=False)
 
-		return Response({"message": "Cards exported"}, status=status.HTTP_200_OK)
+		buffer = io.BytesIO()
+		# Write the dataframe to a CSV file
+		df.to_csv(buffer, index=False)
+		buffer.seek(0) # Rewind the buffer to the beginning of the file
+
+		return FileResponse(buffer, as_attachment=True, filename=f'{deck.name}.csv', content_type='text/csv')
+  
 # Card views
 class UpdateCard(APIView):
 	permission_classes = (permissions.IsAuthenticated,)

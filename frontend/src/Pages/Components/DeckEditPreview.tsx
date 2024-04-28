@@ -3,7 +3,7 @@ import React from 'react'
 import { AxiosInstance } from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faArrowRotateLeft, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faArrowRotateLeft, faFloppyDisk, faFileExport } from '@fortawesome/free-solid-svg-icons';
 
 import { toast } from 'react-toastify';
 
@@ -67,14 +67,64 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
         }) 
     }
 
+    function exportDeckAsCsv() {
+
+        const id = toast.loading("Exporting deck");
+
+        client.get(`/export_deck?deck_id=${activeDeck.deck_id}`,
+            {
+                responseType: 'blob',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            }
+
+        ).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${activeDeck.name}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            // Delete the temporary URL
+            window.URL.revokeObjectURL(url);
+
+
+            toast.update(id, {
+                render: response.data.message,
+                type: "success",
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }).catch((error) => {
+            toast.update(id, {
+                render: error.response.data.error,
+                type: "error",
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        })
+    }
+
     return (
         <div className='fill place-center deck-preview'>
             
             <div className="deck-info">
                 <h3>{activeDeck.name}</h3>
                 <div className="deck-info-actions">
-                    <FontAwesomeIcon icon={faArrowRotateLeft} size='xl' onClick={resetConfidences} className='pointer grow transition-to-primary'/>
                     <UploadCards client={client} deckId={activeDeck.deck_id} getDeck={getDeck}/>
+                    <FontAwesomeIcon icon={faFileExport} size='xl' onClick={exportDeckAsCsv} className='pointer grow transition-to-primary'/>
+                    <FontAwesomeIcon icon={faArrowRotateLeft} size='xl' onClick={resetConfidences} className='pointer grow transition-to-primary'/>
                     <FontAwesomeIcon icon={faFloppyDisk} size='xl' onClick={handleCardUpdate} className='pointer grow transition-to-primary'/>
                 </div>
                 

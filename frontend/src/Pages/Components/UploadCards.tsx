@@ -5,7 +5,7 @@ import { AxiosInstance } from 'axios';
 import { toast } from 'react-toastify';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faFileImport, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface IUploadCardsProps {
     client: AxiosInstance,
@@ -102,7 +102,7 @@ export default function UploadCards({ client, deckId, getDeck}: IUploadCardsProp
 
     return (
         <div>
-            <FontAwesomeIcon className='pointer grow transition-to-primary' icon={faUpload} onClick={() => setShowUpload(true)} size='xl'/>
+            <FontAwesomeIcon className='pointer grow transition-to-primary' icon={faFileImport} onClick={() => setShowUpload(true)} size='xl'/>
             {
                 showUpload ? 
                 <div className='screen-cover'>

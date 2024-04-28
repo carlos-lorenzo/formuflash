@@ -27,7 +27,7 @@ urlpatterns = [
     path("fetch_deck", views.GetDeck.as_view(), name="fetch_deck"),
     path("delete_deck", views.DeleteDeck.as_view(), name="delete_deck"),
     path("rename_deck", views.RenameDeck.as_view(), name="rename_deck"),
-    path("save_deck", views.DeckToCsv.as_view(), name="save_deck"),
+    path("export_deck", views.DeckToCsv.as_view(), name="export_deck"),
     path("reset_confidences", views.ResetDeckConfidence.as_view(), name="reset_deck_confidence"),
     
     path("create_card", views.CreateCard.as_view(), name="create_card"),
