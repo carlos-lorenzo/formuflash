@@ -9,11 +9,16 @@ interface IMarkdownLatexProps {
   content: string;
 }
 
+// Define a type for the 'node' parameter
+type MarkdownNode = {
+    value: string;
+};
+
 const MarkdownLatex: React.FC<IMarkdownLatexProps> = ({ content }) => {
   const components = {
     // Map LaTeX and inline math to their respective components
-    math: ({ node, ...props }) => <BlockMath math={String(node.value)} />,
-    inlineMath: ({ node, ...props }) => <InlineMath math={String(node.value)} />
+    math: ({ node }: { node: MarkdownNode }) => <BlockMath math={String(node.value)} />,
+    inlineMath: ({ node }: { node: MarkdownNode }) => <InlineMath math={String(node.value)} />
   };
 
   return (
@@ -22,7 +27,6 @@ const MarkdownLatex: React.FC<IMarkdownLatexProps> = ({ content }) => {
       remarkPlugins={[remarkMath]}
       rehypePlugins={[rehypeKatex]}
       components={components}
-
     />
   );
 };

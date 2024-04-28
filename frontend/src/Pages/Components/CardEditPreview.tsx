@@ -85,10 +85,21 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
         setActiveCardId(card.card_id);
         setEditing(true);
     }
+
+    function handleLongQuestion(question: string,  maxLength: number = 25): string {
+        // Get number of # at the start of the string
+        let numHashes = (question.substring(0, 4).match(/#/g) || []).length; 
+        
+        // Provide a formula that would provide an appropiate max length based on the number of hashes
+        
+        maxLength = maxLength / (1 + ((3 - numHashes) / 5));
+
+        return question.length > maxLength ? question.substring(0, maxLength) + '...' : question
+    }
     
     return (
         <div className='border secondary shadow-secondary card-edit-preview place-center pointer' onClick={() => handleCardClick()}>
-            <p><MarkdownLatex content={card.question ? card.question : 'New Card'}/></p>
+            <p><MarkdownLatex content={card.question ? handleLongQuestion(card.question) : 'New Card'}/></p>
             <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={(e) => handleCardDeletion(e)}/>
         </div>
     )
