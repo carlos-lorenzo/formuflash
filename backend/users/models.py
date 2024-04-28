@@ -47,6 +47,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 	user_id = models.AutoField(primary_key=True)
 	email = models.EmailField(max_length=50, unique=True)
 	name = models.CharField(max_length=50)
+	
+	is_active = models.BooleanField(default=True)
 	is_staff = models.BooleanField(default=False)
 
 	USERNAME_FIELD = 'email'

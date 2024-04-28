@@ -41,7 +41,7 @@ export default function Register({ client }: IRegisterProps) {
             
 
             toast.update(id, {
-                render: "Account created",
+                render: "Confirmation email sent",
                 type: "success",
                 isLoading: false,
                 autoClose: 1500,

@@ -10,8 +10,10 @@ urlpatterns = [
     
     path("login", obtain_auth_token, name="login"),
     path("register", views.Register.as_view(), name="register"),
-    path("get_user", views.User.as_view(), name="user"),
+    path("get_user", views.GetUser.as_view(), name="user"),
     path("logout", views.Logout.as_view(), name="logout"),
+    path("activate/<uidb64>/<token>", views.Activate.as_view(), name="activate"),
+    
     
     path("update_user", views.UpdateProfileInfo.as_view(), name="update_user"),
     path("change_password", views.ChangePassword.as_view(), name="change_password"),

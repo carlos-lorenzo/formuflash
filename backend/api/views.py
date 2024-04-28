@@ -1,9 +1,23 @@
 import random
 import io
 
+
+from django.conf import settings
+
+from django.core.mail import send_mail
+
+from django.contrib.auth.tokens import PasswordResetTokenGenerator  
+from django.contrib.sites.shortcuts import get_current_site 
+from django.contrib.auth import get_user_model
+
 from django.http import HttpRequest, FileResponse
 from django.http import JsonResponse
+
 from django.middleware.csrf import get_token
+
+
+from django.utils.encoding import force_str, force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
 
 
 from rest_framework.views import APIView
@@ -18,11 +32,15 @@ from flashcards.serialisers import FlashCardSerialiser, DeckSerialiser, CourseSe
 
 from users.serialisers import UserRegisterSerialiser, UserSerialiser
 
+
+
+account_activation_token = PasswordResetTokenGenerator()
+
 class Index(APIView):
 	permission_classes = (permissions.AllowAny,)
 	
 	def get(self, request):
-		return Response({"Status": "API online"}, status=status.HTTP_200_OK)
+		return Response({"status": "API online"}, status=status.HTTP_200_OK)
 
 
 class GetCSRFToken(APIView):
@@ -41,6 +59,25 @@ class GetCSRFToken(APIView):
 		csrf_token = get_token(request)
 		return JsonResponse({'csrfToken': csrf_token})
 
+class Activate(APIView):
+	permission_classes = (permissions.AllowAny,)
+	
+	def get(self, request, uidb64, token):
+		User = get_user_model()
+		try:
+			uid = force_str(urlsafe_base64_decode(uidb64))
+			user = User.objects.get(user_id=uid)
+			
+		except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+			user = None
+		if user is not None and account_activation_token.check_token(user, token):
+			user.is_active = True
+			user.save()
+			return Response({"message": "Account activated"}, status=status.HTTP_200_OK)
+		else:
+			return Response({"message": "Invalid activation link"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class Register(APIView):
 	
 	permission_classes = (permissions.AllowAny,)
@@ -48,12 +85,26 @@ class Register(APIView):
 	def post(self, request):
 		serialiser = UserRegisterSerialiser(data=request.data)
 		if serialiser.is_valid():
-			serialiser.save()
+			user = serialiser.save()
+			user.is_active = False
+			user.save()
+
+			current_site = get_current_site(request)
+			email_from = settings.EMAIL_HOST_USER
+			email_to = [user.email]
+			subject = 'Activate your account'
+			token = account_activation_token.make_token(user)
+   
+			message = f'Hi {user.name},\n\nPlease use this link to verify your account\nhttp://{current_site}/api/activate/{urlsafe_base64_encode(force_bytes(user.user_id))}/{token}\n\n'
+
+			send_mail(subject, message, email_from, email_to)
+   
+	
 			return Response(serialiser.data, status=status.HTTP_201_CREATED)
 		return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class User(APIView):
+class GetUser(APIView):
 	permission_classes = (permissions.IsAuthenticated,)
 	
 	def get(self, request):
