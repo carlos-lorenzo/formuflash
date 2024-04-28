@@ -70,12 +70,13 @@ class Activate(APIView):
 			
 		except(TypeError, ValueError, OverflowError, User.DoesNotExist):
 			user = None
+   
 		if user is not None and account_activation_token.check_token(user, token):
 			user.is_active = True
 			user.save()
 			return Response({"message": "Account activated"}, status=status.HTTP_200_OK)
 		else:
-			return Response({"message": "Invalid activation link"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Invalid activation link"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Register(APIView):
@@ -88,14 +89,21 @@ class Register(APIView):
 			user = serialiser.save()
 			user.is_active = False
 			user.save()
-
-			current_site = get_current_site(request)
-			email_from = settings.EMAIL_HOST_USER
-			email_to = [user.email]
-			subject = 'Activate your account'
-			token = account_activation_token.make_token(user)
+			
    
-			message = f'Hi {user.name},\n\nPlease use this link to verify your account\nhttp://{current_site}/api/activate/{urlsafe_base64_encode(force_bytes(user.user_id))}/{token}\n\n'
+			current_site = get_current_site(request).domain.split(":")[0]
+			
+   			
+			email_from: str = settings.EMAIL_HOST_USER
+			email_to: str = ["clorenzozuniga@gmail.com"] #[user.email]
+			subject = 'Activate your account'
+			token: str = account_activation_token.make_token(user)
+			uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))
+			# url = f'http://{current_site}/api/activate/{uidb64}/{token}/'
+   
+			url = f'http://{current_site}:3000/confirmation?type=activate&uidb64={uidb64}&token={token}'
+			
+			message = f'Hi {user.name},\n\nPlease use this link to verify your account\n{url}\n\n'
 
 			send_mail(subject, message, email_from, email_to)
    

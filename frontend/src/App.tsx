@@ -17,6 +17,7 @@ import Home from "./Pages/Home";
 import LandingPage from "./Pages/LandingPage";
 import DeckView from "./Pages/DeckView";
 import Profile from "./Pages/Profile";
+import Confirmation from "./Pages/Confirmation";
 
 import IUser from "./types/User";
 
@@ -130,6 +131,9 @@ function App() {
                     user={user}
                     setUser={setUser}
                 />} />
+                <Route path="/confirmation" element={
+                    <Confirmation client={client}/>
+                }/>
 
             </Routes>
 

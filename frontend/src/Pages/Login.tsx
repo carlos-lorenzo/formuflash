@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
@@ -25,6 +25,10 @@ export default function Login({ client, setUser }: ILoginProps) {
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        
+    })
 
     function handleErrorMessage(error: any): string {        
         if (error.response.data.username || error.response.data.password) {
