@@ -9,8 +9,10 @@ import { toast } from 'react-toastify';
 
 import UploadCards from './UploadCards';
 import CardEditPreview from './CardEditPreview'
+import ToolTip from './ToolTip';
 
 import IDeck from '../../types/Deck';
+
 
 
 interface IDeckPreviewProps {
@@ -123,9 +125,17 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
                 <h3>{activeDeck.name}</h3>
                 <div className="deck-info-actions">
                     <UploadCards client={client} deckId={activeDeck.deck_id} getDeck={getDeck}/>
-                    <FontAwesomeIcon icon={faFileExport} size='xl' onClick={exportDeckAsCsv} className='pointer grow transition-to-primary'/>
-                    <FontAwesomeIcon icon={faArrowRotateLeft} size='xl' onClick={resetConfidences} className='pointer grow transition-to-primary'/>
-                    <FontAwesomeIcon icon={faFloppyDisk} size='xl' onClick={handleCardUpdate} className='pointer grow transition-to-primary'/>
+                    <ToolTip text='Export Deck'>
+                        <FontAwesomeIcon icon={faFileExport} size='xl' onClick={exportDeckAsCsv} className='pointer grow transition-to-primary'/>
+                    </ToolTip>
+
+                    <ToolTip text='Reset Confidence'>
+                        <FontAwesomeIcon icon={faArrowRotateLeft} size='xl' onClick={resetConfidences} className='pointer grow transition-to-primary'/>
+                    </ToolTip>
+
+                    <ToolTip text='Save'>
+                        <FontAwesomeIcon icon={faFloppyDisk} size='xl' onClick={handleCardUpdate} className='pointer grow transition-to-primary'/>
+                    </ToolTip>
                 </div>
                 
             </div>
@@ -143,7 +153,9 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
             
                 
             <div className='border secondary shadow-secondary card-edit-preview place-center pointer' onClick={handleCardCreation}>
-                <FontAwesomeIcon icon={faPlusCircle} size='2x'/>
+                <ToolTip text='Create Card'>
+                    <FontAwesomeIcon icon={faPlusCircle} size='2x'/>
+                </ToolTip>
             </div>
             
             

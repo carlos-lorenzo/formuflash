@@ -11,6 +11,8 @@ import IBriefDeck from '../../types/BriefDeck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGraduationCap, faPenToSquare, faMagnifyingGlass, faTrashCan, faPen, faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
+import ToolTip from './ToolTip';
+
 
 enum DeckAction {
     PREIVEW = 'PREIVEW',
@@ -97,22 +99,39 @@ export default function Deck({ client, deckData, setActiveDeckId, setDeckAction,
                 renamingDeck ? 
                 <div className="rename">
                     <input type='text' maxLength={50} className="rename-input" value={newDeckName} onChange={(event) => setNewDeckName(event.target.value)}/>
-                    <FontAwesomeIcon icon={faCircleCheck} size='lg' className='pointer deck-option' onClick={() => handleDeckRename()}/>
-                    <FontAwesomeIcon icon={faCircleXmark} size='lg' className='pointer deck-option' onClick={() => setRenamingDeck(false)}/>
+                    <ToolTip text="Confirm Rename">
+                        <FontAwesomeIcon icon={faCircleCheck} size='lg' className='pointer deck-option' onClick={() => handleDeckRename()}/>
+                    </ToolTip>
+                    
+                    <ToolTip text="Cancel Rename">
+                        <FontAwesomeIcon icon={faCircleXmark} size='lg' className='pointer deck-option' onClick={() => setRenamingDeck(false)}/>
+                    </ToolTip>
                 </div>
                 
                 : 
 
                 <div className="current-name">
                     <h3>{deckName}</h3>
-                    <FontAwesomeIcon icon={faPen} size='lg' className='pointer deck-option' onClick={() => setRenamingDeck(true)}/>
+
+                    <ToolTip text="Rename Deck">
+                        <FontAwesomeIcon icon={faPen} size='lg' className='pointer deck-option' onClick={() => setRenamingDeck(true)}/>
+                    </ToolTip>
                 </div>
             }
             
             <div className="deck-options">
-                <FontAwesomeIcon icon={faGraduationCap} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.STUDY)}/>
-                <FontAwesomeIcon icon={faPenToSquare} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.EDIT)}/>
-                <FontAwesomeIcon icon={faMagnifyingGlass} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.PREIVEW)}/>
+                
+                <ToolTip text="Study Deck">
+                    <FontAwesomeIcon icon={faGraduationCap} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.STUDY)}/>
+                </ToolTip>
+
+                <ToolTip text="Edit Deck">
+                    <FontAwesomeIcon icon={faPenToSquare} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.EDIT)}/>
+                </ToolTip>
+                
+                <ToolTip text="Preview Deck">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.PREIVEW)}/>
+                </ToolTip>
             </div>
             <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={() => setDeleteInfo({show: true, id: deckData.deck_id})}/>
         </div>

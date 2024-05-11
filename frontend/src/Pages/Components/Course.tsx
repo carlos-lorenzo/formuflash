@@ -9,6 +9,8 @@ import { AxiosInstance } from 'axios';
 
 import ICourse from '../../types/ICourse';
 
+import ToolTip from './ToolTip';
+
 interface ICourseProps {
     client: AxiosInstance
     courseData: ICourse,
@@ -109,15 +111,24 @@ export default function Course({ client, courseData, activeCourseId, setActiveCo
                 renamingCourse ? 
                 <div className="rename">
                     <input type='text' maxLength={50} className="rename-input" value={newCourseName} onChange={(event) => setNewCourseName(event.target.value)} onClick={(e) => e.stopPropagation()}/>
-                    <FontAwesomeIcon icon={faCircleCheck} size='lg' className='pointer deck-option' onClick={(e) => handleCourseRename(e)}/>
-                    <FontAwesomeIcon icon={faCircleXmark} size='lg' className='pointer deck-option' onClick={(e) => handleRenameCancelClick(e)}/>
+                    
+                    <ToolTip text="Confirm Rename">
+                        <FontAwesomeIcon icon={faCircleCheck} size='lg' className='pointer deck-option' onClick={(e) => handleCourseRename(e)}/>
+                    </ToolTip>
+                    
+                    <ToolTip text="Cancel Rename">
+                        <FontAwesomeIcon icon={faCircleXmark} size='lg' className='pointer deck-option' onClick={(e) => handleRenameCancelClick(e)}/>
+                    </ToolTip>
                 </div>
                 
                 : 
 
                 <div className="current-name">
                     <h3>{courseName}</h3>
-                    <FontAwesomeIcon icon={faPen} size='lg' className='pointer deck-option' onClick={(e) => handlePenClick(e)}/>
+
+                    <ToolTip text="Rename Course">
+                        <FontAwesomeIcon icon={faPen} size='lg' className='pointer deck-option' onClick={(e) => handlePenClick(e)}/>
+                    </ToolTip>
                 </div>
             }
             <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={(e) => handleTrashIconClick(e)}/>

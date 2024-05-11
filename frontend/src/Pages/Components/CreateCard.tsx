@@ -7,7 +7,8 @@ import MarkdownLatex from './MarkdownLatex'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlorinSign } from '@fortawesome/free-solid-svg-icons';
 import { faImage } from '@fortawesome/free-regular-svg-icons';
-import { text } from 'stream/consumers';
+
+import ToolTip from './ToolTip';
 
 interface ICreateCardProps {
     client: AxiosInstance,
@@ -67,8 +68,15 @@ export default function CreateCard({
                         <h4>Q</h4>
                         
                         <div className='edit-shortcuts'>
-                            <FontAwesomeIcon icon={faFlorinSign} size='lg' className='edit-shortcut' onClick={() => handleMathShortcut(questionInput)}/>
-                            <FontAwesomeIcon icon={faImage} size='lg' className='edit-shortcut' onClick={() => handleImageShortcut(questionInput)}/>
+                            <ToolTip text='Insert LaTeX'>
+                                <FontAwesomeIcon icon={faFlorinSign} size='lg' className='edit-shortcut' onClick={() => handleMathShortcut(questionInput)}/>
+                            </ToolTip>
+                            
+
+                            <ToolTip text='Insert Image'>
+                                <FontAwesomeIcon icon={faImage} size='lg' className='edit-shortcut' onClick={() => handleImageShortcut(questionInput)}/>
+                            </ToolTip>
+                            
                         </div>
                         
                     </div>
@@ -88,8 +96,13 @@ export default function CreateCard({
                         <h4>A</h4>
 
                         <div className='edit-shortcuts'>
-                            <FontAwesomeIcon icon={faFlorinSign} size='lg' className='edit-shortcut' onClick={() => handleMathShortcut(answerInput)}/>
-                            <FontAwesomeIcon icon={faImage} size='lg' className='edit-shortcut' onClick={() => handleImageShortcut(answerInput)}/>
+                            <ToolTip text='Insert LaTeX'>
+                                <FontAwesomeIcon icon={faFlorinSign} size='lg' className='edit-shortcut' onClick={() => handleMathShortcut(answerInput)}/>
+                            </ToolTip>
+                            
+                            <ToolTip text='Insert Image'>
+                                <FontAwesomeIcon icon={faImage} size='lg' className='edit-shortcut' onClick={() => handleImageShortcut(answerInput)}/>
+                            </ToolTip>
                         </div>
                     </div>
                     <textarea

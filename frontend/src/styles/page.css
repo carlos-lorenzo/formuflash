@@ -174,3 +174,22 @@
     color: var(--accent);
 }
 
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    position: absolute;
+    background-color: var(--background);
+    color: var(--text);
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    
+    z-index: 1;
+    top: calc(100% + 1rem);
+    left: 50%;
+    transform: translateX(-50%);
+}

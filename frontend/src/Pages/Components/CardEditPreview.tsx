@@ -11,6 +11,7 @@ import MarkdownLatex from './MarkdownLatex'
 
 import ICard from '../../types/Card';
 
+import ToolTip from './ToolTip';
 
 interface ICardEditPreviewProps {
     client: AxiosInstance,
@@ -100,7 +101,9 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
     return (
         <div className='border secondary shadow-secondary card-edit-preview place-center pointer' onClick={() => handleCardClick()}>
             <p><MarkdownLatex content={card.question ? handleLongQuestion(card.question) : 'New Card'}/></p>
+
             <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={(e) => handleCardDeletion(e)}/>
+            
         </div>
     )
 }

@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileImport, faXmark } from '@fortawesome/free-solid-svg-icons';
 
+import ToolTip from './ToolTip';
+
 interface IUploadCardsProps {
     client: AxiosInstance,
     deckId: number,
@@ -102,7 +104,9 @@ export default function UploadCards({ client, deckId, getDeck}: IUploadCardsProp
 
     return (
         <div>
-            <FontAwesomeIcon className='pointer grow transition-to-primary' icon={faFileImport} onClick={() => setShowUpload(true)} size='xl'/>
+            <ToolTip text='Upload Deck'>
+                <FontAwesomeIcon className='pointer grow transition-to-primary' icon={faFileImport} onClick={() => setShowUpload(true)} size='xl'/>
+            </ToolTip>
             {
                 showUpload ? 
                 <div className='screen-cover'>

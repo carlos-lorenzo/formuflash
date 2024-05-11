@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 
+import ToolTip from './ToolTip';
+
 interface ICreateCourseProps {
     client: AxiosInstance,
     getCourses: (courseId?: number) => void,
@@ -76,7 +78,11 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
     return (
         <>
             <div id="create-course-button" className='create place-center secondary shadow-secondary pointer border shadow-margin' onClick={handleCreateClick}>
-                <FontAwesomeIcon icon={faCirclePlus} size='2x'/>
+
+                <ToolTip text='Create Course'>
+                    <FontAwesomeIcon icon={faCirclePlus} size='2x'/>
+                </ToolTip>
+
             </div>
 
             {

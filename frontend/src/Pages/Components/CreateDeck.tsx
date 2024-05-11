@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 
+import ToolTip from './ToolTip';
+
 interface ICreateDeckProps {
     client: AxiosInstance
     activeCourseId: number
@@ -80,7 +82,9 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
     return (
         <>
             <div id="create-deck-button" className='create place-center secondary shadow-secondary pointer border shadow-margin' onClick={handleCreateClick}>
-                <FontAwesomeIcon icon={faCirclePlus} size='2x'/>
+                <ToolTip text="Create Deck">
+                    <FontAwesomeIcon icon={faCirclePlus} size='2x'/>
+                </ToolTip>
             </div>
 
             {
