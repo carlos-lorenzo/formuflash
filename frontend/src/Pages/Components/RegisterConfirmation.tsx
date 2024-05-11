@@ -27,7 +27,6 @@ export default function RegisterConfirmation({ client }: IRegisterConfirmationPr
 
         client.get(`activate/${uidb64}/${token}`)
         .then((response) => {
-            console.log(response);
             toast.update(id, {
                 render: response.data.message,
                 type: "success",

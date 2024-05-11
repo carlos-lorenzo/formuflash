@@ -95,7 +95,7 @@ class Register(APIView):
 			
    			
 			email_from: str = settings.EMAIL_HOST_USER
-			email_to: str = ["clorenzozuniga@gmail.com"] #[user.email]
+			email_to: str = ["clorenzozuniga@gmail.com"] # [user.email]
 			subject = 'Activate your account'
 			token: str = account_activation_token.make_token(user)
 			uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))
@@ -103,13 +103,24 @@ class Register(APIView):
    
 			url = f'http://{current_site}:3000/confirmation?type=activate&uidb64={uidb64}&token={token}'
 			
-			message = f'Hi {user.name},\n\nPlease use this link to verify your account\n{url}\n\n'
+			message = f"""
+			<html lang="en" className="scroll-smooth">
+			    <head></head>
+			    <body>
+			        <p>Welcome {user.name}!<br/><br/>
+			        Please <a href="{url}">Verify</a> your account<br/>
+                    Free Flash
+                    </p>
+			    </body>
+			"""
 
-			send_mail(subject, message, email_from, email_to)
+			send_mail(subject, message, email_from, email_to, html_message=message)
    
 	
 			return Response(serialiser.data, status=status.HTTP_201_CREATED)
 		return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 class GetUser(APIView):
