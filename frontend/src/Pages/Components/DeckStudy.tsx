@@ -32,6 +32,7 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
    
     const [card, setCard] = useState<ICard | null>(null);
     
+    const [isAnimating, setIsAnimating] = useState(false);
 
     function handleSwap() {
         if (!card) {
@@ -56,6 +57,9 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
         if (!card) {
             return;
         }
+
+        setIsAnimating(true);
+
         client.post(
             "/update_confidence",
             {
@@ -67,8 +71,18 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
                     'Authorization': `Token ${localStorage.getItem('token')}`
                 }
             }
-        ).then((response) => {
-            getCard();
+        ).then((_response) => {
+            setTimeout(() => {
+                getCard();
+            }, 500)
+            setTimeout(() => {
+                setIsAnimating(false)
+            }, 1000);
+            
+            
+
+            
+
         })
     }
 
@@ -123,12 +137,14 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
         } else if(event.key === "3") {
             handleConfidenceUpdate(Confidences.HIGH);
         }
+    }
 
-        }
+
+        
 
     return (
         <div id='study' className='fill place-center' onKeyDown={handleShortcuts} tabIndex={0}>
-            <div id="study-content" className={`text card border fill shadow-secondary ${content.questionShown ? "place-center" : ""}`} onClick={() => handleSwap()}>
+            <div id="study-content" className={`text card border fill shadow-secondary ${content.questionShown ? "place-center" : ""} ${isAnimating ? 'animate-confidence' : ''}`} onClick={() => handleSwap()}>
                 <div id="confidence-marker" className={`shadow-${getConfidenceClassName(card?.confidence)} border ${getConfidenceClassName(card?.confidence)}`}></div>
                 <MarkdownLatex content={content.content}/>
             </div>
