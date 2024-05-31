@@ -35,6 +35,7 @@ from users.serialisers import UserRegisterSerialiser, UserSerialiser
 
 
 account_activation_token = PasswordResetTokenGenerator()
+password_reset_token = PasswordResetTokenGenerator()
 
 class Index(APIView):
 	permission_classes = (permissions.AllowAny,)
@@ -112,6 +113,7 @@ class Register(APIView):
                     Free Flash
                     </p>
 			    </body>
+			</html>
 			"""
 
 			send_mail(subject, message, email_from, email_to, html_message=message)
@@ -135,6 +137,69 @@ class Logout(APIView):
 	def get(self, request):
 		request.user.auth_token.delete()
 		return Response(status=status.HTTP_200_OK)
+
+class PasswordResetSender(APIView):
+	permission_classes = (permissions.AllowAny,)
+	
+	def post(self, request):
+		email = request.data.get('email', None)
+		if not email:
+			return Response({"error": "Email not provided"}, status=status.HTTP_400_BAD_REQUEST)
+		
+		user = get_user_model().objects.get(email=email)
+		current_site = get_current_site(request).domain.split(":")[0]
+
+		email_from: str = settings.EMAIL_HOST_USER
+		email_to: str = ["clorenzozuniga@gmail.com"] # [user.email]
+  
+		subject = 'Password Reset'
+  
+		token: str = password_reset_token.make_token(user)
+		uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))
+  
+		url = f'http://{current_site}:3000/confirmation?type=password&uidb64={uidb64}&token={token}'
+  
+		message = f"""
+			<html lang="en" className="scroll-smooth">
+			    <head></head>
+			    <body>
+			        <p>Hi {user.name}<br/><br/>
+			       	You can reset your password through this link: <a href="{url}">Reset Password</a><br/>
+					Free Flash
+                    </p>
+			    </body>
+			</html>
+			"""
+
+		send_mail(subject, message, email_from, email_to, html_message=message)
+
+class ResetPassword(APIView):
+	permission_classes = (permissions.AllowAny,)
+	
+	def post(self, request):
+		User = get_user_model()
+		try:
+			uidb64 = request.data.get('uidb64', None)
+			token = request.data.get('token', None)
+			uid = force_str(urlsafe_base64_decode(uidb64))
+			user = User.objects.get(user_id=uid)
+			
+		except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+			user = None
+			return Response({"error": "Invalid password reset token"}, status=status.HTTP_400_BAD_REQUEST)
+   
+		if user is not None and password_reset_token.check_token(user, token):
+			password = request.data.get('password', None)
+			if not password:
+				return Response({"error": "Password not provided"}, status=status.HTTP_400_BAD_REQUEST)
+   
+			user.set_password(password)
+			user.save()
+
+			return Response({"message": "Successful password reset"}, status=status.HTTP_200_OK)
+		else:
+			return Response({"error": "Invalid password reset token"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 # Course views
 class GetUserCourses(APIView):
