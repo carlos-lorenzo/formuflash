@@ -97,7 +97,7 @@ export default function Register({ client }: IRegisterProps) {
                     </div>
                 
                 <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Register</b></button>
-                <div className='redirect-form'>
+                <div id='no-account'>
                     <p>Already have an account?</p><Link to="/login" className='redirect-link'><p><b>Login</b></p></Link>
                 </div>
             </form>

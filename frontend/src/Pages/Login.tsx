@@ -123,8 +123,15 @@ export default function Login({ client, setUser }: ILoginProps) {
                     </div>
                 
                 <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Login</b></button>
-                <div className='redirect-form'>
-                    <p>Don't have an account?</p><Link to="/register" className='redirect-link'><p><b>Register</b></p></Link>
+                <div id='login-options'>
+                    <div id='forgot-password'>
+                        <p></p><Link to="/reset-password" className='redirect-link'><p><b>Forgot your password?</b></p></Link>
+                    </div>
+                    
+                    <div id='no-account'>
+                        <p>Don't have an account?</p><Link to="/register" className='redirect-link'><p><b>Register</b></p></Link>
+                    </div>
+                   
                 </div>
                 
             </form>

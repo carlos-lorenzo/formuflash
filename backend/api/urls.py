@@ -14,9 +14,10 @@ urlpatterns = [
     path("logout", views.Logout.as_view(), name="logout"),
     path("activate/<uidb64>/<token>", views.Activate.as_view(), name="activate"),
     
-    
     path("update_user", views.UpdateProfileInfo.as_view(), name="update_user"),
     path("change_password", views.ChangePassword.as_view(), name="change_password"),
+    path("password_reset_query", views.PasswordResetSender.as_view(), name="password_reset_query"),
+    path("password_reset", views.ResetPassword.as_view(), name="password_reset"),
     
     path("create_course", views.CreateCourse.as_view(), name="create_course"),
     path("get_courses", views.GetUserCourses.as_view(), name="courses"),

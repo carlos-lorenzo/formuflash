@@ -18,7 +18,7 @@ import LandingPage from "./Pages/LandingPage";
 import DeckView from "./Pages/DeckView";
 import Profile from "./Pages/Profile";
 import Confirmation from "./Pages/Confirmation";
-
+import ResetPassword from "./Pages/ResetPassword";
 import IUser from "./types/User";
 
 
@@ -133,6 +133,9 @@ function App() {
                 />} />
                 <Route path="/confirmation" element={
                     <Confirmation client={client}/>
+                }/>
+                <Route path="/reset-password" element={
+                    <ResetPassword client={client}/>
                 }/>
 
             </Routes>

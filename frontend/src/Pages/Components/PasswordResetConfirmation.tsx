@@ -19,8 +19,24 @@ export default function PasswordResetConfirmation({ client }: IPasswordResetConf
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    function handlePasswordChange() {
+    function handlePasswordChange(e: React.FormEvent) {
+        e.preventDefault();
         const id = toast.loading("Resetting Password");
+
+        if (newPassword !== confirmPassword) {
+            toast.update(id, {
+                render: "Passwords do not match",
+                type: "error",
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            return;
+        }
 
         const queryString = window.location.search;
         const parameters = new URLSearchParams(queryString);
@@ -28,9 +44,11 @@ export default function PasswordResetConfirmation({ client }: IPasswordResetConf
         const uidb64 = parameters.get("uidb64");
         const token = parameters.get("token");
 
-        client.post("reset-password", { 
+        client.post("password_reset", { 
             uidb64: uidb64, 
-            token: token })
+            token: token,
+            password: newPassword
+        })
         .then((response) => {
             toast.update(id, {
                 render: response.data.message,
@@ -43,11 +61,8 @@ export default function PasswordResetConfirmation({ client }: IPasswordResetConf
                 draggable: true,
                 progress: undefined,
             });
-            navigate("/login");
 
         }).catch((error) => {
-            console.error(error);
-
             toast.update(id, {
                 render: error.response.data.error,
                 type: "error",
@@ -59,8 +74,6 @@ export default function PasswordResetConfirmation({ client }: IPasswordResetConf
                 draggable: true,
                 progress: undefined,
             });
-
-            navigate("/register");
         })
 
     }
@@ -68,7 +81,7 @@ export default function PasswordResetConfirmation({ client }: IPasswordResetConf
 
     return (
         <div id="register-confirmation" className='fill place-center'>
-            <form id='profile-form' onSubmit={(_) => handlePasswordChange()}>
+            <form id='profile-form' onSubmit={(e) => handlePasswordChange(e)}>
                 <h4>Change Password</h4>
 
                 <div className="login-input border secondary shadow-secondary">
