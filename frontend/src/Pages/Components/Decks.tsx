@@ -48,7 +48,7 @@ export default function Decks({ client, activeCourseId, decks, activeCourseName,
             return;
         }
 
-        const toastId = toast.loading("Deleting deck...");
+        const toastId = toast.loading("Eliminando mazo");
 
         client.post(
             '/delete_deck',
@@ -64,7 +64,7 @@ export default function Decks({ client, activeCourseId, decks, activeCourseName,
             setDeleteInfo({show: false, id: undefined});
 
             toast.update(toastId, {
-                render: "Deck deleted",
+                render: "Mazo eliminado",
                 type: "info",
                 isLoading: false,
                 autoClose: 1500,
@@ -79,7 +79,7 @@ export default function Decks({ client, activeCourseId, decks, activeCourseName,
         }).catch(() => {
 
             toast.update(toastId, {
-                render: "Error deleting deck",
+                render: "Error eliminando mazo",
                 type: "error",
                 isLoading: false,
                 autoClose: 1500,

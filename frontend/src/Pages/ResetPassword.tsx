@@ -15,7 +15,7 @@ export default function ResetPassword({ client }: IResetPasswordProps) {
     function handlePasswordChangeQuery(e: React.FormEvent) {
         e.preventDefault();
 
-        const id = toast.loading("Sending password reset email...");
+        const id = toast.loading("Enviando email de recuperación");
 
         client
             .post("password_reset_query", { 
@@ -52,7 +52,7 @@ export default function ResetPassword({ client }: IResetPasswordProps) {
     return (
         <div id='password-reset'>
 
-            <h2>Reset Password</h2>
+            <h2>Reiniciar Contraseña</h2>
 
             <form
                 onSubmit={(e) => {
@@ -68,7 +68,7 @@ export default function ResetPassword({ client }: IResetPasswordProps) {
                         setEmail(event.target.value);
                     }}
                 />
-                <button type="submit">Reset Password</button>
+                <button type="submit">Reiniciar contraseña</button>
             </form>
 
         </div>

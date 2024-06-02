@@ -21,11 +21,11 @@ export default function PasswordResetConfirmation({ client }: IPasswordResetConf
 
     function handlePasswordChange(e: React.FormEvent) {
         e.preventDefault();
-        const id = toast.loading("Resetting Password");
+        const id = toast.loading("Reiniciando contraseña");
 
         if (newPassword !== confirmPassword) {
             toast.update(id, {
-                render: "Passwords do not match",
+                render: "Las contraseñas no coinciden",
                 type: "error",
                 isLoading: false,
                 autoClose: 1500,
@@ -82,17 +82,17 @@ export default function PasswordResetConfirmation({ client }: IPasswordResetConf
     return (
         <div id="register-confirmation" className='fill place-center'>
             <form id='profile-form' onSubmit={(e) => handlePasswordChange(e)}>
-                <h4>Change Password</h4>
+                <h4>Cambiar Contraseña</h4>
 
                 <div className="login-input border secondary shadow-secondary">
-                    <input id="new-password-input" className="input" placeholder="New Password" type="password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} />
+                    <input id="new-password-input" className="input" placeholder="Contraseña nueva" type="password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} />
                 </div>
 
                 <div className="login-input border secondary shadow-secondary">
-                    <input id="confirm-password-input" className="input" placeholder="Confirm Password" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
+                    <input id="confirm-password-input" className="input" placeholder="Confirmar contraseña" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
                 </div>
                    
-                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Reset Password</b></button>
+                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Reiniciar Contrseña</b></button>
             </form>
         </div>
     )

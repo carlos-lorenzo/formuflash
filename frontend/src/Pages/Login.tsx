@@ -32,21 +32,21 @@ export default function Login({ client, setUser }: ILoginProps) {
 
     function handleErrorMessage(error: any): string {        
         if (error.response.data.username || error.response.data.password) {
-            return "Fields cannot be empty";
+            return "Campos no pueden estar vacíos";
         }
 
         if (error.response.data.non_field_errors) {
-            return "Invalid credentials";
+            return "Credenciales inválidas";
         }
 
-        return "Unexpected error";
+        return "Error inesperado";
 
     }
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const id = toast.loading("Logging in");
+        const id = toast.loading("Iniciando sesión");
 
     
         client.post('/login', { 
@@ -73,7 +73,7 @@ export default function Login({ client, setUser }: ILoginProps) {
                 });
 
                 toast.update(id, {
-                    render: "Logged in",
+                    render: "Sesión iniciada",
                     type: "success",
                     isLoading: false,
                     autoClose: 1500,
@@ -118,18 +118,18 @@ export default function Login({ client, setUser }: ILoginProps) {
                     </div>
                    
                     <div className="login-input border secondary shadow-secondary" id='password-input'>
-                        <input id="password" className="input" placeholder="Password" type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                        <input id="password" className="input" placeholder="Contraseña" type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
                         <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="password-toggle pointer" onClick={togglePasswordVisiblity} size='xl'/>
                     </div>
                 
-                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Login</b></button>
+                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Iniciar sesión</b></button>
                 <div id='login-options'>
                     <div id='forgot-password'>
-                        <p></p><Link to="/reset-password" className='redirect-link'><p><b>Forgot your password?</b></p></Link>
+                        <p></p><Link to="/reset-password" className='redirect-link'><p><b>Olvidaste tu contrseña?</b></p></Link>
                     </div>
                     
                     <div id='no-account'>
-                        <p>Don't have an account?</p><Link to="/register" className='redirect-link'><p><b>Register</b></p></Link>
+                        <p>¿No tienes cuenta? </p><Link to="/register" className='redirect-link'><p><b>Regístrate</b></p></Link>
                     </div>
                    
                 </div>

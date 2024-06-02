@@ -26,7 +26,7 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
 
     function handleErrorResponse(error: any): string {
         if (!error.response.data.error) {
-            return "Unexpected error"
+            return "Error inesperado"
         }
 
         return error.response.data.error
@@ -37,7 +37,7 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
 
         e.stopPropagation();
 
-        const id = toast.loading("Deleting card...");
+        const id = toast.loading("Eliminando");
 
         client.post("/delete_card",
         {
@@ -51,7 +51,7 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
         }).then((response) => {
             toast.update(id, 
                 { 
-                render: "Card deleted", 
+                render: "Tarjeta eliminada", 
                 type: "info", 
                 isLoading: false,
                 autoClose: 1500,
@@ -100,7 +100,7 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
     
     return (
         <div className='border secondary shadow-secondary card-edit-preview place-center pointer' onClick={() => handleCardClick()}>
-            <p><MarkdownLatex content={card.question ? handleLongQuestion(card.question) : 'New Card'}/></p>
+            <p><MarkdownLatex content={card.question ? handleLongQuestion(card.question) : 'Nueva tarjeta'}/></p>
 
             <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={(e) => handleCardDeletion(e)}/>
             

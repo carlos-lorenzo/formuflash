@@ -28,13 +28,13 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
         if(error.response.data.error) {
             return error.response.data.error
         }
-        return "Unexpected error"
+        return "Error inesperado"
     }
 
     function handleDeckCreation(e: React.FormEvent) {
         e.preventDefault();
 
-        const id = toast.loading("Creating deck...");
+        const id = toast.loading("Creando mazo");
 
         client.post('/create_deck',
         {
@@ -47,7 +47,7 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
         }).then((response) => {
 
             toast.update(id, {
-                render: "Deck created",
+                render: "Mazo creado",
                 type: "success",
                 isLoading: false,
                 autoClose: 1500,
@@ -82,7 +82,7 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
     return (
         <>
             <div id="create-deck-button" className='create place-center secondary shadow-secondary pointer border shadow-margin' onClick={handleCreateClick}>
-                <ToolTip text="Create Deck">
+                <ToolTip text="Crear Mazo">
                     <FontAwesomeIcon icon={faCirclePlus} size='2x'/>
                 </ToolTip>
             </div>
@@ -94,9 +94,9 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
                     <div id="create-deck-prompt" className="create-prompt secondary shadow-accent border">
                         <FontAwesomeIcon icon={faXmark} size='2x' className='pointer close-prompt' onClick={() => setPromptActive(false)}/>
                         <form onSubmit={(e) => handleDeckCreation(e)} className='create-prompt-form'>
-                            <label htmlFor="create-deck-input">Create Deck</label>
-                            <input id="create-deck-input" maxLength={50} className="create-input" type="text" autoComplete="off" value={deckName} onChange={(e) => setDeckName(e.target.value)} placeholder='Deck name'/>
-                            <button type="submit" className='shadow-accent accent border'>Create</button>
+                            <label htmlFor="create-deck-input">Crear Mazo</label>
+                            <input id="create-deck-input" maxLength={50} className="create-input" type="text" autoComplete="off" value={deckName} onChange={(e) => setDeckName(e.target.value)} placeholder='Nombre'/>
+                            <button type="submit" className='shadow-accent accent border'>Crear</button>
                         </form>
                         
                     </div> 

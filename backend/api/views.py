@@ -75,9 +75,9 @@ class Activate(APIView):
 		if user is not None and account_activation_token.check_token(user, token):
 			user.is_active = True
 			user.save()
-			return Response({"message": "Account activated"}, status=status.HTTP_200_OK)
+			return Response({"message": "Cuenta activada"}, status=status.HTTP_200_OK)
 		else:
-			return Response({"error": "Invalid activation link"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Enlace de activación inválido"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Register(APIView):
@@ -96,7 +96,7 @@ class Register(APIView):
 			
    			
 			email_from: str = settings.EMAIL_HOST_USER
-			email_to: str = ["clorenzozuniga@gmail.com"] # [user.email]
+			email_to: str = [user.email]
 			subject = 'Activate your account'
 			token: str = account_activation_token.make_token(user)
 			uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))

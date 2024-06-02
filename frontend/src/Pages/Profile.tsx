@@ -30,7 +30,7 @@ export default function Profile({ client, user, setUser }: IProfileProps) {
     function handleProfileUpdate(e: React.FormEvent) {
         e.preventDefault();
 
-        const id = toast.loading("Updating info");
+        const id = toast.loading("Actualizando información");
 
         client.post('/update_user', {
             name: name,
@@ -79,7 +79,7 @@ export default function Profile({ client, user, setUser }: IProfileProps) {
     function handlePasswordChange(e: React.FormEvent) {
         e.preventDefault();
 
-        const id = toast.loading("Changin password");
+        const id = toast.loading("Cambiando contraseña");
 
         client.post('/change_password', {
             current_password: currentPassword,
@@ -110,7 +110,6 @@ export default function Profile({ client, user, setUser }: IProfileProps) {
             });
 
         }).catch((error) => {
-            console.log(error);
             toast.update(id, {
                 render: error.response.data.error,
                 
@@ -128,37 +127,37 @@ export default function Profile({ client, user, setUser }: IProfileProps) {
 
     return (
         <div id='profile-page' className='fill'>
-            <h1>Edit Profile</h1>
+            <h1>Editar Perfil</h1>
             <form id='profile-form' onSubmit={(e) => handleProfileUpdate(e)}>
-                <h4>Update Information</h4>
+                <h4>Actualizar Información</h4>
                 <div className="login-input border secondary shadow-secondary">
-                    <input id="name" className="input" placeholder="Name" type="text" value={name} onChange={(event) => setName(event.target.value)} />
+                    <input id="name" className="input" placeholder="Nombre" type="text" value={name} onChange={(event) => setName(event.target.value)} />
                 </div>
 
                 <div className="login-input border secondary shadow-secondary">
-                    <input id="email" className="input" placeholder="Email" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} />
+                    <input id="email" className="input" placeholder="Email" type="email" autoComplete="none" value={email} onChange={(event) => setEmail(event.target.value)} />
                 </div>
                    
-                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Update Profile</b></button>
+                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Actualizar Perfil</b></button>
 
             </form>
 
             <form id='profile-form' onSubmit={(e) => handlePasswordChange(e)}>
-                <h4>Change Password</h4>
+                <h4>Cambiar contraseña</h4>
 
                 <div className="login-input border secondary shadow-secondary">
-                    <input id="current-password-input" className="input" placeholder="Current Password" type="password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} />
+                    <input id="current-password-input" className="input" placeholder="Contraseña actual" type="password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} />
                 </div>
 
                 <div className="login-input border secondary shadow-secondary">
-                    <input id="new-password-input" className="input" placeholder="New Password" type="password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} />
+                    <input id="new-password-input" className="input" placeholder="Contraseña nueva" type="password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} />
                 </div>
 
                 <div className="login-input border secondary shadow-secondary">
-                    <input id="confirm-password-input" className="input" placeholder="Confirm Password" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
+                    <input id="confirm-password-input" className="input" placeholder="Confirmar Contraseña" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
                 </div>
                    
-                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Change Password</b></button>
+                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Cambiar Contraseña</b></button>
             </form>
         </div>
     )

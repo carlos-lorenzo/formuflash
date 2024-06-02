@@ -38,7 +38,7 @@ export default function Courses({ client, courses, activeCourseId, getCourses, g
             return;
         }
 
-        const toastId = toast.loading("Deleting course...");
+        const toastId = toast.loading("Eliminando curso");
 
         client.post(
             '/delete_course',
@@ -54,7 +54,7 @@ export default function Courses({ client, courses, activeCourseId, getCourses, g
             setDeleteInfo({show: false, id: undefined});
 
             toast.update(toastId, {
-                render: "Course deleted",
+                render: "Curso eliminado",
                 type: "info",
                 isLoading: false,
                 autoClose: 1500,
@@ -69,7 +69,7 @@ export default function Courses({ client, courses, activeCourseId, getCourses, g
 
         }).catch(() => {
             toast.update(toastId, {
-                render: "Error deleting course",
+                render: "Error eliminando el curso",
                 type: "error",
                 isLoading: false,
                 autoClose: 1500,
@@ -84,7 +84,7 @@ export default function Courses({ client, courses, activeCourseId, getCourses, g
 
     return (
         <div id='courses' className='fill'>
-            <h3 style={{textAlign: 'left', marginLeft: "1rem"}}>Courses</h3>
+            <h3 style={{textAlign: 'left', marginLeft: "1rem"}}>Cursos</h3>
             {courses.map((course) => (
                 <Course 
                     activeCourseId={activeCourseId}

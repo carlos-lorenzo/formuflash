@@ -32,7 +32,7 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
 
     function handleCourseCreation(e: React.FormEvent) {
         e.preventDefault();
-        const id = toast.loading("Creating course...");
+        const id = toast.loading("Creando curso");
 
         client.post('/create_course',
         {
@@ -45,7 +45,7 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
             
             toast.update(id, 
                 { 
-                render: "Course created", 
+                render: "Curso creado", 
                 type: "success", 
                 isLoading: false,
                 autoClose: 3000,
@@ -79,7 +79,7 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
         <>
             <div id="create-course-button" className='create place-center secondary shadow-secondary pointer border shadow-margin' onClick={handleCreateClick}>
 
-                <ToolTip text='Create Course'>
+                <ToolTip text='Crear curso'>
                     <FontAwesomeIcon icon={faCirclePlus} size='2x'/>
                 </ToolTip>
 
@@ -92,9 +92,9 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
                     <div id="create-course-prompt" className="create-prompt secondary shadow-accent border">
                         <FontAwesomeIcon icon={faXmark} size='2x' className='pointer close-prompt' onClick={() => setPromptActive(false)}/>
                         <form onSubmit={(e) => handleCourseCreation(e)} className='create-prompt-form'>
-                            <label htmlFor="create-course-input">Create Course</label>
-                            <input id="create-course-input" maxLength={50} className="create-input" type="text" autoComplete="off" value={courseName} onChange={(e) => setCourseName(e.target.value)} placeholder='Course name'/>
-                            <button type="submit" className='shadow-accent accent border'>Create</button>
+                            <label htmlFor="create-course-input">Crear Curso</label>
+                            <input id="create-course-input" maxLength={50} className="create-input" type="text" autoComplete="off" value={courseName} onChange={(e) => setCourseName(e.target.value)} placeholder='Nombre'/>
+                            <button type="submit" className='shadow-accent accent border'>Crear</button>
                         </form>
                         
                     </div> 

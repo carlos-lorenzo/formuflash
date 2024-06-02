@@ -149,10 +149,10 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
                 <MarkdownLatex content={content.content}/>
             </div>
             <div id='study-options' className='fill'>   
-                <button className='shadow-primary border primary study-option' onClick={handleSwap}>Turn Around</button>
-                <button className='shadow-accent border accent study-option' onClick={() => handleConfidenceUpdate(Confidences.LOW)}>LOW</button>
-                <button className='shadow-primary border primary study-option' onClick={() => handleConfidenceUpdate(Confidences.MEDIUM)}>MEDIUM</button>
-                <button className='shadow-green border green study-option' onClick={() => handleConfidenceUpdate(Confidences.HIGH)}>HIGH</button>
+                <button className='shadow-primary border primary study-option' onClick={handleSwap}>Girar</button>
+                <button className='shadow-accent border accent study-option' onClick={() => handleConfidenceUpdate(Confidences.LOW)}>BAJA</button>
+                <button className='shadow-primary border primary study-option' onClick={() => handleConfidenceUpdate(Confidences.MEDIUM)}>MEDIANA</button>
+                <button className='shadow-green border green study-option' onClick={() => handleConfidenceUpdate(Confidences.HIGH)}>ALTA</button>
             </div>
             
         </div>

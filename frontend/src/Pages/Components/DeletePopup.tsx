@@ -16,9 +16,9 @@ export default function DeletePopup({ popupInfo, setPopupInfo, handleDeletion }:
             popupInfo.show ?
                 <div className='screen-cover'>
                     <div id='delete-popup' className="delete-prompt secondary shadow-accent border place-center">
-                        <p>Are you sure you want to delete this?</p>
+                        <p>¿Seguro que quieres borrar esto?</p>
                         <div className="delete-options">
-                            <button onClick={() => handleDeletion(popupInfo.id)} className='delete-option accent shadow-accent border'>Yes</button>
+                            <button onClick={() => handleDeletion(popupInfo.id)} className='delete-option accent shadow-accent border'>Sí</button>
                             <button onClick={() => setPopupInfo({show: false, id: undefined})} className='delete-option accent shadow-accent border'>No</button>
                         </div>
                         

@@ -84,7 +84,7 @@ export default function Register({ client }: IRegisterProps) {
         <div id='register' className='fill place-center'>
             <form onSubmit={handleSubmit} className='login-register-form'>
                     <div className="login-input border secondary shadow-secondary">
-                        <input id="name" className="input" placeholder="Name" type="text" value={name} onChange={(event) => setName(event.target.value)} />
+                        <input id="name" className="input" placeholder="Nombre" type="text" value={name} onChange={(event) => setName(event.target.value)} />
                     </div>
 
                     <div className="login-input border secondary shadow-secondary">
@@ -92,13 +92,13 @@ export default function Register({ client }: IRegisterProps) {
                     </div>
                    
                     <div className="login-input border secondary shadow-secondary" id='password-input'>
-                        <input id="password" className="input" placeholder="Password" type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                        <input id="password" className="input" placeholder="Contraseña" type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
                         <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="password-toggle pointer" onClick={togglePasswordVisiblity} size='xl'/>
                     </div>
                 
-                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Register</b></button>
+                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Regístrate</b></button>
                 <div id='no-account'>
-                    <p>Already have an account?</p><Link to="/login" className='redirect-link'><p><b>Login</b></p></Link>
+                    <p>¿Ya tienes cuenta?</p><Link to="/login" className='redirect-link'><p><b>Inciar sesión</b></p></Link>
                 </div>
             </form>
         </div>

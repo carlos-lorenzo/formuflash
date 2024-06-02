@@ -32,7 +32,7 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
 
 
     function handleCardUpdate() {
-        const id = toast.loading("Saving Card...");
+        const id = toast.loading("Guardando");
         client.post('/update_card', {
             deck_id: activeDeckId,
             question: question,
@@ -47,7 +47,7 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
 
             toast.update(id, 
                 { 
-                render: "Card saved", 
+                render: "Guardada", 
                 type: "success", 
                 isLoading: false,
                 autoClose: 1500,
@@ -77,8 +77,8 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
         client.post('/create_card', 
         {
             deck_id: activeDeck.deck_id,
-            question: 'New Question',
-            answer: 'New Answer', 
+            question: 'Nueva Pregunta',
+            answer: 'Nueva Respuesta', 
         },
         {
             headers: {

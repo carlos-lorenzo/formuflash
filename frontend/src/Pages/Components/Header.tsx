@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AxiosInstance } from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faArrowLeftLong, faArrowRightToBracket, faHouse, faF } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faArrowLeftLong, faArrowRightToBracket, faNoteSticky, faFlask } from '@fortawesome/free-solid-svg-icons';
 
 import Logout from './Logout';
 
@@ -50,7 +50,7 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
                 showBack ?
                 <Link to={profileClickLink()} className='pointer' id='back' onClick={handleBack}>
                     <FontAwesomeIcon icon={faArrowLeftLong} size='2x'/>
-                    <h3>Cards</h3>
+                    <h3>Tarjetas</h3>
                 </Link> : null
             }
             
@@ -71,15 +71,15 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
                     <div className="hamburger-options border">
                         
                         <Link to={'/'} className='pointer hamburger-option' onClick={() => setShowHamburgerMenu(!showHamburgerMenu)}>
-                            <FontAwesomeIcon icon={faF} size='lg'/>
-                            <p>FreeFlash</p>
+                            <FontAwesomeIcon icon={faFlask} size='lg'/>
+                            <p>FlashLab</p>
                         </Link> 
 
                         {
                             user.loggedIn ?
                             <Link to={'/home'} className='pointer hamburger-option' onClick={() => handleHomeClick()}>
-                                <FontAwesomeIcon icon={faHouse} size='lg'/>
-                                <p>Cards</p>
+                                <FontAwesomeIcon icon={faNoteSticky} size='lg'/>
+                                <p>Tarjetas</p>
                             </Link> : null
                         }
                         
@@ -88,7 +88,7 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
                             user.loggedIn ?
                             <Link to={'/profile'} className='pointer hamburger-option' onClick={() => setShowHamburgerMenu(!showHamburgerMenu)}>
                                 <FontAwesomeIcon icon={faGear} size='lg'/>
-                                <p>Profile</p>
+                                <p>Perfil</p>
                             </Link> : null
                         }
                         
@@ -99,7 +99,7 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
                                 <Logout client={client} setUser={setUser} setBack={setShowBack}/> :
                                 <Link to={'/login'} className='pointer hamburger-option'>
                                     <FontAwesomeIcon icon={faArrowRightToBracket} size='lg'/>
-                                    <p>Login</p>
+                                    <p>Entrar</p>
                                 </Link>
                             }
                         </div>

@@ -37,7 +37,7 @@ export default function Course({ client, courseData, activeCourseId, setActiveCo
 
     function handleCourseRename(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
         e.stopPropagation();
-        const id = toast.loading("Renaming course");
+        const id = toast.loading("Renombrando");
         
         client.post(
             '/rename_course',
@@ -61,7 +61,7 @@ export default function Course({ client, courseData, activeCourseId, setActiveCo
             }
 
             toast.update(id, {
-                render: "Course renamed",
+                render: "Curso renombrado",
                 
                 type: "success",
                 isLoading: false,
@@ -112,11 +112,11 @@ export default function Course({ client, courseData, activeCourseId, setActiveCo
                 <div className="rename">
                     <input type='text' maxLength={50} className="rename-input" value={newCourseName} onChange={(event) => setNewCourseName(event.target.value)} onClick={(e) => e.stopPropagation()}/>
                     
-                    <ToolTip text="Confirm Rename">
+                    <ToolTip text="Renombrar">
                         <FontAwesomeIcon icon={faCircleCheck} size='lg' className='pointer deck-option' onClick={(e) => handleCourseRename(e)}/>
                     </ToolTip>
                     
-                    <ToolTip text="Cancel Rename">
+                    <ToolTip text="Cancelar">
                         <FontAwesomeIcon icon={faCircleXmark} size='lg' className='pointer deck-option' onClick={(e) => handleRenameCancelClick(e)}/>
                     </ToolTip>
                 </div>
@@ -126,7 +126,7 @@ export default function Course({ client, courseData, activeCourseId, setActiveCo
                 <div className="current-name">
                     <h3>{courseName}</h3>
 
-                    <ToolTip text="Rename Course">
+                    <ToolTip text="Renombrar Curso">
                         <FontAwesomeIcon icon={faPen} size='lg' className='pointer deck-option' onClick={(e) => handlePenClick(e)}/>
                     </ToolTip>
                 </div>

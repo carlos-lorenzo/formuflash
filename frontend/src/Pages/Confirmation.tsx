@@ -22,7 +22,7 @@ export default function Confirmation({ client }: IConfirmationProps) {
         : 
             (
                 <div id="confirmation-page" className="fill place-center">
-                    <h2>Invalid Link</h2>
+                    <h2>Enlace inválido</h2>
                 </div>
             )
     )

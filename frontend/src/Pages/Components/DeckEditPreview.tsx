@@ -29,7 +29,7 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
     
     function resetConfidences() {
 
-        const id = toast.loading("Resetting confidences");
+        const id = toast.loading("Reiniciando confidencias");
 
         client.post("/reset_confidences",
         {
@@ -71,7 +71,7 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
 
     function exportDeckAsCsv() {
 
-        const id = toast.loading("Exporting deck");
+        const id = toast.loading("Exportando");
 
         client.get(`/export_deck?deck_id=${activeDeck.deck_id}`,
             {
@@ -125,15 +125,15 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
                 <h3>{activeDeck.name}</h3>
                 <div className="deck-info-actions">
                     <UploadCards client={client} deckId={activeDeck.deck_id} getDeck={getDeck}/>
-                    <ToolTip text='Export Deck'>
+                    <ToolTip text='Exportar Mazo'>
                         <FontAwesomeIcon icon={faFileExport} size='xl' onClick={exportDeckAsCsv} className='pointer grow transition-to-primary'/>
                     </ToolTip>
 
-                    <ToolTip text='Reset Confidence'>
+                    <ToolTip text='Reiniciar Confidencias'>
                         <FontAwesomeIcon icon={faArrowRotateLeft} size='xl' onClick={resetConfidences} className='pointer grow transition-to-primary'/>
                     </ToolTip>
 
-                    <ToolTip text='Save'>
+                    <ToolTip text='Guardar'>
                         <FontAwesomeIcon icon={faFloppyDisk} size='xl' onClick={handleCardUpdate} className='pointer grow transition-to-primary'/>
                     </ToolTip>
                 </div>
@@ -153,7 +153,7 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
             
                 
             <div className='border secondary shadow-secondary card-edit-preview place-center pointer' onClick={handleCardCreation}>
-                <ToolTip text='Create Card'>
+                <ToolTip text='Nueva Tarjeta'>
                     <FontAwesomeIcon icon={faPlusCircle} size='2x'/>
                 </ToolTip>
             </div>

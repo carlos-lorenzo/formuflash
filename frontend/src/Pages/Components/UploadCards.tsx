@@ -27,7 +27,16 @@ export default function UploadCards({ client, deckId, getDeck}: IUploadCardsProp
         }
         const file = e.target.files[0];
         if(file.size > 100000) {
-            alert("File too big");
+            toast.error("Archivo demasiado grande", {
+                type: "error",
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
             return;
         }
         setFile(file);
@@ -36,11 +45,11 @@ export default function UploadCards({ client, deckId, getDeck}: IUploadCardsProp
     }
 
     function handleFileUpload(fileToUpload: File | null = file) {
-        const id = toast.loading("Uploading file");
+        const id = toast.loading("Subiendo archivo");
         
         if (!fileToUpload) {
             toast.update(id, {
-                render: "No file selected",
+                render: "Ningún archivo seleccionado",
                 type: "error",
                 isLoading: false,
                 autoClose: 1500,
@@ -104,7 +113,7 @@ export default function UploadCards({ client, deckId, getDeck}: IUploadCardsProp
 
     return (
         <div>
-            <ToolTip text='Upload Deck'>
+            <ToolTip text='Subir Mazo'>
                 <FontAwesomeIcon className='pointer grow transition-to-primary' icon={faFileImport} onClick={() => setShowUpload(true)} size='xl'/>
             </ToolTip>
             {
@@ -114,8 +123,8 @@ export default function UploadCards({ client, deckId, getDeck}: IUploadCardsProp
                         <FontAwesomeIcon icon={faXmark} className='pointer delete-card' onClick={() => handleClosePrompt()} size='xl'/>
 
                         <label className='file-lable pointer' htmlFor='file'>
-                            <p>Select <b>.csv</b> file to upload</p>
-                            <p><em>column format: question,answer</em></p>
+                            <p>Seleccionar <b>.csv</b> para subir</p>
+                            <p><em>Formato: question,answer</em></p>
                             <p><b>{file?.name}</b></p>
                         </label>
                         <input onChange={(e) => handleFileSubmit(e)} id="file" className="file-input" type="file" accept=".csv"/>

@@ -17,7 +17,7 @@ export default function RegisterConfirmation({ client }: IRegisterConfirmationPr
     const navigate = useNavigate();
 
     useEffect(() => {
-        const id = toast.loading("Activating Account");
+        const id = toast.loading("Activando Cuenta");
 
         const queryString = window.location.search;
         const parameters = new URLSearchParams(queryString);
@@ -63,7 +63,7 @@ export default function RegisterConfirmation({ client }: IRegisterConfirmationPr
 
     return (
         <div id="register-confirmation" className='fill place-center'>
-            <h2>Account Activation</h2>
+            <h2>Activación de cuenta</h2>
         </div>
     )
 }

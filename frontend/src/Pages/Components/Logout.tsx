@@ -21,7 +21,7 @@ interface ILogoutProps {
 export default function Logout({ client, setUser, setBack}: ILogoutProps) {
 
     function handleLogout() {
-        const id = toast.loading("Logging out...");
+        const id = toast.loading("Cerrando sesión");
 
         client.get(
             '/logout',
@@ -38,7 +38,7 @@ export default function Logout({ client, setUser, setBack}: ILogoutProps) {
             setBack(false);
             
             toast.update(id, {
-                render: "Logged out",
+                render: "Sesión cerrada",
                 type: "info",
                 isLoading: false,
                 autoClose: 1500,
@@ -68,7 +68,7 @@ export default function Logout({ client, setUser, setBack}: ILogoutProps) {
     return (
         <Link to={'/'} id="logout" className='pointer hamburger-option' onClick={handleLogout}>
                 <FontAwesomeIcon icon={faRightFromBracket} size='lg'/> 
-                <p>Logout</p> 
+                <p>Salir</p> 
         </Link>
     )
 }

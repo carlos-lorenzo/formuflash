@@ -47,7 +47,7 @@ export default function Deck({ client, deckData, setActiveDeckId, setDeckAction,
 
 
     function handleDeckRename() {
-        const id = toast.loading("Renaming deck");
+        const id = toast.loading("Renombrando mazo");
 
         client.post(
             '/rename_deck',
@@ -64,7 +64,7 @@ export default function Deck({ client, deckData, setActiveDeckId, setDeckAction,
             setRenamingDeck(false);
             setDeckName(response.data.name);
             toast.update(id, {
-                render: "Deck renamed",
+                render: "Renombrado",
                 
                 type: "success",
                 isLoading: false,
@@ -99,11 +99,11 @@ export default function Deck({ client, deckData, setActiveDeckId, setDeckAction,
                 renamingDeck ? 
                 <div className="rename">
                     <input type='text' maxLength={50} className="rename-input" value={newDeckName} onChange={(event) => setNewDeckName(event.target.value)}/>
-                    <ToolTip text="Confirm Rename">
+                    <ToolTip text="Renombrar">
                         <FontAwesomeIcon icon={faCircleCheck} size='lg' className='pointer deck-option' onClick={() => handleDeckRename()}/>
                     </ToolTip>
                     
-                    <ToolTip text="Cancel Rename">
+                    <ToolTip text="Cancelar">
                         <FontAwesomeIcon icon={faCircleXmark} size='lg' className='pointer deck-option' onClick={() => setRenamingDeck(false)}/>
                     </ToolTip>
                 </div>
@@ -113,7 +113,7 @@ export default function Deck({ client, deckData, setActiveDeckId, setDeckAction,
                 <div className="current-name">
                     <h3>{deckName}</h3>
 
-                    <ToolTip text="Rename Deck">
+                    <ToolTip text="Renombrar Mazo">
                         <FontAwesomeIcon icon={faPen} size='lg' className='pointer deck-option' onClick={() => setRenamingDeck(true)}/>
                     </ToolTip>
                 </div>
@@ -121,15 +121,15 @@ export default function Deck({ client, deckData, setActiveDeckId, setDeckAction,
             
             <div className="deck-options">
                 
-                <ToolTip text="Study Deck">
+                <ToolTip text="Estudiar">
                     <FontAwesomeIcon icon={faGraduationCap} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.STUDY)}/>
                 </ToolTip>
 
-                <ToolTip text="Edit Deck">
+                <ToolTip text="Editar">
                     <FontAwesomeIcon icon={faPenToSquare} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.EDIT)}/>
                 </ToolTip>
                 
-                <ToolTip text="Preview Deck">
+                <ToolTip text="Previsualizar">
                     <FontAwesomeIcon icon={faMagnifyingGlass} size='2x' className='pointer deck-option' onClick={() => handleOptionClick(DeckAction.PREIVEW)}/>
                 </ToolTip>
             </div>
