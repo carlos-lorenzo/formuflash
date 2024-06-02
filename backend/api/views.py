@@ -97,10 +97,9 @@ class Register(APIView):
    			
 			email_from: str = settings.EMAIL_HOST_USER
 			email_to: str = [user.email]
-			subject = 'Activate your account'
+			subject = 'Activa tu cuenta'
 			token: str = account_activation_token.make_token(user)
 			uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))
-			# url = f'http://{current_site}/api/activate/{uidb64}/{token}/'
    
 			url = f'http://{current_site}:3000/confirmation?type=activate&uidb64={uidb64}&token={token}'
 			
@@ -108,9 +107,9 @@ class Register(APIView):
 			<html lang="en" className="scroll-smooth">
 				<head></head>
 				<body>
-					<p>Welcome {user.name}!<br/><br/>
-					Please <a href="{url}">Verify</a> your account<br/>
-					Free Flash
+					<p>Bienvenido {user.name}!<br/><br/>
+					Por favor <a href="{url}">verifica</a> tu cuenta<br/>
+					Flashlab
 					</p>
 				</body>
 			</html>
@@ -145,20 +144,20 @@ class PasswordResetSender(APIView):
 		User = get_user_model()
 		email = request.data.get('email', None)
 		if not email:
-			return Response({"error": "Email not provided"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Email no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		try:
 			user = User.objects.get(email=email)
 
 		except User.DoesNotExist:
-			return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
   
 		current_site = get_current_site(request).domain.split(":")[0]
 
 		email_from: str = settings.EMAIL_HOST_USER
-		email_to: str = ["clorenzozuniga@gmail.com"] # [user.email]
+		email_to: str = [user.email]
   
-		subject = 'Password Reset'
+		subject = 'Reiniciar Contraseña'
   
 		token: str = password_reset_token.make_token(user)
 		uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))
@@ -179,7 +178,7 @@ class PasswordResetSender(APIView):
 
 		send_mail(subject, message, email_from, email_to, html_message=message)
   
-		return Response({"message": "Password reset email sent"}, status=status.HTTP_200_OK)
+		return Response({"message": "Email enviado"}, status=status.HTTP_200_OK)
 
 class ResetPassword(APIView):
 	permission_classes = (permissions.AllowAny,)
@@ -193,19 +192,19 @@ class ResetPassword(APIView):
 			user = User.objects.get(user_id=uid)
 			
 		except(User.DoesNotExist):
-			return Response({"error": "Invalid user id"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "ID inválido"}, status=status.HTTP_400_BAD_REQUEST)
    
 		if user is not None and password_reset_token.check_token(user, token):
 			password = request.data.get('password', None)
 			if not password:
-				return Response({"error": "Password not provided"}, status=status.HTTP_400_BAD_REQUEST)
+				return Response({"error": "Contraseña no proporcionada"}, status=status.HTTP_400_BAD_REQUEST)
    
 			user.set_password(password)
 			user.save()
 
-			return Response({"message": "Successful password reset"}, status=status.HTTP_200_OK)
+			return Response({"message": "Contraseña cambiada correctamente"}, status=status.HTTP_200_OK)
 		else:
-			return Response({"error": "Invalid password reset token"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Token inválido"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Course views
@@ -233,7 +232,7 @@ class CreateCourse(APIView):
 		user = request.user
 		
 		if not name:
-			return Response({"error": "Course name is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Nombre de curso requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		course = Course(name=name, owner=user)
 		course.save()
@@ -242,7 +241,7 @@ class CreateCourse(APIView):
 		
 		
 		return Response({
-	  			"message": "Course created",
+	  			"message": "Curso creado",
 				"course": serialiser.data
 				}, status=status.HTTP_200_OK)
 
@@ -253,19 +252,19 @@ class DeleteCourse(APIView):
 		user = request.user
 
 		if not course_id:
-			return Response({"error": "course_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "course_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 
 		if not Course.objects.get(course_id=course_id):
-			return Response({"error": "course not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Curso no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
 		course = Course.objects.get(course_id=course_id)
 
 		if course.owner != user:
-			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+			return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
 
 		course.delete()
 
-		return Response({"message": "Course deleted"}, status=status.HTTP_200_OK)
+		return Response({"message": "Curso eliminado"}, status=status.HTTP_200_OK)
 
 
 class RenameCourse(APIView):
@@ -275,20 +274,20 @@ class RenameCourse(APIView):
 		user = request.user
 
 		if not course_id:
-			return Response({"error": "course id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "course_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 
 		if not name:
-			return Response({"error": "New name not provided"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Nombre nuevo no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
 
 		course = Course.objects.get(course_id=course_id)
 
 		if course.owner != user:
-			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+			return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
 
 		course.name = name
 		course.save()
 
-		return Response({"message": "Course renamed",
+		return Response({"message": "Curso renombrado",
 						 "name": name}, status=status.HTTP_200_OK)
 
 
@@ -302,7 +301,7 @@ class GetUserDecks(APIView):
 		decks = Deck.objects.filter(owner=user)
 		
 		if not decks:
-			return Response({"message": "No decks found"}, status=status.HTTP_204_NO_CONTENT)
+			return Response({"message": "Mazos no encontrados"}, status=status.HTTP_204_NO_CONTENT)
   
   
 		serializer = DeckSerialiser(decks, many=True)
@@ -316,12 +315,12 @@ class GetCourseDecks(APIView):
 		user = request.user
 		
 		if not course_id:
-			return Response({"error": "course_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "course_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		try:
 			course = Course.objects.get(course_id=course_id)
 		except Course.DoesNotExist:
-			return Response({"error": "course does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		decks = Deck.objects.filter(course=course)
 		
@@ -342,16 +341,16 @@ class CreateDeck(APIView):
 		user = request.user
 		
 		if not name:
-			return Response({"error": "Deck name is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Nombre de mazo requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not course_id:
-			return Response({"error": "course is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "course_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		try:
 			course = Course.objects.get(course_id=course_id)
    
 		except Course.DoesNotExist:
-			return Response({"error": "course does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		deck = Deck.objects.create(name=name, owner=user, course=course)
 
@@ -365,7 +364,7 @@ class CreateDeck(APIView):
 		deck.number_of_cards = 1
 		deck.save()
 		
-		return Response({"message": "Deck created successfully"}, status=status.HTTP_201_CREATED)
+		return Response({"message": "Mazo creado correctamente"}, status=status.HTTP_201_CREATED)
 
 	
 
@@ -377,12 +376,12 @@ class GetDeck(APIView):
 		user = request.user
 		
 		if not deck_id:
-			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "deck_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		deck = Deck.objects.get(deck_id=deck_id)
 		
 		if deck.owner != user:
-			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+			return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
 		
 		cards = FlashCard.objects.filter(deck=deck)
 		serialised_cards = {}
@@ -406,19 +405,19 @@ class DeleteDeck(APIView):
 		user = request.user
 
 		if not deck_id:
-			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "deck_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 
 		if not Deck.objects.get(deck_id=deck_id):
-			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Mazo no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
 		deck = Deck.objects.get(deck_id=deck_id)
 
 		if deck.owner != user:
-			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+			return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
 
 		deck.delete()
 
-		return Response({"message": "Deck deleted"}, status=status.HTTP_200_OK)
+		return Response({"message": "Mazo eliminado"}, status=status.HTTP_200_OK)
 
 
 class RenameDeck(APIView):
@@ -428,20 +427,20 @@ class RenameDeck(APIView):
 		user = request.user
 
 		if not deck_id:
-			return Response({"error": "deck id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "deck_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 
 		if not name:
-			return Response({"error": "New name not provided"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Nombre nuevo no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
 
 		deck = Deck.objects.get(deck_id=deck_id)
 
 		if deck.owner != user:
-			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+			return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
 
 		deck.name = name
 		deck.save()
 
-		return Response({"message": "Deck renamed",
+		return Response({"message": "Mazo renombrado",
 						 "name": name}, status=status.HTTP_200_OK)
 
 
@@ -455,37 +454,49 @@ class ImportCardsFromCsv(APIView):
 		file = request.FILES["file"]
 		
 		if not file:
-			return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Ningún archivo proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
   
 		if not deck_id:
-			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "deck_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 
 		if not Deck.objects.get(deck_id=deck_id):
-			return Response({"error": "Deck not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Mazo no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
 		deck = Deck.objects.get(deck_id=deck_id)
   
 		if not deck.owner == user:
-			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+			return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
 
 		try:
 			df = pd.read_csv(file)
 			df.rename(columns={column: column.lower() for column in df.columns}, inplace=True)
-   
+
+			question_column = "question"
+			answer_column = "answer"
+			
 			#If columns are missing return error
 			if 'question' not in df.columns or 'answer' not in df.columns:
-				return Response({"error": "Missing columns"}, status=status.HTTP_400_BAD_REQUEST)
+				
+				if 'pregunta' in df.columns:
+					question_column = 'pregunta'
+
+				if 'respuesta' in df.columns:
+					answer_column = 'respuesta'
+     
+				if 'pregunta' not in df.columns or 'respuesta' not in df.columns:
+    
+					return Response({"error": "Faltan columnas"}, status=status.HTTP_400_BAD_REQUEST)
 			
 			
 			if len(df) == 0:
-				return Response({"error": "No data in file"}, status=status.HTTP_400_BAD_REQUEST)
+				return Response({"error": "Archivo vacio"}, status=status.HTTP_400_BAD_REQUEST)
 
 			if len(df) >= 1000:
-				return Response({"error": "File too large"}, status=status.HTTP_400_BAD_REQUEST)
+				return Response({"error": "Archivo demasiado grande"}, status=status.HTTP_400_BAD_REQUEST)
 
 		
 			objs = [
-				FlashCard(deck=deck, question=row['question'], answer=row['answer'], owner=user)
+				FlashCard(deck=deck, question=row[question_column], answer=row[answer_column], owner=user)
 				for index, row in df.iterrows()
 			]
 			created = FlashCard.objects.bulk_create(objs, batch_size=1000)
@@ -496,21 +507,21 @@ class ImportCardsFromCsv(APIView):
 			deck.number_of_cards += len(created)
 			deck.save()
   
-			return Response({"message": "Cards imported"}, status=status.HTTP_200_OK)
+			return Response({"message": "Tarjetas importadas"}, status=status.HTTP_200_OK)
 
 		except Exception as e:
 			
-			return Response({"error": "Something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Algo no ha ido bien"}, status=status.HTTP_400_BAD_REQUEST)
 
 class DeckToCsv(APIView):
 	def get(self, request):
 		deck_id = request.GET.get('deck_id', None)
 		
 		if not deck_id:
-			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "deck_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 
 		if not Deck.objects.get(deck_id=deck_id):
-			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Mazo no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
 		deck = Deck.objects.get(deck_id=deck_id)
 
@@ -541,33 +552,33 @@ class UpdateCard(APIView):
 		answer: str = request.data.get('answer', None)
 		
 		if not deck_id:
-			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "deck_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not Deck.objects.get(deck_id=deck_id):
-			return Response({"error": "Deck not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Mazo no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 		
 		if not question:
-			return Response({"error": "No question provided"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Pregunta requerida"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not answer:
-			return Response({"error": "No answer provided"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Respuesta requerida"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		# Create card if it doesn't exist
 		if not FlashCard.objects.get(card_id=card_id):
-			return Response({"message": "Card not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"message": "Tarjeta no encontrada"}, status=status.HTTP_404_NOT_FOUND)
 
 		
 		card = FlashCard.objects.get(card_id=card_id)
 		
 		if card.owner != request.user:
-			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+			return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
 		
 		card.question = question
 		card.answer = answer
 	
 		card.save()
 	
-		return Response({"message": "Card updated"}, status=status.HTTP_202_ACCEPTED)
+		return Response({"message": "Tarjeta actualizada"}, status=status.HTTP_202_ACCEPTED)
 
 
 class CreateCard(APIView):
@@ -578,16 +589,16 @@ class CreateCard(APIView):
 		user = request.user
 
 		if not deck_id:
-			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "deck_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 
 		if not Deck.objects.get(deck_id=deck_id):
-			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Mazo no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
 		if not question:
-			return Response({"error": "question is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Pregunta requerida"}, status=status.HTTP_400_BAD_REQUEST)
 
 		if not answer:
-			return Response({"error": "answer is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Respuesta requerida"}, status=status.HTTP_400_BAD_REQUEST)
 
 		card = FlashCard(question=question, answer=answer, deck_id=deck_id, owner=user)
 		card.save()
@@ -598,7 +609,7 @@ class CreateCard(APIView):
 		
 		serialiser = FlashCardSerialiser(card)
 
-		return Response({"message": "Card created",
+		return Response({"message": "Tarjeta creada",
 						 "card": serialiser.data}, status=status.HTTP_201_CREATED)
 
 class GetCard(APIView):
@@ -609,15 +620,15 @@ class GetCard(APIView):
 		user = request.user
 		
 		if not deck_id:
-			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "deck_id is requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		deck = Deck.objects.get(deck_id=deck_id)
 		
 		if not deck:
-			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Mazo no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 		
 		if deck.owner != user:
-			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+			return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
 		
 		cards = FlashCard.objects.filter(deck=deck_id)
 		
@@ -661,12 +672,12 @@ class ResetDeckConfidence(APIView):
 		user = request.user
 		
 		if not deck_id:
-			return Response({"error": "deck_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "deck_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		deck = Deck.objects.get(deck_id=deck_id)
 		
 		if not deck:
-			return Response({"error": "deck not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Mazo no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 		
 		if deck.owner != user:
 			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
@@ -677,7 +688,7 @@ class ResetDeckConfidence(APIView):
 		
 		deck.save()
 		
-		return Response({"message": "Deck confidence reset"}, status=status.HTTP_200_OK)
+		return Response({"message": "Confidencias reiniciadas"}, status=status.HTTP_200_OK)
 
 
 class UpdateCardConfidence(APIView):
@@ -689,24 +700,24 @@ class UpdateCardConfidence(APIView):
 		user = request.user
 		
 		if not card_id:
-			return Response({"error": "card_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "card_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not confidence or confidence not in [FlashCard.Confidence.LOW, FlashCard.Confidence.MEDIUM, FlashCard.Confidence.HIGH]:
-			return Response({"error": "confidence is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "confidence requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not FlashCard.objects.get(card_id=card_id):
-			return Response({"error": "card not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Tarjeta no encontrada"}, status=status.HTTP_404_NOT_FOUND)
 		
 		
 		card = FlashCard.objects.get(card_id=card_id)
 		
 		if card.owner != user:
-			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+			return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
 		
 		card.confidence = confidence
 		card.save()
 		
-		return Response({"message": "Card confidence updated"}, status=status.HTTP_200_OK)
+		return Response({"message": "Confidencia actualizada"}, status=status.HTTP_200_OK)
 	
 	
  
@@ -719,19 +730,19 @@ class DeleteCard(APIView):
 		user = request.user
 		
 		if not card_id:
-			return Response({"error": "card_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "card_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
   
 		if not FlashCard.objects.get(card_id=card_id):
-			return Response({"error": "card not found"}, status=status.HTTP_404_NOT_FOUND)
+			return Response({"error": "Tarjeta no encontrada"}, status=status.HTTP_404_NOT_FOUND)
 		
 		card = FlashCard.objects.get(card_id=card_id)
 		
 		if card.owner != user:
-			return Response({"error": "unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+			return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
 
 		if card.deck.number_of_cards <= 1:
-			return Response({"error": "Why would you want an empty deck?"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "¿Para qué querrías un mazo vacío?"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		card.delete()
   
@@ -741,7 +752,7 @@ class DeleteCard(APIView):
 		card.deck.save()
 		
 		return Response({
-					"message": "Card deleted", 
+					"message": "Tarjeta borrada", 
 	 				"new_card_id": other_card.card_id
 					}, 
 				status=status.HTTP_200_OK)
@@ -760,17 +771,17 @@ class UpdateProfileInfo(APIView):
 		user = request.user
 		
 		if not name:
-			return Response({"error": "No name provided"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Nombre requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not email:
-			return Response({"error": "No email provided"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Email requerido"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		user.name = name
 		user.email = email
 		
 		user.save()
 		
-		return Response({"message": "Profile updated",
+		return Response({"message": "Perfil actualizado",
 						 "user": UserSerialiser(user).data
 						}, status=status.HTTP_200_OK)
 		
@@ -784,22 +795,22 @@ class ChangePassword(APIView):
 		user = request.user
 		
 		if not current_password:
-			return Response({"error": "Current password is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Contraseña actual requerida"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not new_password:
-			return Response({"error": "New password is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Contraseña nueva requerida"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not confirm_password:
-			return Response({"error": "Password confirmation is required"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Confirmación de contraseña requerida"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not new_password == confirm_password:
-			return Response({"error": "Passwords don't match"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Las contraseñas no coinciden"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		if not user.check_password(current_password):
-			return Response({"error": "Incorrect password"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"error": "Contraseña incorrecta"}, status=status.HTTP_400_BAD_REQUEST)
 		
 		
 		user.set_password(new_password)
 		user.save()
 		
-		return Response({"message": "Password changed"}, status=status.HTTP_200_OK)
+		return Response({"message": "Conseña cambiada"}, status=status.HTTP_200_OK)
