@@ -64,8 +64,20 @@ class Activate(APIView):
 	permission_classes = (permissions.AllowAny,)
 	
 	def get(self, request, uidb64, token):
-		User = get_user_model()
+		"""
+		Activates a user's account using the provided uidb64 and token.
+
+		:param request: The HTTP request object.
+		:type request: HttpRequest
+		:param uidb64: The base64-encoded user ID.
+		:type uidb64: str
+		:param token: The activation token.
+		:type token: str
+		:return: A Response object containing either a success message or an error message.
+		:rtype: Response
+		"""
 		try:
+			User = get_user_model()
 			uid = force_str(urlsafe_base64_decode(uidb64))
 			user = User.objects.get(user_id=uid)
 
@@ -141,6 +153,7 @@ class PasswordResetSender(APIView):
 	permission_classes = (permissions.AllowAny,)
 	
 	def post(self, request):
+     
 		User = get_user_model()
 		email = request.data.get('email', None)
 		if not email:
@@ -168,9 +181,9 @@ class PasswordResetSender(APIView):
 			<html lang="en" className="scroll-smooth">
 				<head></head>
 				<body>
-					<p>Hi {user.name}<br/><br/>
-				   	You can reset your password through this link: <a href="{url}">Reset Password</a><br/>
-					Free Flash
+					<p>Hola {user.name}:<br/><br/>
+				   	Puedes reiniciar tu contraseña a través de este enlace: <a href="{url}">Reiniciar Contraseña</a><br/>
+					Flash Lab
 					</p>
 				</body>
 			</html>
@@ -688,7 +701,7 @@ class ResetDeckConfidence(APIView):
 		
 		deck.save()
 		
-		return Response({"message": "Confidencias reiniciadas"}, status=status.HTTP_200_OK)
+		return Response({"message": "Confidencia reiniciadas"}, status=status.HTTP_200_OK)
 
 
 class UpdateCardConfidence(APIView):
@@ -813,4 +826,4 @@ class ChangePassword(APIView):
 		user.set_password(new_password)
 		user.save()
 		
-		return Response({"message": "Conseña cambiada"}, status=status.HTTP_200_OK)
+		return Response({"message": "Contraseña cambiada"}, status=status.HTTP_200_OK)

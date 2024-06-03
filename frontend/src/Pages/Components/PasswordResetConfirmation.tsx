@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { AxiosInstance } from 'axios';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { toast } from 'react-toastify';
 
 
