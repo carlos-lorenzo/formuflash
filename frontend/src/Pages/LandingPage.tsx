@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 
+
+
 export default function LandingPage() {
 
    
@@ -28,7 +30,7 @@ export default function LandingPage() {
                         <h2>Empodérate con FlashLab</h2>
                         <h3>Crea elegantes tarjetas de forma sencilla y dinámica</h3>
                     </div>
-                    <img src="https://picsum.photos/900" alt="Latex Flashcard" className='info-image shadow-secondary border' />
+                    <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYm93djFyOGd0bXRuMXFyc3lwODU2eHJ6cm1sNjV0MTRuemxudG94NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/AZr0r4sgmsvafkbXg0/giphy.gif" alt="Efficient Learning" className='info-image shadow-secondary border' />
                 </div>
 
                 <div id="feature-2" className='border feature'>
@@ -36,7 +38,6 @@ export default function LandingPage() {
                         <h2>Enfócate en lo que realmente importa</h2>
                         <h3>Maximiza tu aprendizaje, minimiza el tiempo</h3>
                     </div>
-                    <img src="https://picsum.photos/900" alt="Efficient Learning" className='info-image shadow-secondary border' />
                 </div>
             </div>
 
