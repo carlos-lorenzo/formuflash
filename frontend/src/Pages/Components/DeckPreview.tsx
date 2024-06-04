@@ -1,15 +1,7 @@
-import React from 'react'
-
-import { AxiosInstance } from 'axios';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-
 import CardPreview from './CardPreview'
-import CardEditPreview from './CardEditPreview'
 
 import IDeck from '../../types/Deck';
-import ICard from '../../types/Card';
+
 
 interface IDeckPreviewProps {
     activeDeck: IDeck,

@@ -1,7 +1,6 @@
 import React from 'react'
 import { useRef } from 'react'
 
-import { AxiosInstance } from 'axios'
 import MarkdownLatex from './MarkdownLatex'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,25 +10,17 @@ import { faImage } from '@fortawesome/free-regular-svg-icons';
 import ToolTip from './ToolTip';
 
 interface ICreateCardProps {
-    client: AxiosInstance,
     question: string,
     answer: string,
-    activeCardId: number,
-    activeDeckId: number | undefined,
     setQuestion: React.Dispatch<React.SetStateAction<string>>,
     setAnswer: React.Dispatch<React.SetStateAction<string>>,
-    getDeck: () => void
 }
 
-export default function CreateCard({ 
-    client, 
+export default function CreateCard({  
     question, 
     answer, 
-    activeCardId,
-    activeDeckId,
     setQuestion,
-    setAnswer,
-    getDeck
+    setAnswer
 
 }: ICreateCardProps) {
     

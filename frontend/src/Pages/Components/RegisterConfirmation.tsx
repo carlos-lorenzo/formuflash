@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom';
 
 import { AxiosInstance } from 'axios';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { toast } from 'react-toastify';
 

@@ -5,7 +5,7 @@ declare interface IDeck {
     course_id: number,
     cards: {
         [cardId: number]: {
-            id: number,
+            card_id: number,
             question: string,
             answer: string,
             confidence: number

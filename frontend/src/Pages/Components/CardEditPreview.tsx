@@ -11,8 +11,6 @@ import MarkdownLatex from './MarkdownLatex'
 
 import ICard from '../../types/Card';
 
-import ToolTip from './ToolTip';
-
 interface ICardEditPreviewProps {
     client: AxiosInstance,
     getDeck: (newCardId?: number) => void,

@@ -49,7 +49,7 @@ export default function Logout({ client, setUser, setBack}: ILogoutProps) {
                 progress: undefined,
             });
 
-        }).catch((error) => {
+        }).catch((_) => {
             toast.update(id, {
                 render: "Error logging out",
                 type: "error",

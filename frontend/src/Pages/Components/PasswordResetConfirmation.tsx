@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react'
-
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
 
 import { AxiosInstance } from 'axios';
 
@@ -12,8 +10,6 @@ interface IPasswordResetConfirmation {
 }
 
 export default function PasswordResetConfirmation({ client }: IPasswordResetConfirmation) {
-    const navigate = useNavigate();
-
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 

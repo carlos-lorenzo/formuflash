@@ -25,7 +25,6 @@ interface IHome {
     user: IUser,
     activeCourseId: number | undefined,
     setActiveCourseId: React.Dispatch<React.SetStateAction<number | undefined>>,
-    activeDeckId: number | undefined,
     setActiveDeckId: React.Dispatch<React.SetStateAction<number | undefined>>,
     setDeckAction: React.Dispatch<React.SetStateAction<DeckAction>>,
     setShowBack: React.Dispatch<React.SetStateAction<boolean>>
@@ -35,7 +34,6 @@ export default function Home({
     client, 
     user,
     activeCourseId,
-    activeDeckId,
     setActiveCourseId,
     setActiveDeckId,
     setDeckAction,

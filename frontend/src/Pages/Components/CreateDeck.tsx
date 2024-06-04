@@ -44,7 +44,7 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
             headers: {
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
-        }).then((response) => {
+        }).then((_) => {
 
             toast.update(id, {
                 render: "Mazo creado",

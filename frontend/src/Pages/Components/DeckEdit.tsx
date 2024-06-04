@@ -133,14 +133,10 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                     />
 
                     <CreateCard 
-                        client={client}
                         question={question}
                         answer={answer}
                         setQuestion={setQuestion} 
                         setAnswer={setAnswer}
-                        activeCardId={activeCardId}
-                        activeDeckId={activeDeckId}
-                        getDeck={getDeck}
                     />
                 </div>
             </MediaQuery>
@@ -154,14 +150,10 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                     {
                         editing ? 
                         <CreateCard 
-                            client={client}
                             question={question}
                             answer={answer}
                             setQuestion={setQuestion} 
                             setAnswer={setAnswer}
-                            activeCardId={activeCardId}
-                            activeDeckId={activeDeckId}
-                            getDeck={getDeck}
                         /> : 
                         <DeckEditPreview 
                             client={client} 

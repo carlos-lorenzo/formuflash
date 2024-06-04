@@ -1,11 +1,8 @@
-import React from 'react';
-
-
 import { AxiosInstance } from 'axios';
-
 
 import RegisterConfirmation from './Components/RegisterConfirmation';
 import PasswordResetConfirmation from './Components/PasswordResetConfirmation';
+
 interface IConfirmationProps {
     client: AxiosInstance
 }

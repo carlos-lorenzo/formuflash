@@ -1,5 +1,3 @@
-import React from 'react'
-
 import MarkdownLatex from './MarkdownLatex'
 
 import ICard from '../../types/Card';

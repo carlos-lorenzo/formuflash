@@ -120,7 +120,6 @@ function App() {
                     user={user}
                     activeCourseId={activeCourseId}
                     setActiveCourseId={setActiveCourseId}
-                    activeDeckId={activeDeckId}
                     setActiveDeckId={setActiveDeckId}
                     setDeckAction={setDeckAction}
                     setShowBack={setShowBack}
