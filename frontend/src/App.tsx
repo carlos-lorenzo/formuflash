@@ -36,8 +36,7 @@ const client = axios.create({
 client.get('/get_csrf_token')
 .then(response => {
     client.defaults.headers.common['X-CSRFToken'] = response.data.csrfToken;
-}) .catch(error => {
-    console.error('Error fetching CSRF token:', error);
+}).catch(_ => {
 });
 
 //document.documentElement.setAttribute('data-theme', 'dark');
