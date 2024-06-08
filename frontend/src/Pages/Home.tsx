@@ -42,7 +42,7 @@ export default function Home({
 }: IHome) {
 
     const navigate = useNavigate();
-    const [showingCourses, setShowingCourses] = useState<boolean>(false);
+    const [showingCourses, setShowingCourses] = useState<boolean>(true);
     const [courses, setCourses] = useState<ICourse[]>([]);
     const [decks, setDecks] = useState<IBriefDeck[]>([]);
     const [activeCourseName, setActiveCourseName] = useState<string>('');

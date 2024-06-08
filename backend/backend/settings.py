@@ -22,7 +22,7 @@ DEBUG = True
 
 IP = socket.gethostbyname(socket.gethostname())
 PORT = 3000
-CSRF_TRUSTED_ORIGINS = [f"http://{IP}", f"http://*.{IP}:{PORT}/"]
+CSRF_TRUSTED_ORIGINS = [f"http://{IP}", f"http://*.{IP}:{PORT}/", "http://88.17.75.55/", "http://88.17.75.55:80/"]
 
 ALLOWED_HOSTS = ["*"]
 

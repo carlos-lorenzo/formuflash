@@ -38,8 +38,10 @@
     }
 
     #header {
-        justify-content: right;
+        justify-content: center;
+        width: 100vw;
     }
+    
 
     #back {
         left: 2rem;
@@ -186,6 +188,11 @@
 
     #feature-2 .text-container {
         padding-left: 0;
+    }
+
+    #footer {
+        font-size: 12px;
+
     }
 }
 
