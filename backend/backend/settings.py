@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import os
 import environ
 import socket
 
@@ -18,11 +18,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 IP = socket.gethostbyname(socket.gethostname())
-PORT = 3000
-CSRF_TRUSTED_ORIGINS = [f"http://{IP}", f"http://*.{IP}:{PORT}/", "http://88.17.75.55/", "http://88.17.75.55:80/"]
+DEV_FRONTEND_PORT = 3000
+
+CSRF_TRUSTED_ORIGINS = [f"http://{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/"]
 
 ALLOWED_HOSTS = ["*"]
 
@@ -94,10 +95,21 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+    }
+}"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env("DB_NAME"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'HOST': env("DB_HOST"),
+        'PORT': env("DB_PORT")
     }
 }
 
@@ -131,7 +143,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -144,4 +157,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'  
 EMAIL_HOST_USER = env("EMAIL_HOST_USER") 
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-EMAIL_PORT = 587  
+EMAIL_PORT = 587
