@@ -84,11 +84,11 @@ export default function DeckView({ client, user, activeDeckId, deckAction }: IDe
     
 
     if (!activeDeck) {
-        return <h3>Cargando</h3>;
+        return <h3 className='place-center' >Cargando</h3>;
     }
     
     return (
-        <div id="deck-view" className=''>
+        <div id="deck-view" >
             
             
 
@@ -103,7 +103,7 @@ export default function DeckView({ client, user, activeDeckId, deckAction }: IDe
                 <DeckPreview activeDeck={activeDeck}/>
 
                 :
-                <div>Cargando</div>
+                <div className='place-center'><h3>Cargando...</h3></div>
             }
 
            

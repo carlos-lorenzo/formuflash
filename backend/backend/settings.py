@@ -3,6 +3,8 @@ import os
 import environ
 import socket
 
+import dj_database_url
+
 env = environ.Env()
 environ.Env.read_env()
 
@@ -18,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 IP = socket.gethostbyname(socket.gethostname())
 DEV_FRONTEND_PORT = 3000
@@ -102,16 +104,33 @@ WSGI_APPLICATION = "backend.wsgi.application"
     }
 }"""
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env("DB_NAME"),
-        'USER': env("DB_USER"),
-        'PASSWORD': env("DB_PASSWORD"),
-        'HOST': env("DB_HOST"),
-        'PORT': env("DB_PORT")
+
+if DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    DATABASES = {
+            "default": dj_database_url.config(
+                default=os.environ.get("DATABASE_URL"), conn_max_age=600
+            )
+    }
+    
+    """
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': env("DB_NAME"),
+            'USER': env("DB_USER"),
+            'PASSWORD': env("DB_PASSWORD"),
+            'HOST': env("DB_HOST"),
+            'PORT': env("DB_PORT")
+        }
+    }
+    """
 
 
 # Password validation
