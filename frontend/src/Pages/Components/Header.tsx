@@ -9,8 +9,7 @@ import { faGear, faArrowLeftLong, faArrowRightToBracket, faNoteSticky } from '@f
 
 import Logout from './Logout';
 
-import Logo from '../../assets/logo.png';
-import LogoRow from '../../assets/logo-row.png';
+import Logo from '../../assets/logo.svg';;
 
 import IUser from '../../types/User';
 
@@ -72,11 +71,6 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
                 {
                     showHamburgerMenu ? 
                     <div className="hamburger-options border">
-                        
-                        <Link to={'/'} className='pointer hamburger-option' onClick={() => setShowHamburgerMenu(!showHamburgerMenu)}>
-                            <img src={Logo} alt="Logo" width="35px"/>
-                            <p>FormuFlash</p>
-                        </Link> 
 
                         {
                             user.loggedIn ?
