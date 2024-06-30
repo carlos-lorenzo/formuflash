@@ -113,7 +113,7 @@ class Register(APIView):
 			token: str = account_activation_token.make_token(user)
 			uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))
    
-			url = f'http://{current_site}:3000/confirmation?type=activate&uidb64={uidb64}&token={token}'
+			url = f'http://{current_site}/confirmation?type=activate&uidb64={uidb64}&token={token}'
 			
 			message = f"""
 			<html lang="en" className="scroll-smooth">
@@ -175,7 +175,7 @@ class PasswordResetSender(APIView):
 		token: str = password_reset_token.make_token(user)
 		uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))
   
-		url = f'http://{current_site}:3000/confirmation?type=reset-password&uidb64={uidb64}&token={token}'
+		url = f'http://{current_site}/confirmation?type=reset-password&uidb64={uidb64}&token={token}'
   
 		message = f"""
 			<html lang="en" className="scroll-smooth">

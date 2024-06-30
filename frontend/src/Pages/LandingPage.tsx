@@ -9,7 +9,7 @@ export default function LandingPage() {
             <div id="hero">
                 <div id="hero-content">
                     <h1>Formuflash - Revoluciona tu aprendizaje</h1>
-                    <h3 style={{color: "var(--secondary-200)"}}>Una aplicación de flashcards con LaTeX y Markdown</h3>
+                    <h2 style={{color: "var(--secondary-200)"}}>Una aplicación de flashcards con LaTeX y Markdown</h2>
                     <Link to="/register" id="cta" className='accent shadow-accent border'><b>Únete</b></Link>
                 </div>
             </div>

@@ -9,8 +9,6 @@ import { faGear, faArrowLeftLong, faArrowRightToBracket, faNoteSticky } from '@f
 
 import Logout from './Logout';
 
-import Logo from '../../assets/logo.svg';;
-
 import IUser from '../../types/User';
 
 interface IHeaderProps {
