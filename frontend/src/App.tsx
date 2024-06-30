@@ -62,7 +62,7 @@ function App() {
     const [deckAction, setDeckAction] = useState(DeckAction.EDIT);
 
     useEffect(() => {
-        if (!user.loggedIn) {
+        if (!user.loggedIn && localStorage.getItem('token')) {
             client.get('/get_user',
                 {
                     headers: {
