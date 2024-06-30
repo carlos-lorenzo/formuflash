@@ -89,8 +89,6 @@ export default function Login({ client, setUser }: ILoginProps) {
                 navigate("/home");
             })
         }).catch((error) => {
-            console.error(error);
-            
             toast.update(id, {
                 render: handleErrorMessage(error),
                 

@@ -92,7 +92,6 @@ export default function Profile({ client, user, setUser }: IProfileProps) {
         }
         
         ).then((response) => {
-            console.log(response)
             setCurrentPassword('');
             setNewPassword('');
             setConfirmPassword('');

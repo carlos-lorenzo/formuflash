@@ -62,9 +62,6 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
             setPromptActive(false);
             setDeckName('');
         }).catch((error) => {
-
-            console.log(error)
-
             toast.update(id, {
                 render: handleError(error),
                 type: "error",

@@ -39,8 +39,6 @@ export default function RegisterConfirmation({ client }: IRegisterConfirmationPr
             navigate("/login");
 
         }).catch((error) => {
-            console.error(error);
-
             toast.update(id, {
                 render: error.response.data.error,
                 type: "error",

@@ -58,7 +58,6 @@ export default function Register({ client }: IRegisterProps) {
                 
                 
             }).catch((error) => {
-                console.error(error);
             
                 toast.update(id, {
                     render: error.response.data.error,
