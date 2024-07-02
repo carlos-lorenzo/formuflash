@@ -25,6 +25,9 @@ input:-webkit-autofill:active{
     -ms-overflow-style: none;
     scrollbar-width: none;
     outline: none;
+    caret-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -68,7 +71,7 @@ textarea {
     border: none;
     overflow-y: auto;
     outline: none;
-
+    caret-color: var(--text);
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -97,6 +100,7 @@ a {
 input {
     background-color: transparent;
     color: var(--text);
+    caret-color: var(--text);
     outline: none;
     border: none;
     width: 100%;

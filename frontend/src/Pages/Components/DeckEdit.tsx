@@ -143,8 +143,8 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
             <MediaQuery query='(max-width: 1280px)'>
                 <div id='deck-edit' onKeyDown={handleShortcuts} tabIndex={0}>
                     <div id="edit-select">
-                        <h3 className='pointer' onClick={() => handleDeckSwitch()} style={{color: editing ? 'var(--text)' : 'var(--primary)'}}>Deck</h3>
-                        <h3 className='pointer' onClick={() => setEditing(true)} style={{color: editing ? 'var(--primary)' : 'var(--text)'}}>Edit</h3>
+                        <h3 className='pointer' onClick={() => handleDeckSwitch()} style={{color: editing ? 'var(--text)' : 'var(--primary)'}}>Mazo</h3>
+                        <h3 className='pointer' onClick={() => setEditing(true)} style={{color: editing ? 'var(--primary)' : 'var(--text)'}}>Editar</h3>
                     </div>
                     
                     {
