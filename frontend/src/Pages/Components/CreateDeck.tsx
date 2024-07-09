@@ -93,7 +93,7 @@ export default function CreateDeck({ client, activeCourseId, getCourseDecks }: I
                         <form onSubmit={(e) => handleDeckCreation(e)} className='create-prompt-form'>
                             <label htmlFor="create-deck-input">Crear Mazo</label>
                             <input id="create-deck-input" maxLength={50} className="create-input" type="text" autoComplete="off" value={deckName} onChange={(e) => setDeckName(e.target.value)} placeholder='Nombre'/>
-                            <button type="submit" className='shadow-accent accent border'>Crear</button>
+                            <button type="submit" className='shadow-accent accent-bg border'>Crear</button>
                         </form>
                         
                     </div> 

@@ -137,7 +137,7 @@ export default function Profile({ client, user, setUser }: IProfileProps) {
                     <input id="email" className="input" placeholder="Email" type="email" autoComplete="none" value={email} onChange={(event) => setEmail(event.target.value)} />
                 </div>
                    
-                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Actualizar Perfil</b></button>
+                <button type="submit" className='shadow-accent accent-bg border' id='login-submit'><b>Actualizar Perfil</b></button>
 
             </form>
 
@@ -156,7 +156,7 @@ export default function Profile({ client, user, setUser }: IProfileProps) {
                     <input id="confirm-password-input" className="input" placeholder="Confirmar Contraseña" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
                 </div>
                    
-                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Cambiar Contraseña</b></button>
+                <button type="submit" className='shadow-accent accent-bg border' id='login-submit'><b>Cambiar Contraseña</b></button>
             </form>
         </div>
     )

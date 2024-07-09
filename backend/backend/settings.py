@@ -18,14 +18,31 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = False
 
 IP = socket.gethostbyname(socket.gethostname())
+DOMAIN = env("SITE_DOMAIN")
 DEV_FRONTEND_PORT = 3000
 
-CSRF_TRUSTED_ORIGINS = [f"http://*.{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/", "http://*.localhost"]
+# Security settings
+CSRF_TRUSTED_ORIGINS = [f"http://*.{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/", "http://*.localhost", "https://*.localhost", f"https://*.{DOMAIN}"] # TODO: Change to actual IP & Domain, remove dev urls
 
-ALLOWED_HOSTS = ["*"] # Change to actual IP & Domain
+ALLOWED_HOSTS = [
+    f"https://*.{DOMAIN}", 
+    "http://*.localhost", 
+    f"https://*.{DOMAIN}:8000", 
+    "https://*.localhost:8000",
+    DOMAIN,
+    IP
+]
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True 
 CORS_ALLOW_CREDENTIALS = True
+
+SECURE_HSTS_SECONDS = 30  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 
 # Application definition
@@ -55,6 +72,7 @@ MIDDLEWARE = [
 	"django.contrib.auth.middleware.AuthenticationMiddleware",
 	"django.contrib.messages.middleware.MessageMiddleware",
 	"django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "csp.middleware.CSPMiddleware"
 ]
 
 REST_FRAMEWORK = {
@@ -72,7 +90,7 @@ ROOT_URLCONF = "backend.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        'DIRS': [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

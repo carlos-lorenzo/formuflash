@@ -25,6 +25,16 @@ export default function Register({ client }: IRegisterProps) {
 
     const navigate = useNavigate();
 
+    function handleErrorLogs(error: any): string {
+        const errorData = error.response.data;
+        
+        if (errorData["email"][0].includes("existe")) {
+            return "Email ya existe";
+        } else if (errorData["email"][0]?.includes("campo") || errorData["password"][0]?.includes("campo") || errorData["name"][0]?.includes("campo")) {
+            return "Los campos no pueden estar vacíos";
+        }
+        return "Error al registrar";
+    }
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -41,7 +51,7 @@ export default function Register({ client }: IRegisterProps) {
             
 
             toast.update(id, {
-                render: "Confirmation email sent",
+                render: response.data.message,
                 type: "success",
                 isLoading: false,
                 autoClose: 1500,
@@ -58,9 +68,8 @@ export default function Register({ client }: IRegisterProps) {
                 
                 
             }).catch((error) => {
-            
                 toast.update(id, {
-                    render: error.response.data.error,
+                    render: handleErrorLogs(error),
                     
                     type: "error",
                     isLoading: false,
@@ -95,7 +104,7 @@ export default function Register({ client }: IRegisterProps) {
                         <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="password-toggle pointer" onClick={togglePasswordVisiblity} size='xl'/>
                     </div>
                 
-                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Regístrate</b></button>
+                <button type="submit" className='shadow-accent accent-bg border' id='login-submit'><b>Regístrate</b></button>
                 <div id='no-account'>
                     <p>¿Ya tienes cuenta?</p><Link to="/login" className='redirect-link'><p><b>Inciar sesión</b></p></Link>
                 </div>

@@ -30,10 +30,10 @@ __pycache__
 *.cpython
 __pycache__/
 
-#db.sqlite3 won't be used in production, PostgreSQL instead
+#db.sqlite3 won't be used in production, PostgreSQL instead (suprisingly...)
 *.sqlite3
 
-# Environemntal variables
+# Environemntal variables (imagine pushing this... totally never done it before 0_0)
 /env
 *.env
 
@@ -44,3 +44,6 @@ env
 static
 db.sqlite3
 .ipynb
+
+# Super secret ssl certificates
+validation/

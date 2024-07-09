@@ -1,6 +1,7 @@
 import random
 import io
 
+import environ
 
 from django.conf import settings
 
@@ -15,6 +16,7 @@ from django.http import JsonResponse
 
 from django.middleware.csrf import get_token
 
+from django.template.loader import render_to_string
 
 from django.utils.encoding import force_str, force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
@@ -32,7 +34,8 @@ from flashcards.serialisers import FlashCardSerialiser, DeckSerialiser, CourseSe
 
 from users.serialisers import UserRegisterSerialiser, UserSerialiser
 
-
+env = environ.Env()
+environ.Env.read_env(env_file=settings.BASE_DIR / ".env")
 
 account_activation_token = PasswordResetTokenGenerator()
 password_reset_token = PasswordResetTokenGenerator()
@@ -104,33 +107,28 @@ class Register(APIView):
 			user.save()
 			
    
-			current_site = get_current_site(request).domain.split(":")[0]
+			current_site = env("SITE_DOMAIN")
 			
    			
 			email_from: str = settings.EMAIL_HOST_USER
 			email_to: str = [user.email]
-			subject = 'Activa tu cuenta'
+			subject = 'Bienvenido a FormuFlash'
 			token: str = account_activation_token.make_token(user)
 			uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))
    
-			url = f'http://{current_site}/confirmation?type=activate&uidb64={uidb64}&token={token}'
+			url = f'https://{current_site}/confirmation?type=activate&uidb64={uidb64}&token={token}'
 			
-			message = f"""
-			<html lang="en" className="scroll-smooth">
-				<head></head>
-				<body>
-					<p>Bienvenido {user.name}!<br/><br/>
-					Por favor <a href="{url}">verifica</a> tu cuenta<br/>
-					Flashlab
-					</p>
-				</body>
-			</html>
-			"""
+			context = {
+				"url": url,
+				"user": user
+			}
+   
+			message = render_to_string('email/account_activation_email.html', context)
 
 			send_mail(subject, message, email_from, email_to, html_message=message)
    
 	
-			return Response(serialiser.data, status=status.HTTP_201_CREATED)
+			return Response({"message": "Email enviado"}, status=status.HTTP_201_CREATED)
 		return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -153,7 +151,7 @@ class PasswordResetSender(APIView):
 	permission_classes = (permissions.AllowAny,)
 	
 	def post(self, request):
-     
+	 
 		User = get_user_model()
 		email = request.data.get('email', None)
 		if not email:
@@ -165,7 +163,7 @@ class PasswordResetSender(APIView):
 		except User.DoesNotExist:
 			return Response({"error": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
   
-		current_site = get_current_site(request).domain.split(":")[0]
+		current_site = settings.DOMAIN
 
 		email_from: str = settings.EMAIL_HOST_USER
 		email_to: str = [user.email]
@@ -175,19 +173,15 @@ class PasswordResetSender(APIView):
 		token: str = password_reset_token.make_token(user)
 		uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))
   
-		url = f'http://{current_site}/confirmation?type=reset-password&uidb64={uidb64}&token={token}'
-  
-		message = f"""
-			<html lang="en" className="scroll-smooth">
-				<head></head>
-				<body>
-					<p>Hola {user.name}:<br/><br/>
-				   	Puedes reiniciar tu contraseña a través de este enlace: <a href="{url}">Reiniciar Contraseña</a><br/>
-					Flash Lab
-					</p>
-				</body>
-			</html>
-			"""
+		url = f'https://{current_site}/confirmation?type=reset-password&uidb64={uidb64}&token={token}'
+
+		context = {
+			'user': user,
+			'url': url
+		}
+		
+		
+		message = render_to_string('email/password_reset_email.html', context)
 
 		send_mail(subject, message, email_from, email_to, html_message=message)
   
@@ -495,9 +489,9 @@ class ImportCardsFromCsv(APIView):
 
 				if 'respuesta' in df.columns:
 					answer_column = 'respuesta'
-     
+	 
 				if 'pregunta' not in df.columns or 'respuesta' not in df.columns:
-    
+	
 					return Response({"error": "Faltan columnas"}, status=status.HTTP_400_BAD_REQUEST)
 			
 			

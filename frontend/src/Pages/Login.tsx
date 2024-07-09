@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState
+ } from 'react'
 
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
@@ -26,20 +27,16 @@ export default function Login({ client, setUser }: ILoginProps) {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        
-    })
-
     function handleErrorMessage(error: any): string {        
         if (error.response.data.username || error.response.data.password) {
-            return "Campos no pueden estar vacíos";
+            return "Los campos no pueden estar vacíos";
         }
 
         if (error.response.data.non_field_errors) {
             return "Credenciales inválidas";
         }
 
-        return "Error inesperado";
+        return "Error al iniciar sesión";
 
     }
 
@@ -120,7 +117,7 @@ export default function Login({ client, setUser }: ILoginProps) {
                         <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="password-toggle pointer" onClick={togglePasswordVisiblity} size='xl'/>
                     </div>
                 
-                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Iniciar sesión</b></button>
+                <button type="submit" className='shadow-accent accent-bg border' id='login-submit'><b>Iniciar sesión</b></button>
                 <div id='login-options'>
                     <div id='forgot-password'>
                         <p></p><Link to="/reset-password" className='redirect-link'><p><b>Olvidaste tu contrseña?</b></p></Link>

@@ -50,25 +50,31 @@ export default function ResetPassword({ client }: IResetPasswordProps) {
     }
 
     return (
-        <div id='password-reset'>
+        <div className='fill place-center' >
 
-            <h2>Reiniciar Contraseña</h2>
+            
 
             <form
                 onSubmit={(e) => {
                     handlePasswordChangeQuery(e)
                 }}
+                id='password-reset'
             >
+                <h2>Reiniciar Contraseña</h2>
+                <div className="login-input border secondary shadow-secondary">
                 <input
                     type="email"
                     name="email"
                     placeholder="Email"
+                    className='input'
                     value={email}
                     onChange={(event) => {
                         setEmail(event.target.value);
                     }}
                 />
-                <button type="submit">Reiniciar contraseña</button>
+                </div>
+
+                <button type="submit" className='shadow-accent accent-bg border'>Reiniciar contraseña</button>
             </form>
 
         </div>

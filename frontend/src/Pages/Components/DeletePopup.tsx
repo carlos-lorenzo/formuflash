@@ -19,7 +19,7 @@ export default function DeletePopup({ popupInfo, setPopupInfo, handleDeletion }:
                         <p>¿Seguro que quieres borrar esto?</p>
                         <div className="delete-options">
                             <button onClick={() => handleDeletion(popupInfo.id)} className='delete-option accent shadow-accent border'>Sí</button>
-                            <button onClick={() => setPopupInfo({show: false, id: undefined})} className='delete-option accent shadow-accent border'>No</button>
+                            <button onClick={() => setPopupInfo({show: false, id: undefined})} className='delete-option accent-bg shadow-accent border'>No</button>
                         </div>
                         
                     </div>

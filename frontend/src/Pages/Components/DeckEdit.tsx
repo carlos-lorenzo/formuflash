@@ -47,7 +47,7 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
 
             toast.update(id, 
                 { 
-                render: "Guardada", 
+                render: "Guardado", 
                 type: "success", 
                 isLoading: false,
                 autoClose: 1500,

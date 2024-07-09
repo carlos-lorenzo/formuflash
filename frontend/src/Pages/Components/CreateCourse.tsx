@@ -94,7 +94,7 @@ export default function CreateCourse({ client, getCourses }: ICreateCourseProps)
                         <form onSubmit={(e) => handleCourseCreation(e)} className='create-prompt-form'>
                             <label htmlFor="create-course-input">Crear Curso</label>
                             <input id="create-course-input" maxLength={50} className="create-input" type="text" autoComplete="off" value={courseName} onChange={(e) => setCourseName(e.target.value)} placeholder='Nombre'/>
-                            <button type="submit" className='shadow-accent accent border'>Crear</button>
+                            <button type="submit" className='shadow-accent accent-bg border'>Crear</button>
                         </form>
                         
                     </div> 

@@ -27,8 +27,8 @@ class FlashCard(models.Model):
     
     card_id = models.AutoField(primary_key=True)
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
-    question = models.CharField(max_length=255)
-    answer = models.CharField(max_length=255)
+    question = models.TextField()
+    answer = models.TextField()
     confidence = models.IntegerField(choices=Confidence.choices, default=Confidence.NONE)
     created_at = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey("users.User", on_delete=models.CASCADE, null=True)

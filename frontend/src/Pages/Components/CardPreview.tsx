@@ -22,11 +22,11 @@ export default function CardPreview({ card }: ICardPreviewProps) {
 
         switch (confidence) {
             case Confidences.LOW:
-                return "accent";
+                return "accent-bg";
             case Confidences.MEDIUM:
-                return "primary";
+                return "primary-bg";
             case Confidences.HIGH:
-                return "green";
+                return "green-bg";
             default:
                 return "none";
         }

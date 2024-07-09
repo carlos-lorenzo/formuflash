@@ -157,11 +157,11 @@ input {
     place-items: center;
 }
 
-.accent {
+.accent-bg {
     background-color: var(--accent);
 }
 
-.green {
+.green-bg {
     background-color: var(--green);
 }
 
@@ -173,7 +173,7 @@ input {
     color: var(--primary);
 }
 
-.primary {
+.primary-bg {
     background-color: var(--primary);
 }
 

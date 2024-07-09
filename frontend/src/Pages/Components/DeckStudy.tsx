@@ -116,11 +116,11 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
 
         switch (confidence) {
             case Confidences.LOW:
-                return "accent";
+                return "accent-bg";
             case Confidences.MEDIUM:
-                return "primary";
+                return "primary-bg";
             case Confidences.HIGH:
-                return "green";
+                return "green-bg";
             default:
                 return "none";
         }
@@ -154,10 +154,10 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
                 <MarkdownLatex content={content.content}/>
             </div>
             <div id='study-options' className='fill'>   
-                <button className='shadow-primary border primary study-option' onClick={handleSwap}>Girar</button>
-                <button className='shadow-accent border accent study-option' onClick={() => handleConfidenceUpdate(Confidences.LOW)}>BAJA</button>
-                <button className='shadow-primary border primary study-option' onClick={() => handleConfidenceUpdate(Confidences.MEDIUM)}>MEDIANA</button>
-                <button className='shadow-green border green study-option' onClick={() => handleConfidenceUpdate(Confidences.HIGH)}>ALTA</button>
+                <button className='shadow-primary border primary-bg study-option' onClick={handleSwap}>Girar</button>
+                <button className='shadow-accent border accent-bg study-option' onClick={() => handleConfidenceUpdate(Confidences.LOW)}>BAJA</button>
+                <button className='shadow-primary border primary-bg study-option' onClick={() => handleConfidenceUpdate(Confidences.MEDIUM)}>MEDIANA</button>
+                <button className='shadow-green border green-bg study-option' onClick={() => handleConfidenceUpdate(Confidences.HIGH)}>ALTA</button>
             </div>
             
         </div>

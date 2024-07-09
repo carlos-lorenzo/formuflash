@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { useNavigate } from 'react-router-dom';
+
 import { AxiosInstance } from 'axios';
 
 import { toast } from 'react-toastify';
@@ -12,6 +14,7 @@ interface IPasswordResetConfirmation {
 export default function PasswordResetConfirmation({ client }: IPasswordResetConfirmation) {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const navigate = useNavigate();
 
     function handlePasswordChange(e: React.FormEvent) {
         e.preventDefault();
@@ -55,6 +58,7 @@ export default function PasswordResetConfirmation({ client }: IPasswordResetConf
                 draggable: true,
                 progress: undefined,
             });
+            navigate("/login");
 
         }).catch((error) => {
             toast.update(id, {
@@ -86,7 +90,7 @@ export default function PasswordResetConfirmation({ client }: IPasswordResetConf
                     <input id="confirm-password-input" className="input" placeholder="Confirmar contraseña" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
                 </div>
                    
-                <button type="submit" className='shadow-accent accent border' id='login-submit'><b>Reiniciar Contrseña</b></button>
+                <button type="submit" className='shadow-accent accent-bg border' id='login-submit'><b>Reiniciar Contrseña</b></button>
             </form>
         </div>
     )
