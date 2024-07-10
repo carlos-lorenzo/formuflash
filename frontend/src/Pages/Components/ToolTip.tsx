@@ -1,10 +1,10 @@
 import { useState } from 'react'
-
-
 interface IToolTipProps {
     text: string,
     children: JSX.Element
 }
+
+
 
 export default function ToolTip({ text , children}: IToolTipProps) {
     const [showTooltip, setShowTooltip] = useState(false);
@@ -26,3 +26,6 @@ export default function ToolTip({ text , children}: IToolTipProps) {
         </div>
     );
 };
+
+
+

@@ -93,7 +93,6 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
     function handleShortcuts(event: any) {
         
         if (event.ctrlKey) {
-            
             if (event.key === "s") {
                 handleCardUpdate();
                 event.preventDefault();

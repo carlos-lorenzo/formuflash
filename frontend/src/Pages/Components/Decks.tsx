@@ -48,6 +48,7 @@ export default function Decks({ client, activeCourseId, decks, activeCourseName,
             return;
         }
 
+
         const toastId = toast.loading("Eliminando mazo");
 
         client.post(

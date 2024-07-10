@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { AxiosInstance } from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faArrowLeftLong, faArrowRightToBracket, faNoteSticky } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faArrowRightToBracket, faNoteSticky } from '@fortawesome/free-solid-svg-icons';
 
 import Logout from './Logout';
 
@@ -28,7 +28,7 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
     function profileClickLink(): string {
 
         if (user.loggedIn) {
-            return '/home';
+            return '/home?view=deck';
         } else {
             return '/login';
         }
@@ -49,8 +49,8 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
             {
                 showBack ?
                 <Link to={profileClickLink()} className='pointer' id='back' onClick={handleBack}>
-                    <FontAwesomeIcon icon={faArrowLeftLong} size='2x'/>
-                    <h3>Tarjetas</h3>
+                    
+                    <h3>{"<- Mazo"}</h3>
                 </Link> : null
             }
             

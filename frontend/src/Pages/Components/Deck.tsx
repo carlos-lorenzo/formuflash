@@ -37,6 +37,14 @@ export default function Deck({ client, deckData, setActiveDeckId, setDeckAction,
     const [renamingDeck, setRenamingDeck] = useState(false);
     const [newDeckName, setNewDeckName] = useState(deckData.name);
     const [deckName, setDeckName] = useState(deckData.name);
+    const [showTooltip, setShowTooltip] = useState(false);
+
+    enum Confidences {
+        NONE = 0,
+        LOW = 1,
+        MEDIUM = 2,
+        HIGH = 3
+    }
 
     function handleOptionClick(action: DeckAction) {
         setDeckAction(action);
@@ -92,9 +100,41 @@ export default function Deck({ client, deckData, setActiveDeckId, setDeckAction,
         })
     }
 
+    function getConfidenceClassName(confidence?: number): string {
+        if (confidence === undefined) {
+            return "none";
+        }
+
+        switch (confidence) {
+            case Confidences.LOW:
+                return "accent";
+            case Confidences.MEDIUM:
+                return "primary";
+            case Confidences.HIGH:
+                return "green";
+            default:
+                return "none";
+        }
+    }
 
     return (
-        <div className='deck place-center secondary shadow-secondary border shadow-margin'>
+        <div className='deck place-center secondary shadow-secondary border shadow-margin'> 
+            <div 
+            className={`shadow-${getConfidenceClassName(deckData.stats.confidence)} border ${getConfidenceClassName(deckData.stats.confidence)}-bg deck-confidence-marker`}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+            >
+                {
+                    showTooltip ?
+                    <div className='confidence-tooltip-text'>
+                        <p>{deckData.stats.completion}%</p>
+                    </div>
+                    :
+                    null
+                }
+            </div>
+            
+                
             {
                 renamingDeck ? 
                 <div className="rename">

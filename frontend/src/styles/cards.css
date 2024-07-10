@@ -180,6 +180,16 @@
     
 }
 
+.deck-confidence-marker {
+    position: absolute;
+    margin: 2%;
+    top: 1rem;
+    left: 1rem;
+    height: 35px;
+    width: 35px;
+    border-radius: 100%;
+}
+
 
 #courses {
     display: flex;

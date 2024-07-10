@@ -9,6 +9,7 @@ class FlashCardSerialiser(serializers.ModelSerializer):
         
         
 class DeckSerialiser(serializers.ModelSerializer):
+    stats = serializers.DictField()
     class Meta:
         model = Deck
         fields = '__all__'

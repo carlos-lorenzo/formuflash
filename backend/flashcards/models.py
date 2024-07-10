@@ -15,6 +15,24 @@ class Deck(models.Model):
     last_seen_card_id = models.IntegerField(null=True, blank=True)
     number_of_cards = models.IntegerField(default=0)
     
+    @property
+    def cards(self) -> models.QuerySet:
+        return FlashCard.objects.filter(deck=self)
+    
+    @property
+    def stats(self) -> dict[str, float | int]:
+        MAX_CONFIDENCE = 3
+        confidence_sum = (FlashCard.objects.filter(deck=self).aggregate(models.Sum('confidence'))).get("confidence__sum", 0)
+        completion = (confidence_sum / (self.number_of_cards * MAX_CONFIDENCE)) * 100 # (Obtained confidence / max confidence sum) * 100
+        
+        confidence_index = confidence_sum  // self.number_of_cards
+        confidence = FlashCard.Confidence.choices[confidence_index]
+        
+        return {
+            "completion": round(completion, 0),
+            "confidence": confidence[0]     
+        }
+    
     def __str__(self)-> str:
         return self.name
     

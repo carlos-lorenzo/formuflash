@@ -10,6 +10,10 @@ declare interface IDeck {
             answer: string,
             confidence: number
         }
+    },
+    stats: {
+        completion: number,
+        confidence: number
     }
 }
 export default IDeck;

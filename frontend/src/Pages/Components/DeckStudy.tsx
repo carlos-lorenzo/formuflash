@@ -116,11 +116,11 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
 
         switch (confidence) {
             case Confidences.LOW:
-                return "accent-bg";
+                return "accent";
             case Confidences.MEDIUM:
-                return "primary-bg";
+                return "primary";
             case Confidences.HIGH:
-                return "green-bg";
+                return "green";
             default:
                 return "none";
         }
@@ -147,7 +147,7 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
             <div id="study-content" className={`text card border fill shadow-secondary ${content.questionShown ? "place-center" : ""} ${isAnimating ? 'animate-confidence' : ''}`} onClick={() => handleSwap()}>
                 {
                     content.questionShown ? 
-                    <div id="confidence-marker" className={`shadow-${getConfidenceClassName(card?.confidence)} border ${getConfidenceClassName(card?.confidence)}`}></div>
+                    <div id="confidence-marker" className={`shadow-${getConfidenceClassName(card?.confidence)} border ${getConfidenceClassName(card?.confidence)}-bg`}></div>
                     : null
                 }
                 

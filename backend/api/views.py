@@ -394,13 +394,17 @@ class GetDeck(APIView):
 		serialised_cards = {}
 		for card in cards:
 			serialised_cards[card.card_id] = FlashCardSerialiser(card).data
-			
+		
+		deck_stats = deck.stats
+  	
 		serialised_deck = {
 			'deck_id': deck.deck_id,
 			'name': deck.name,
 			'course': deck.course.name,
 			'course_id': deck.course.course_id,
-			'cards': serialised_cards
+			'cards': serialised_cards,
+			'confidence': deck_stats.get('confidence', 0), 
+			'completion': deck_stats.get('completion', 0)
 		}
 		
 		return Response(serialised_deck, status=status.HTTP_200_OK)

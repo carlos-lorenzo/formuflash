@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { AxiosInstance } from 'axios';
 
@@ -46,7 +46,7 @@ export default function Home({
     const [courses, setCourses] = useState<ICourse[]>([]);
     const [decks, setDecks] = useState<IBriefDeck[]>([]);
     const [activeCourseName, setActiveCourseName] = useState<string>('');
-
+    let [searchParams, _] = useSearchParams();
     function getCourseDecks(course_id: number | undefined) {
         if (course_id === undefined) {
             return;
@@ -92,6 +92,10 @@ export default function Home({
     }
     
     useEffect(() => {
+        
+        if(searchParams.get('view') === "deck") {
+            setShowingCourses(false);
+        }
         if(!user.loggedIn) {
             navigate('/login');
         }
