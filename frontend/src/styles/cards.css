@@ -27,13 +27,13 @@
 .card-input {
     height: 100%;
     max-height: 43dvh;
-    
     overflow: hidden;
 }
 
 .formatted {
     height: 100%;
     max-height: 43dvh;
+    font-size: 30px;
     overflow: scroll;
 }
 
@@ -77,6 +77,7 @@
     width: 99%;
     height: 85%;
     overflow: scroll;
+    font-size: 23px;
     resize: none;
 
 }
@@ -151,7 +152,7 @@
 #study-content {
     position: relative;
     background-color: var(--secondary);
-    padding-left: 0 !important;
+   
 }
 
 #study {

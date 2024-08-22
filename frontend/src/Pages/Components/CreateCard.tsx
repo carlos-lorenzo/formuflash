@@ -112,7 +112,7 @@ export default function CreateCard({
             <div id="formatted-output" className='fill'>
                 <div className='formatted border text fill secondary shadow-secondary'>
                     <h4>Q</h4>
-                    <MarkdownLatex content={question} />
+                    <MarkdownLatex content={question}/>
                 </div>
                 
                 <div className='formatted border text fill secondary shadow-secondary'>

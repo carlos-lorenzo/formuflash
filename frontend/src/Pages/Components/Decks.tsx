@@ -1,16 +1,16 @@
 import React from 'react';
 
+import MediaQuery from 'react-responsive';
+
 import { AxiosInstance } from 'axios';
 
 import { toast } from 'react-toastify';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 import CreateDeck from './CreateDeck';
 
 import Deck from './Deck';
 import DeletePopup from './DeletePopup';
+
 
 
 import IBriefDeck from '../../types/BriefDeck';
@@ -97,11 +97,14 @@ export default function Decks({ client, activeCourseId, decks, activeCourseName,
         <div id='decks'>
             {
                 activeCourseId ? 
-                <div id="course-decks-title" onClick={() => setShowingCourses(true)}>
-                    <FontAwesomeIcon icon={faArrowLeft} size='lg' className='course-redirect pointer'/>
-                    <h3>{activeCourseName}</h3> 
-                </div>
-                
+                <div id="course-decks-title" onClick={() => setShowingCourses(true)} className='pointer'>
+                    <MediaQuery query='(min-width: 1281px)'>
+                        <h3>{`${activeCourseName}`}</h3> 
+                    </MediaQuery>
+                    <MediaQuery query='(max-width: 1280px)'>
+                        <h3>{`<- ${activeCourseName}`}</h3> 
+                    </MediaQuery>
+                </div>  
                 : null
             }
             

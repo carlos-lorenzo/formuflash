@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env("SECRET_KEY")
 
-DEBUG = True
+DEBUG = False
 
 IP = socket.gethostbyname(socket.gethostname())
 DOMAIN = env("SITE_DOMAIN")
@@ -24,25 +24,28 @@ DEV_FRONTEND_PORT = 3000
 # Security settings
 CSRF_TRUSTED_ORIGINS = [f"http://*.{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/", "http://*.localhost", "https://*.localhost", f"https://*.{DOMAIN}"] # TODO: Change to actual IP & Domain, remove dev urls
 
-ALLOWED_HOSTS = [
-    f"https://*.{DOMAIN}", 
-    "http://*.localhost", 
-    f"https://*.{DOMAIN}:8000", 
-    "https://*.localhost:8000",
-    DOMAIN,
-    IP
-]
+# ALLOWED_HOSTS = [
+#     f"https://*.{DOMAIN}", 
+#     "http://*.localhost", 
+#     f"https://*.{DOMAIN}:8000", 
+#     "https://*.localhost:8000",
+#     DOMAIN,
+#     IP,
+#     "localhost"
+# ]
+
+ALLOWED_HOSTS = ["*"]
 
 CORS_ORIGIN_ALLOW_ALL = True 
 CORS_ALLOW_CREDENTIALS = True
 
-SECURE_HSTS_SECONDS = 30  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# SECURE_HSTS_SECONDS = 2,592,000  # 30 days
+# SECURE_HSTS_PRELOAD = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
-SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+# SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 
 # Application definition

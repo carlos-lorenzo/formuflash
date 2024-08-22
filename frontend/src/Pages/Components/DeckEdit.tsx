@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, lazy } from 'react';
 
 import { AxiosInstance } from 'axios';
 
@@ -7,8 +7,8 @@ import MediaQuery from 'react-responsive';
 import { toast } from 'react-toastify';
 
 
-import DeckEditPreview from './DeckEditPreview';
-import CreateCard from './CreateCard';
+const DeckEditPreview = lazy(() => import('./DeckEditPreview'));
+const CreateCard = lazy(() => import('./CreateCard'));
 
 import IDeck from '../../types/Deck';
 

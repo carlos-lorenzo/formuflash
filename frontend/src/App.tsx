@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 
 import {
     Routes,
@@ -10,15 +10,16 @@ import axios from "axios";
 
 import { ToastContainer } from "react-toastify";
 
-import Header from "./Pages/Components/Header";
-import Login from "./Pages/Login";
-import Register from "./Pages/Register";
-import Home from "./Pages/Home";
-import LandingPage from "./Pages/LandingPage";
-import DeckView from "./Pages/DeckView";
-import Profile from "./Pages/Profile";
-import Confirmation from "./Pages/Confirmation";
-import ResetPassword from "./Pages/ResetPassword";
+
+const Header = lazy(() => import("./Pages/Components/Header"));
+const Login = lazy(() => import("./Pages/Login"));
+const Register = lazy(() => import("./Pages/Register"));
+const Home = lazy(() => import("./Pages/Home"));
+const LandingPage = lazy(() => import("./Pages/LandingPage"));
+const DeckView = lazy(() => import("./Pages/DeckView"));
+const Profile = lazy(() => import("./Pages/Profile"));
+const Confirmation = lazy(() => import("./Pages/Confirmation"));
+const ResetPassword = lazy(() => import("./Pages/ResetPassword"));
 import IUser from "./types/User";
 
 
@@ -91,53 +92,53 @@ function App() {
                 showBack={showBack}
                 setShowBack={setShowBack}
             />
-           
-            <Routes>
-                <Route path="/" element={
-                <LandingPage 
-                    
-                />} />
-                <Route path="/login" element={
-                <Login 
-                    client={client}
-                    setUser={setUser}
-                />} />
-                <Route path="/register" element={
-                <Register 
-                    client={client}
-                />}/>
-                <Route path="/deck-view" element={
-                <DeckView 
-                    client={client}
-                    user={user}
-                    activeDeckId={activeDeckId}
-                    deckAction={deckAction}
-                />}/>
-                <Route path="/home" element={
-                <Home 
-                    client={client}
-                    user={user}
-                    activeCourseId={activeCourseId}
-                    setActiveCourseId={setActiveCourseId}
-                    setActiveDeckId={setActiveDeckId}
-                    setDeckAction={setDeckAction}
-                    setShowBack={setShowBack}
-                />} />
-                <Route path="profile" element={
-                <Profile 
-                    client={client}
-                    user={user}
-                    setUser={setUser}
-                />} />
-                <Route path="/confirmation" element={
-                    <Confirmation client={client}/>
-                }/>
-                <Route path="/reset-password" element={
-                    <ResetPassword client={client}/>
-                }/>
+            <Suspense fallback={<div>Cargando</div>}>
+                <Routes>
+                    <Route path="/" element={
+                    <LandingPage 
+                        
+                    />} />
+                    <Route path="/login" element={
+                    <Login 
+                        client={client}
+                        setUser={setUser}
+                    />} />
+                    <Route path="/register" element={
+                    <Register 
+                        client={client}
+                    />}/>
+                    <Route path="/deck-view" element={
+                    <DeckView 
+                        client={client}
+                        user={user}
+                        activeDeckId={activeDeckId}
+                        deckAction={deckAction}
+                    />}/>
+                    <Route path="/home" element={
+                    <Home 
+                        client={client}
+                        user={user}
+                        activeCourseId={activeCourseId}
+                        setActiveCourseId={setActiveCourseId}
+                        setActiveDeckId={setActiveDeckId}
+                        setDeckAction={setDeckAction}
+                        setShowBack={setShowBack}
+                    />} />
+                    <Route path="profile" element={
+                    <Profile 
+                        client={client}
+                        user={user}
+                        setUser={setUser}
+                    />} />
+                    <Route path="/confirmation" element={
+                        <Confirmation client={client}/>
+                    }/>
+                    <Route path="/reset-password" element={
+                        <ResetPassword client={client}/>
+                    }/>
 
-            </Routes>
-
+                </Routes>
+            </Suspense>
             <ToastContainer
                 position="top-right"
                 autoClose={1500}

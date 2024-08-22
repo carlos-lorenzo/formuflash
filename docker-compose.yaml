@@ -2,7 +2,6 @@ services:
   backend:
     volumes:
       - static:/app/static
-      - validation:/app/validation
     env_file:
       - .env
     build:
@@ -22,17 +21,14 @@ services:
     volumes:
       - static:/app/static
       - frontend:/var/www/frontend
-      - validation:/app/validation
+      
     ports:
       - "80:80"
-      - "443:443"
     depends_on:
       - backend
       - frontend
 
- 
-
 volumes:
   static:
   frontend:
-  validation:
+  

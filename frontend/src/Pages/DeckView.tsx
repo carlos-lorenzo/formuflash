@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy } from 'react'
 
 import { useNavigate } from "react-router-dom";
 
 import { AxiosInstance } from 'axios'
 
-import DeckPreview from './Components/DeckPreview';
-import DeckEdit from './Components/DeckEdit';
-import DeckStudy from './Components/DeckStudy';
+const DeckPreview = lazy(() => import('./Components/DeckPreview'));
+const DeckEdit = lazy(() => import('./Components/DeckEdit'));
+const DeckStudy = lazy(() => import('./Components/DeckStudy'));
 
 
 import IDeck from '../types/Deck';

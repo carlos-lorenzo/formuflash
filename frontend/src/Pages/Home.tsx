@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, lazy} from 'react';
 
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -6,8 +6,8 @@ import { AxiosInstance } from 'axios';
 
 import MediaQuery from 'react-responsive';
 
-import Courses from './Components/Courses';
-import Decks from './Components/Decks';
+const Courses = lazy(() => import('./Components/Courses'));
+const Decks = lazy(() => import('./Components/Decks'));
 
 import IUser from '../types/User';
 import ICourse from '../types/ICourse';
