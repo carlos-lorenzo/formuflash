@@ -1,0 +1,14 @@
+services:
+  backend:
+    volumes:
+      - static:/app/static
+    container_name: backend-django
+    env_file:
+      - /backend/.env
+    build:  
+      context: .
+    ports:
+      - "8000:8000"
+  
+volumes:
+  static:
