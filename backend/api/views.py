@@ -7,8 +7,7 @@ from django.conf import settings
 
 from django.core.mail import send_mail
 
-from django.contrib.auth.tokens import PasswordResetTokenGenerator  
-from django.contrib.sites.shortcuts import get_current_site 
+from django.contrib.auth.tokens import PasswordResetTokenGenerator   
 from django.contrib.auth import get_user_model
 
 from django.http import HttpRequest, FileResponse
@@ -319,7 +318,6 @@ class GetCourseDecks(APIView):
 	
 	def get(self, request):
 		course_id: int = request.GET.get('course_id', None)
-		user = request.user
 		
 		if not course_id:
 			return Response({"error": "course_id requerido"}, status=status.HTTP_400_BAD_REQUEST)
@@ -361,7 +359,7 @@ class CreateDeck(APIView):
 		
 		deck = Deck.objects.create(name=name, owner=user, course=course)
 
-		new_card = FlashCard.objects.create(
+		FlashCard.objects.create(
 			deck=deck,
 			question="",
 			answer="",
@@ -520,7 +518,7 @@ class ImportCardsFromCsv(APIView):
   
 			return Response({"message": "Tarjetas importadas"}, status=status.HTTP_200_OK)
 
-		except Exception as e:
+		except Exception:
 			
 			return Response({"error": "Algo no ha ido bien"}, status=status.HTTP_400_BAD_REQUEST)
 
