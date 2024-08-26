@@ -19,22 +19,27 @@ DEBUG = False
 
 IP = socket.gethostbyname(socket.gethostname())
 DOMAIN = env("SITE_DOMAIN")
+BACKEND_URL = env("BACKEND_URL")
 DEV_FRONTEND_PORT = 3000
 
 # Security settings
-CSRF_TRUSTED_ORIGINS = [f"http://*.{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/", "http://*.localhost", "https://*.localhost", f"https://*.{DOMAIN}"] # TODO: Change to actual IP & Domain, remove dev urls
+CSRF_TRUSTED_ORIGINS = [f"http://*.{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/", "http://*.localhost", "https://*.localhost", f"https://*.{DOMAIN}", "https://formuflash-frontend-qkflfm2o5q-no.a.run.app", "https://formuflash.com"] # TODO: Change to actual IP & Domain, remove dev urls
 
-# ALLOWED_HOSTS = [
-#     f"https://*.{DOMAIN}", 
-#     "http://*.localhost", 
-#     f"https://*.{DOMAIN}:8000", 
-#     "https://*.localhost:8000",
-#     DOMAIN,
-#     IP,
-#     "localhost"
-# ]
+ALLOWED_HOSTS = [
+    f"https://*.{DOMAIN}", 
+    "http://*.localhost", 
+    f"https://*.{DOMAIN}:8000", 
+    "https://*.localhost:8000",
+    DOMAIN,
+    IP,
+    "localhost",
+    "https://formuflash-frontend-qkflfm2o5q-no.a.run.app",
+    "https://formuflash.com",
+    BACKEND_URL
+    
+]
 
-ALLOWED_HOSTS = ["*"]
+
 
 CORS_ORIGIN_ALLOW_ALL = True 
 CORS_ALLOW_CREDENTIALS = True
@@ -109,19 +114,11 @@ TEMPLATES = [
 WSGI_APPLICATION = "backend.wsgi.application"
 
 
-if DEBUG:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-else:
-    DATABASES = {
-            "default": dj_database_url.config(
-                default=os.environ.get("DATABASE_URL"), conn_max_age=600
-            )
-    }
+DATABASES = {
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"), conn_max_age=600
+    )
+}
     
 
 

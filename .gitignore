@@ -29,7 +29,7 @@ dist-ssr
 __pycache__
 *.cpython
 __pycache__/
-
+migrations/
 #db.sqlite3 won't be used in production, PostgreSQL instead (suprisingly...)
 *.sqlite3
 
