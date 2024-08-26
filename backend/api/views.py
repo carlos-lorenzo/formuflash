@@ -538,7 +538,7 @@ class ImportCardsFromCsv(APIView):
 
                 if 'pregunta' not in df.columns or 'respuesta' not in df.columns:
 
-                    return Response({"error": "Faltan columnas"},
+                    return Response({"error": "Faltan columnas (columnas 'pregunta' y 'respuesta' requeridas)"},
                                     status=status.HTTP_400_BAD_REQUEST)
 
             if len(df) == 0:
@@ -684,6 +684,7 @@ class CreateCard(APIView):
             answer=answer,
             deck_id=deck_id,
             owner=user)
+        
         card.save()
 
         deck = Deck.objects.get(deck_id=deck_id)

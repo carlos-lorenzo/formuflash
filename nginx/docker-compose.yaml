@@ -1,7 +1,0 @@
-services:
-  nginx:
-    build:
-      context: ../
-      dockerfile: nginx/Dockerfile
-    ports:
-      - "80:80"

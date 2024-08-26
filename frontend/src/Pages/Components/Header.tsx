@@ -14,13 +14,14 @@ import IUser from '../../types/User';
 interface IHeaderProps {
     client: AxiosInstance,
     user: IUser,
-    setUser: React.Dispatch<React.SetStateAction<IUser>>,
+    activeCourseId: number | undefined,
     showBack: boolean,
+    setUser: React.Dispatch<React.SetStateAction<IUser>>,
     setShowBack: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-export default function Header({ client, user, setUser, showBack, setShowBack }: IHeaderProps) {
+export default function Header({ client, user, activeCourseId, showBack, setUser, setShowBack }: IHeaderProps) {
 
     
     const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
@@ -28,7 +29,7 @@ export default function Header({ client, user, setUser, showBack, setShowBack }:
     function profileClickLink(): string {
 
         if (user.loggedIn) {
-            return '/home?view=deck';
+            return `/home?view=deck&course_id=${activeCourseId}`;
         } else {
             return '/login';
         }

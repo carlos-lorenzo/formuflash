@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 
 import MarkdownLatex from './MarkdownLatex'
 
@@ -27,6 +27,10 @@ export default function CreateCard({
     const questionInput = useRef<HTMLTextAreaElement>(null);
     const answerInput = useRef<HTMLTextAreaElement>(null);
 
+    useEffect(() => {
+        questionInput.current?.focus();
+    }, [])
+
     function handleMathShortcut(textArea: React.RefObject<HTMLTextAreaElement>) {
         if (textArea.current?.id === 'question-input') {
             setQuestion(question + "$$");
@@ -39,10 +43,10 @@ export default function CreateCard({
 
     function handleImageShortcut(textArea: React.RefObject<HTMLTextAreaElement>) {
         if (textArea.current?.id === 'question-input') {
-            setQuestion(question + "![alt](https://picsum.photos/200)");
+            setQuestion(question + "![alt](https://i.imgur.com/i2oWxOZ.png)");
             textArea.current.focus();
         } else if (textArea.current?.id === 'answer-input') {
-            setAnswer(answer + "![alt](https://picsum.photos/200)");
+            setAnswer(answer + "![alt](https://i.imgur.com/i2oWxOZ.png)");
             textArea.current.focus();
         }
     }

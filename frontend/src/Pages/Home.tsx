@@ -47,6 +47,7 @@ export default function Home({
     const [decks, setDecks] = useState<IBriefDeck[]>([]);
     const [activeCourseName, setActiveCourseName] = useState<string>('');
     let [searchParams, _] = useSearchParams();
+    
     function getCourseDecks(course_id: number | undefined) {
         if (course_id === undefined) {
             return;
@@ -77,9 +78,12 @@ export default function Home({
                 setActiveCourseId(undefined);
                 
             } else {
-                const courseId = response.data.courses[0].course_id;
+                let courseId = response.data.courses[0].course_id;
                 if (activeCourseId === undefined) {
                     setActiveCourseId(courseId);
+                }
+                if (searchParams.get('course_id')) {
+                    courseId = Number(searchParams.get('course_id'));
                 }
                 
                 setCourses(response.data.courses);

@@ -84,7 +84,7 @@ export default function DeckView({ client, user, activeDeckId, deckAction }: IDe
     
 
     if (!activeDeck) {
-        return <h3 className='place-center' >Cargando</h3>;
+        return <h3 className='place-center'>Cargando</h3>;
     }
     
     return (

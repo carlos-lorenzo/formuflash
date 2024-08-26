@@ -3,7 +3,8 @@ import { useState, useEffect, lazy, Suspense } from "react";
 import {
     Routes,
     Route,
-    useNavigate
+    useNavigate,
+    useSearchParams
 } from "react-router-dom";
 
 import axios from "axios";
@@ -47,7 +48,8 @@ function App() {
     const [activeCourseId, setActiveCourseId] = useState<number | undefined>();
     const [activeDeckId, setActiveDeckId] = useState<number | undefined>();
     const [showBack, setShowBack] = useState(false);
-
+    let [searchParams, _] = useSearchParams();
+    
     const [user, setUser] = useState<IUser>({
         name: '',
         email: '',
@@ -64,6 +66,11 @@ function App() {
     const [deckAction, setDeckAction] = useState(DeckAction.EDIT);
 
     useEffect(() => {
+        let courseID = searchParams.get('course_id');
+        if(courseID) {
+            setActiveCourseId(Number(courseID));
+        }
+
         if (!user.loggedIn && localStorage.getItem('token')) {
             client.get('/get_user',
                 {
@@ -92,6 +99,7 @@ function App() {
                 setUser={setUser}
                 showBack={showBack}
                 setShowBack={setShowBack}
+                activeCourseId={activeCourseId}
             />
             <Suspense fallback={<div>Cargando</div>}>
                 <Routes>
