@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy } from 'react';
+import React, { useState, useEffect, useRef, lazy } from 'react';
 
 import { AxiosInstance } from 'axios';
 
@@ -30,6 +30,13 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
 
+    const deckPreviewRef = useRef<HTMLDivElement>(null);
+
+    function scrollToBottom() {
+        if (deckPreviewRef.current) {
+            deckPreviewRef.current.scrollTo({ top: deckPreviewRef.current.scrollHeight, behavior: 'smooth' });
+        }
+    }
 
     function handleCardUpdate() {
         const id = toast.loading("Guardando");
@@ -74,6 +81,7 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
     }
 
     function handleCardCreation() {
+        handleCardUpdate();
         client.post('/create_card', 
         {
             deck_id: activeDeck.deck_id,
@@ -98,6 +106,7 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                 event.preventDefault();
             } else if (event.key === "d") {
                 handleCardCreation();
+                scrollToBottom()
                 event.preventDefault();
             }
         }
@@ -123,7 +132,9 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                     <div className="whitespace"></div>
                     <DeckEditPreview 
                         client={client} 
-                        activeDeck={activeDeck} 
+                        activeDeck={activeDeck}
+                        activeCardId={activeCardId}
+                        deckPreviewRef={deckPreviewRef}
                         getDeck={getDeck}
                         setActiveCardId={setActiveCardId}
                         handleCardUpdate={handleCardUpdate}
@@ -156,7 +167,9 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                         /> : 
                         <DeckEditPreview 
                             client={client} 
-                            activeDeck={activeDeck} 
+                            activeDeck={activeDeck}
+                            activeCardId={activeCardId}
+                            deckPreviewRef={deckPreviewRef} 
                             getDeck={getDeck}
                             setActiveCardId={setActiveCardId}
                             handleCardUpdate={handleCardUpdate}

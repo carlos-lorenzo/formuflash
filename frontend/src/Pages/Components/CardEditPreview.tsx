@@ -15,11 +15,13 @@ interface ICardEditPreviewProps {
     client: AxiosInstance,
     getDeck: (newCardId?: number) => void,
     card: ICard,
+    activeCardId: number,
     setActiveCardId: React.Dispatch<React.SetStateAction<number>>,
-    setEditing: React.Dispatch<React.SetStateAction<boolean>>
+    setEditing: React.Dispatch<React.SetStateAction<boolean>>,
+    handleCardUpdate: () => void
 }
 
-export default function CardEditPreview({ client, getDeck, card, setActiveCardId, setEditing }: ICardEditPreviewProps) {
+export default function CardEditPreview({ client, getDeck, card, activeCardId, setActiveCardId, setEditing, handleCardUpdate }: ICardEditPreviewProps) {
 
 
     function handleErrorResponse(error: any): string {
@@ -81,11 +83,16 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
     }
 
     function handleCardClick() {
+        if (activeCardId === card.card_id) {
+            return;
+        }
+        handleCardUpdate();
         setActiveCardId(card.card_id);
         setEditing(true);
+        
     }
 
-    function handleLongQuestion(question: string,  maxLength: number = 25): string {
+    function handleLongQuestion(question: string,  maxLength: number = 30): string {
         // Get number of # at the start of the string
         let numHashes = (question.substring(0, 4).match(/#/g) || []).length; 
         
@@ -97,7 +104,7 @@ export default function CardEditPreview({ client, getDeck, card, setActiveCardId
     }
     
     return (
-        <div className='border secondary shadow-secondary card-edit-preview place-center pointer' onClick={() => handleCardClick()}>
+        <div className={`border secondary card-edit-preview place-center pointer ${activeCardId === card.card_id ? "shadow-primary" : "shadow-secondary"}`} onClick={() => handleCardClick()}>
             <p><MarkdownLatex content={card.question ? handleLongQuestion(card.question) : 'Nueva tarjeta'}/></p>
 
             <FontAwesomeIcon icon={faTrashCan} size='lg' className='pointer delete-card' onClick={(e) => handleCardDeletion(e)}/>

@@ -33,7 +33,7 @@
 .formatted {
     height: 100%;
     max-height: 43dvh;
-    font-size: 30px;
+    font-size: 1.2rem;
     overflow: scroll;
 }
 
@@ -77,7 +77,7 @@
     width: 99%;
     height: 85%;
     overflow: scroll;
-    font-size: 23px;
+    font-size: 1.2rem;
     resize: none;
 
 }

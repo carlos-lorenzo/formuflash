@@ -18,15 +18,20 @@ import IDeck from '../../types/Deck';
 interface IDeckPreviewProps {
     client: AxiosInstance,
     activeDeck: IDeck,
+    activeCardId: number,
+    deckPreviewRef: React.RefObject<HTMLDivElement>
     getDeck: (newCardId?: number) => void,
     setActiveCardId: React.Dispatch<React.SetStateAction<number>>
     handleCardUpdate: () => void,
     handleCardCreation: () => void,
-    setEditing: React.Dispatch<React.SetStateAction<boolean>>
+    setEditing: React.Dispatch<React.SetStateAction<boolean>>,
+    
 }
 
-export default function DeckEditPreview({ client, activeDeck, getDeck, setActiveCardId, handleCardUpdate, handleCardCreation, setEditing }: IDeckPreviewProps) {
+export default function DeckEditPreview({ client, activeDeck, activeCardId, deckPreviewRef, getDeck, setActiveCardId, handleCardUpdate, handleCardCreation, setEditing }: IDeckPreviewProps) {
     
+    
+
     function resetConfidences() {
 
         const id = toast.loading("Reiniciando confidencias");
@@ -119,7 +124,7 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
     }
 
     return (
-        <div className='fill place-center deck-preview'>
+        <div ref={deckPreviewRef} className='fill place-center deck-preview' id='deck-edit-preview'>
             
             <div className="deck-info">
                 <h3>{activeDeck.name}</h3>
@@ -147,7 +152,16 @@ export default function DeckEditPreview({ client, activeDeck, getDeck, setActive
                 const i = parseInt(key)
 
                 return (
-                    <CardEditPreview key={i} client={client} getDeck={getDeck} card={card} setActiveCardId={setActiveCardId} setEditing={setEditing}/>
+                    <CardEditPreview 
+                        key={i} 
+                        client={client} 
+                        getDeck={getDeck} 
+                        card={card}
+                        activeCardId={activeCardId}
+                        setActiveCardId={setActiveCardId} 
+                        setEditing={setEditing} 
+                        handleCardUpdate={handleCardUpdate}
+                    />
                 )
             })}
             
