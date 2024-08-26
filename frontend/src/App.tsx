@@ -32,7 +32,7 @@ axios.defaults.withCredentials = false;
 
 //baseURL: `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/api`,
 const client = axios.create({
-    baseURL: `${window.location.protocol}//${window.location.host.split(':')[0]}/api`,
+    baseURL: `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/api`,
 });
 
 client.get('/get_csrf_token')
