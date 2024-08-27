@@ -23,10 +23,14 @@ class Deck(models.Model):
     def stats(self) -> dict[str, float | int]:
         MAX_CONFIDENCE = 3
         confidence_sum = (FlashCard.objects.filter(deck=self).aggregate(models.Sum('confidence'))).get("confidence__sum", 0)
+        
         completion = (confidence_sum / (self.number_of_cards * MAX_CONFIDENCE)) * 100 # (Obtained confidence / max confidence sum) * 100
         
-        confidence_index = confidence_sum  // self.number_of_cards
-        confidence = FlashCard.Confidence.choices[confidence_index]
+        confidence_index = confidence_sum / self.number_of_cards
+        if confidence_index < 1:
+            confidence_index = 1
+        confidence = FlashCard.Confidence.choices[int(confidence_index)]
+        
         
         return {
             "completion": round(completion, 0),

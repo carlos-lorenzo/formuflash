@@ -48,6 +48,3 @@ db.sqlite3
 
 # Super secret ssl certificates
 validation/
-
-# build files, scripts...
-build/

@@ -15,24 +15,26 @@
 #create-card-form {
     display: grid;
     grid-template-rows: 1fr 1fr;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 #formatted-output {
     display: grid;
     grid-template-rows: 1fr 1fr;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .card-input {
     height: 100%;
-    max-height: 43dvh;
-    overflow: hidden;
+    min-height: 41dvh;
+    max-height: 41dvh;
+    overflow: scroll;
 }
 
 .formatted {
     height: 100%;
-    max-height: 43dvh;
+    min-height: 41dvh;
+    max-height: 41dvh;
     font-size: 1.2rem;
     overflow: scroll;
 }

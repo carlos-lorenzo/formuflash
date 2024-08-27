@@ -113,7 +113,7 @@ export default function Deck({ client, deckData, setActiveDeckId, setDeckAction,
             case Confidences.HIGH:
                 return "green";
             default:
-                return "none";
+                return "secondary";
         }
     }
 

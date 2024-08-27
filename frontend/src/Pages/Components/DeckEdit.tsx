@@ -30,6 +30,9 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
 
+
+    const questionInput = useRef<HTMLTextAreaElement>(null);
+    const answerInput = useRef<HTMLTextAreaElement>(null);
     const deckPreviewRef = useRef<HTMLDivElement>(null);
 
     function scrollToBottom() {
@@ -85,14 +88,15 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
         client.post('/create_card', 
         {
             deck_id: activeDeck.deck_id,
-            question: 'Nueva Pregunta',
-            answer: 'Nueva Respuesta', 
+            question: '',
+            answer: '', 
         },
         {
             headers: {
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
         }).then((response) => {
+            questionInput.current?.focus();
             getDeck(response.data.card.card_id);
         })
 
@@ -145,6 +149,8 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                     <CreateCard 
                         question={question}
                         answer={answer}
+                        questionInput={questionInput}
+                        answerInput={answerInput}
                         setQuestion={setQuestion} 
                         setAnswer={setAnswer}
                     />
@@ -162,6 +168,8 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                         <CreateCard 
                             question={question}
                             answer={answer}
+                            questionInput={questionInput}
+                            answerInput={answerInput}
                             setQuestion={setQuestion} 
                             setAnswer={setAnswer}
                         /> : 

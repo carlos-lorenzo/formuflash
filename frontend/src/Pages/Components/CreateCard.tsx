@@ -12,6 +12,8 @@ import ToolTip from './ToolTip';
 interface ICreateCardProps {
     question: string,
     answer: string,
+    questionInput: React.RefObject<HTMLTextAreaElement>,
+    answerInput: React.RefObject<HTMLTextAreaElement>,
     setQuestion: React.Dispatch<React.SetStateAction<string>>,
     setAnswer: React.Dispatch<React.SetStateAction<string>>,
 }
@@ -19,13 +21,13 @@ interface ICreateCardProps {
 export default function CreateCard({  
     question, 
     answer, 
+    questionInput,
+    answerInput,
     setQuestion,
     setAnswer
 
 }: ICreateCardProps) {
     
-    const questionInput = useRef<HTMLTextAreaElement>(null);
-    const answerInput = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
         questionInput.current?.focus();

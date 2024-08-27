@@ -671,13 +671,13 @@ class CreateCard(APIView):
             return Response({"error": "Mazo no encontrado"},
                             status=status.HTTP_404_NOT_FOUND)
 
-        if not question:
-            return Response({"error": "Pregunta requerida"},
-                            status=status.HTTP_400_BAD_REQUEST)
+        # if not question:
+        #     return Response({"error": "Pregunta requerida"},
+        #                     status=status.HTTP_400_BAD_REQUEST)
 
-        if not answer:
-            return Response({"error": "Respuesta requerida"},
-                            status=status.HTTP_400_BAD_REQUEST)
+        # if not answer:
+        #     return Response({"error": "Respuesta requerida"},
+        #                     status=status.HTTP_400_BAD_REQUEST)
 
         card = FlashCard(
             question=question,
