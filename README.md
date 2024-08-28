@@ -2,7 +2,7 @@
 <img src="https://i.imgur.com/i2oWxOZ.png" alt="FormuFlash" width="100%"/>
 
 ## Introduction
-Welcome to the [FormuFlash](https://formuflash-frontend-qkflfm2o5q-no.a.run.app/) project! This repository contains a flashcard app with LaTeX and Markdown support to create the ultimate STEM studying tool.
+Welcome to the [FormuFlash](https://formuflash.com/) project! This repository contains a flashcard app with LaTeX and Markdown support to create the ultimate STEM studying tool.
 
 ## Features
 - **LaTeX**: Flashcards with LaTeX-rendered mathematical equations and formulas.
@@ -13,10 +13,10 @@ Welcome to the [FormuFlash](https://formuflash-frontend-qkflfm2o5q-no.a.run.app/
 - **Seamless transition**: Easily import you current flashcards from other platforms (or export them if FormuFlash isn't for you)
 
 ## Instalation
-Just kidding :) Simply open the following [link](https://formuflash-frontend-qkflfm2o5q-no.a.run.app/) in your preferred web browser
+Just kidding :) Simply open the following [link](https://formuflash.com/) in your preferred web browser
 
 ## Usage
-1. [Create an account](https://formuflash-frontend-qkflfm2o5q-no.a.run.app/register/)
+1. [Create an account](https://formuflash.com/register/)
 2. Create a course
 3. Create a deck
 4. Start editing
@@ -52,7 +52,7 @@ Exactly the same way as in GitHub's README files (note that it doesn't support h
 - ```***<Text>***``` for ***italic and bold*** text
 - ```-``` for unordered lists
 - ```n.``` for ordered lists
-- ```[<Link Text>](<url>)``` for [links](https://formuflash-frontend-qkflfm2o5q-no.a.run.app/)
+- ```[<Link Text>](<url>)``` for [links](https://formuflash.com/)
 - ```![<Alt Text>](<url>)``` for images
 - ```>``` for indents (you can type multiple together for multiple indents)
 

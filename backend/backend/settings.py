@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env("SECRET_KEY")
 
-DEBUG = True
+DEBUG = False
 
 IP = socket.gethostbyname(socket.gethostname())
 DOMAIN = env("SITE_DOMAIN")
@@ -23,7 +23,7 @@ BACKEND_URL = env("BACKEND_URL")
 DEV_FRONTEND_PORT = 3000
 
 # Security settings
-CSRF_TRUSTED_ORIGINS = [f"http://*.{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/", "http://*.localhost", "https://*.localhost", f"https://*.{DOMAIN}", "https://formuflash-frontend-qkflfm2o5q-no.a.run.app", "https://formuflash.com"] # TODO: Change to actual IP & Domain, remove dev urls
+CSRF_TRUSTED_ORIGINS = [f"http://*.{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/", "http://*.localhost", "https://*.localhost", f"https://*.{DOMAIN}", "https://formuflash-frontend-qkflfm2o5q-no.a.run.app", "https://formuflash.com", "http://34.0.214.68", "https://34.0.214.68"] # TODO: Change to actual IP & Domain, remove dev urls
 
 ALLOWED_HOSTS = [
     f"https://*.{DOMAIN}", 
@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     IP,
     "localhost",
     "https://formuflash-frontend-qkflfm2o5q-no.a.run.app",
+    "34.0.214.68"
     "https://formuflash.com",
     BACKEND_URL
     
@@ -49,8 +50,7 @@ CORS_ALLOW_CREDENTIALS = True
 # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 # SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-
-# SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 
 # Application definition

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRef, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import MarkdownLatex from './MarkdownLatex'
 
