@@ -9,6 +9,7 @@ Welcome to the [FormuFlash](https://formuflash.com/) project! This repository co
 - **Markdown**: Markdown formatting for easy readability and organization.
 - **Images**: Image support for adding visual aids and diagrams.
 - **Link**: Link support for referencing external resources and study materials.
+- **Shortcuts**: Use shortcuts to interact with the app such as *ctrl + s* to save, *space* to view the answer, *1,2,3* to submit card confidence 
 - **Courses & Decks**: Organize your cards into different courses and decks
 - **Seamless transition**: Easily import you current flashcards from other platforms (or export them if FormuFlash isn't for you)
 
@@ -70,7 +71,7 @@ The project structure is organized as follows:
 - `README.md`: This file.
 - `docker-compose.yaml`: Local container build (unused in production)
 
-The project is deployed to [Google Cloud Platform](https://cloud.google.com/) as individual [Cloud Run](https://cloud.google.com/run?hl=en) instances
+The project is deployed to [Google Cloud Platform](https://cloud.google.com/) as individual [Cloud Run](https://cloud.google.com/run?hl=en) instances managed by a load balancer using cloud dns for an external domain
 
 ## Contributing
 Contributions are welcome! Please submit a pull request with your changes and a brief description of the updates.
