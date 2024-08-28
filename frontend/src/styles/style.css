@@ -1,7 +1,7 @@
 
 :root {
-    --text: #dbdcf3;
-    --background: #111119;
+    --text: rgb(219, 220, 243);
+    --background: rgb(17, 17, 25);
     --primary: #8d8fd9;
     --secondary: #20222E;
     --accent: #ca6069;
@@ -20,7 +20,7 @@ input:-webkit-autofill:active{
 
 
 * {
-    font-family: "Fira Code", monospace;
+    font-family: "Fira Code", monospace;    
     font-optical-sizing: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;

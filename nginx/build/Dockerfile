@@ -6,7 +6,7 @@ WORKDIR /app
 COPY /frontend/package*.json ./
 RUN npm ci
 COPY /frontend/ .
-RUN npm run build
+RUN npm run build --assets
 
 
 # Stage 2: Build the Nginx container

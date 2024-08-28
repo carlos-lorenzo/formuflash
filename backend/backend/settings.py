@@ -23,10 +23,10 @@ BACKEND_URL = env("BACKEND_URL")
 DEV_FRONTEND_PORT = 3000
 
 # Security settings
-CSRF_TRUSTED_ORIGINS = [f"http://*.{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/", "http://*.localhost", "https://*.localhost", f"https://*.{DOMAIN}", "https://formuflash-frontend-qkflfm2o5q-no.a.run.app", "https://formuflash.com", "http://34.0.214.68", "https://34.0.214.68"] # TODO: Change to actual IP & Domain, remove dev urls
+CSRF_TRUSTED_ORIGINS = [f"http://*.{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/", "http://*.localhost", "https://*.localhost", f"*.{DOMAIN}", "https://formuflash-frontend-qkflfm2o5q-no.a.run.app", "https://formuflash.com", "http://34.0.214.68", "https://34.0.214.68"] # TODO: Change to actual IP & Domain, remove dev urls
 
 ALLOWED_HOSTS = [
-    f"https://*.{DOMAIN}", 
+    f"*.{DOMAIN}", 
     "http://*.localhost", 
     f"https://*.{DOMAIN}:8000", 
     "https://*.localhost:8000",
@@ -34,9 +34,10 @@ ALLOWED_HOSTS = [
     IP,
     "localhost",
     "https://formuflash-frontend-qkflfm2o5q-no.a.run.app",
-    "34.0.214.68"
+    "34.49.219.38",
     "https://formuflash.com",
-    BACKEND_URL
+    BACKEND_URL,
+    "backend"
     
 ]
 
@@ -50,7 +51,7 @@ CORS_ALLOW_CREDENTIALS = True
 # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 # SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+# SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 
 # Application definition

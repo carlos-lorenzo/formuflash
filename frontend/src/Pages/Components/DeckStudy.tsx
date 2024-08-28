@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import { AxiosInstance } from 'axios'
 import MarkdownLatex from './MarkdownLatex'
@@ -31,8 +31,9 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
 
    
     const [card, setCard] = useState<ICard | null>(null);
-    
     const [isAnimating, setIsAnimating] = useState(false);
+    
+    const studyContainerRef = useRef<HTMLDivElement>(null);
 
     function handleSwap() {
         if (!card) {
@@ -72,9 +73,8 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
                 }
             }
         ).then((_response) => {
-            setTimeout(() => {
-                getCard();
-            }, 500)
+            getCard();
+            
             setTimeout(() => {
                 setIsAnimating(false)
             }, 1000);
@@ -105,7 +105,10 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
     }
 
     useEffect(() => {
+        studyContainerRef.current?.focus();
         getCard();
+
+
     }, [])
 
 
@@ -143,7 +146,7 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
         
 
     return (
-        <div id='study' className='fill place-center' onKeyDown={handleShortcuts} tabIndex={0}>
+        <div id='study' className='fill place-center' onKeyDown={handleShortcuts} tabIndex={0} ref={studyContainerRef}>
             <div id="study-content" className={`text card border fill shadow-secondary ${content.questionShown ? "place-center" : ""} ${isAnimating ? 'animate-confidence' : ''}`} onClick={() => handleSwap()}>
                 {
                     content.questionShown ? 

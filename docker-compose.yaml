@@ -16,10 +16,10 @@ services:
       context: ./frontend
     volumes:
       - frontend:/app/dist
-
   nginx:
     build:
-      context: ./nginx/dev
+      context: .
+      dockerfile: nginx/dev/Dockerfile
     volumes:
       - static:/app/static
       - frontend:/var/www/frontend
