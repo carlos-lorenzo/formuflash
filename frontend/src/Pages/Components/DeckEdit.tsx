@@ -42,6 +42,14 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
     }
 
     function handleCardUpdate() {
+        if (!activeCardId) {
+            return;
+        }
+
+        if (!question && !answer) {
+            return;
+        }
+
         const id = toast.loading("Guardando");
         client.post('/update_card', {
             deck_id: activeDeckId,

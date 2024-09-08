@@ -1,12 +1,3 @@
-:root {
-    --text: #dbdcf3;
-    --background: #111119;
-    --primary: #8d8fd9;
-    --secondary: #20222E;
-    --accent: #ca6069;
-    --green: #81B17E;
-}
-
 #header {
     position: sticky;
 

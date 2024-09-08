@@ -44,34 +44,13 @@ export default function Login({ client, setUser }: ILoginProps) {
         event.preventDefault();
 
         const id = toast.loading("Iniciando sesión");
-
-    
-        client.post('/login', { 
-            username: email, 
-            password: password 
-        }).then((response) => {
-            axios.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
-            
-
-            localStorage.setItem('token', response.data.token);
-            
-            client.get('/get_user',
-                {
-                    headers: {
-                        'Authorization': `Token ${localStorage.getItem('token')}`
-                    }
-                })
-            .then((response) => {
-                
-                setUser({
-                    name: response.data.user.name,
-                    email: response.data.user.email,
-                    loggedIn: true
-                });
-
+        
+        client.get(`/is_active?email=${email}`)
+        .then((response) => {
+            if (!response.data["is_active"] || !response.data["exists"]) {
                 toast.update(id, {
-                    render: "Sesión iniciada",
-                    type: "success",
+                    render: "Activa tu cuenta con el mail enviado",
+                    type: "error",
                     isLoading: false,
                     autoClose: 1500,
                     hideProgressBar: true,
@@ -80,25 +59,66 @@ export default function Login({ client, setUser }: ILoginProps) {
                     draggable: true,
                     progress: undefined,
                 });
+                return;
+            } else {
+                client.post('/login', { 
+                    username: email, 
+                    password: password 
+                }).then((response) => {
+                    axios.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
+                    
+        
+                    localStorage.setItem('token', response.data.token);
+                    
+                    client.get('/get_user',
+                        {
+                            headers: {
+                                'Authorization': `Token ${localStorage.getItem('token')}`
+                            }
+                        })
+                    .then((response) => {
+                        
+                        setUser({
+                            name: response.data.user.name,
+                            email: response.data.user.email,
+                            loggedIn: true
+                        });
+        
+                        toast.update(id, {
+                            render: "Sesión iniciada",
+                            type: "success",
+                            isLoading: false,
+                            autoClose: 1500,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+        
+                        setEmail('');
+                        setPassword('');
+                        navigate("/home");
+                    })
+                }).catch((error) => {
+                    toast.update(id, {
+                        render: handleErrorMessage(error),
+                        
+                        type: "error",
+                        isLoading: false,
+                        autoClose: 1500,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    })
+                }) 
+            }
+        })
 
-                setEmail('');
-                setPassword('');
-                navigate("/home");
-            })
-        }).catch((error) => {
-            toast.update(id, {
-                render: handleErrorMessage(error),
-                
-                type: "error",
-                isLoading: false,
-                autoClose: 1500,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            })
-        }) 
+        
+        
     }
 
     const togglePasswordVisiblity = () => {

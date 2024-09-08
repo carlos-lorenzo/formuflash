@@ -9,7 +9,7 @@ import {
 
 import axios from "axios";
 
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 
 const Header = lazy(() => import("./Pages/Components/Header"));
@@ -21,6 +21,7 @@ const DeckView = lazy(() => import("./Pages/DeckView"));
 const Profile = lazy(() => import("./Pages/Profile"));
 const Confirmation = lazy(() => import("./Pages/Confirmation"));
 const ResetPassword = lazy(() => import("./Pages/ResetPassword"));
+const Articles = lazy(() => import("./Pages/Articles"));
 import IUser from "./types/User";
 
 
@@ -36,13 +37,44 @@ const client = axios.create({
     baseURL: `${window.location.protocol}//${window.location.host.split(':')[0]}/api`,
 });
 
-client.get('/get_csrf_token')
-.then(response => {
-    client.defaults.headers.common['X-CSRFToken'] = response.data.csrfToken;
-}).catch(_ => {
-});
+function serverActive(): boolean {
+    client.get('/')
+    .then(_ => {
+        return true;
+    })
+    .catch(_ => {
+        toast.warning("Servidor inicializádose", {
+            isLoading: false,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
+        return false;
+    })
 
-//document.documentElement.setAttribute('data-theme', 'dark');
+    return false;
+}
+
+function setCSRF(): void {
+    client.get('/get_csrf_token')
+        .then(response => {
+            client.defaults.headers.common['X-CSRFToken'] = response.data.csrfToken;
+        }).catch(_ => {
+    });
+}
+
+
+if (serverActive()) {
+    setCSRF();       
+}
+
+
+
+
+document.documentElement.setAttribute('data-theme', 'dark');
 
 function App() {
     const [activeCourseId, setActiveCourseId] = useState<number | undefined>();
@@ -145,7 +177,11 @@ function App() {
                     <Route path="/reset-password" element={
                         <ResetPassword client={client}/>
                     }/>
-
+                    {
+                    // <Route path="/articles" element={
+                    //    <Articles/>
+                    //}/>
+                    }
                 </Routes>
             </Suspense>
             <ToastContainer

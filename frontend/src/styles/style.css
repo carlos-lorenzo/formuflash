@@ -1,12 +1,24 @@
-
-:root {
-    --text: rgb(219, 220, 243);
-    --background: rgb(17, 17, 25);
-    --primary: #8d8fd9;
-    --secondary: #20222E;
+:root[data-theme="light"] {
+    --text: #2b2c32;
+    --background: #fcfcfd;
+    --primary: #eda51f;
+    --secondary: #bdc1ed;
     --accent: #ca6069;
     --green: #81B17E;
-}
+
+    
+    
+  }
+  :root[data-theme="dark"] {
+    --text: #dcdef4;
+    --background: #111118;
+    --primary: #9497e0;
+    --secondary: #1f212d;
+    --accent: #ca6069;
+    --green: #81B17E;
+  }
+
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
@@ -186,6 +198,15 @@ input {
 .secondary {
     background-color: var(--secondary);
 }
+
+.secondary-bg {
+    background-color: var(--secondary);
+}
+
+#study-options > .secondary-bg {
+    color: var(--text);
+}
+
 
 .background {
     background-color: var(--background);

@@ -64,6 +64,21 @@ class GetCSRFToken(APIView):
         return JsonResponse({'csrfToken': csrf_token})
 
 
+class IsActive(APIView):
+    permission_classes = (permissions.AllowAny,)
+    
+    def get(self, request) -> Response:
+        
+        email = request.GET.get('email', None)
+        
+        try:
+            user = get_user_model().objects.get(email=email)
+    
+            return Response({"is_active": user.is_active, "exists": True}, status=status.HTTP_200_OK)
+        
+        except get_user_model().DoesNotExist:
+            return Response({"is_active": False, "exists": False}, status=status.HTTP_404_NOT_FOUND)
+
 class Activate(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -135,7 +150,7 @@ class Register(APIView):
                 email_to,
                 html_message=message)
 
-            return Response({"message": "Email enviado"},
+            return Response({"message": "Activa tu cuenta con el mail enviado"},
                             status=status.HTTP_201_CREATED)
         return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -520,26 +535,17 @@ class ImportCardsFromCsv(APIView):
                             status=status.HTTP_401_UNAUTHORIZED)
 
         try:
-            df = pd.read_csv(file)
+            df = pd.read_csv(file, header=None, names=['question', 'answer'])
             df.rename(columns={column: column.lower()
                       for column in df.columns}, inplace=True)
 
             question_column = "question"
             answer_column = "answer"
 
-            # If columns are missing return error
-            if 'question' not in df.columns or 'answer' not in df.columns:
-
-                if 'pregunta' in df.columns:
-                    question_column = 'pregunta'
-
-                if 'respuesta' in df.columns:
-                    answer_column = 'respuesta'
-
-                if 'pregunta' not in df.columns or 'respuesta' not in df.columns:
-
-                    return Response({"error": "Faltan columnas (columnas 'pregunta' y 'respuesta' requeridas)"},
-                                    status=status.HTTP_400_BAD_REQUEST)
+            header = df.iloc[0]
+            
+            if header[0].lower() in ['question', 'anwser', 'pregunta', 'respuesta'] or header[1].lower() in ['question', 'anwser', 'pregunta', 'respuesta']:
+                df = df.drop([0])
 
             if len(df) == 0:
                 return Response({"error": "Archivo vacio"},
