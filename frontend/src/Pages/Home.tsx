@@ -63,7 +63,6 @@ export default function Home({
             
         });
     }
-
     function getCourses() {
         client.get("/get_courses",
         {
@@ -79,21 +78,41 @@ export default function Home({
                 
             } else {
                 let courseId = response.data.courses[0].course_id;
+                let paramCourseID = searchParams.get('course_id');
                 if (activeCourseId === undefined) {
                     setActiveCourseId(courseId);
+                    
                 }
-                if (searchParams.get('course_id')) {
-                    courseId = Number(searchParams.get('course_id'));
+                if (paramCourseID) {
+                    courseId = Number(paramCourseID);
+                    setActiveCourseName(findActiveCourseName(Number(searchParams.get('course_id')), response.data.courses));
+                }
+                if(!paramCourseID) {
+                    setActiveCourseName(response.data.courses[0].name);
                 }
                 
                 setCourses(response.data.courses);
                 getCourseDecks(courseId);
-                setActiveCourseName(response.data.courses[0].name);
+                
             }
 
             
         })
     }
+
+    function findActiveCourseName(id: number | undefined, courses: ICourse[]): string {
+        if (!id) {
+            return '';
+        }
+        for (let course of courses) {
+            if (course.course_id === id) {
+                return course.name;
+            }
+        }
+        return '';
+
+    }
+
     
     useEffect(() => {
         
@@ -105,9 +124,15 @@ export default function Home({
         }
         
         getCourses();
+        setActiveCourseName(findActiveCourseName(Number(searchParams.get('course_id')), courses));
         
     }, [])
     
+
+    useEffect(() => {
+        getCourseDecks(activeCourseId);
+        setActiveCourseName(findActiveCourseName(activeCourseId, courses));
+    }, [activeCourseId])
 
 	return (
 		<div id='user-view' className='fill'>

@@ -62,7 +62,7 @@ export default function CreateCard({
             <form id="create-card-form" className='fill'> 
                 <div className='card-input border text fill secondary shadow-secondary'>
                     <div className='edit-info'>
-                        <h4>Q</h4>
+                        <h4 className='edit-lable'>Q</h4>
                         
                         <div className='edit-shortcuts'>
                             <ToolTip text='Insertar LaTeX'>
@@ -90,7 +90,7 @@ export default function CreateCard({
 
                 <div className='card-input border text fill secondary shadow-secondary'>
                     <div className='edit-info'>
-                        <h4>A</h4>
+                        <h4 className='edit-lable'>A</h4>
 
                         <div className='edit-shortcuts'>
                             <ToolTip text='Insertar LaTeX'>

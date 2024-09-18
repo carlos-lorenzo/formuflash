@@ -9,7 +9,7 @@ import {
 
 import axios from "axios";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 
 const Header = lazy(() => import("./Pages/Components/Header"));
@@ -21,7 +21,7 @@ const DeckView = lazy(() => import("./Pages/DeckView"));
 const Profile = lazy(() => import("./Pages/Profile"));
 const Confirmation = lazy(() => import("./Pages/Confirmation"));
 const ResetPassword = lazy(() => import("./Pages/ResetPassword"));
-const Articles = lazy(() => import("./Pages/Articles"));
+//const Articles = lazy(() => import("./Pages/Articles"));
 import IUser from "./types/User";
 
 
@@ -37,27 +37,6 @@ const client = axios.create({
     baseURL: `${window.location.protocol}//${window.location.host.split(':')[0]}/api`,
 });
 
-function serverActive(): boolean {
-    client.get('/')
-    .then(_ => {
-        return true;
-    })
-    .catch(_ => {
-        toast.warning("Servidor inicializádose", {
-            isLoading: false,
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        })
-        return false;
-    })
-
-    return false;
-}
-
 function setCSRF(): void {
     client.get('/get_csrf_token')
         .then(response => {
@@ -67,9 +46,8 @@ function setCSRF(): void {
 }
 
 
-if (serverActive()) {
-    setCSRF();       
-}
+
+setCSRF();
 
 
 

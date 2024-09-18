@@ -50,7 +50,6 @@ export default function Header({ client, user, activeCourseId, showBack, setUser
             {
                 showBack ?
                 <Link to={profileClickLink()} className='pointer' id='back' onClick={handleBack}>
-                    
                     <h3>{"<- Mazo"}</h3>
                 </Link> : null
             }

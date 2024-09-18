@@ -41,7 +41,7 @@ interface IDeleteInfo {
 export default function Decks({ client, activeCourseId, decks, activeCourseName, setActiveDeckId, getCourseDecks, setDeckAction, setShowingCourses, setShowBack }: IDecksProps) {
 
     const [deleteInfo, setDeleteInfo] = React.useState<IDeleteInfo>({show: false, id: undefined});
-
+    
     function handleDeckDelete(id: number | undefined) {
 
         if (id === undefined) {

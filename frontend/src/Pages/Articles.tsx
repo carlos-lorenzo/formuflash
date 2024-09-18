@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
-import MarkdownLatex from './Components/MarkdownLatex';
+//import MarkdownLatex from './Components/MarkdownLatex';
 
 import "../styles/articles.css";
 

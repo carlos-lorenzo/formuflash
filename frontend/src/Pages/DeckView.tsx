@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy } from 'react'
+import { useState, useEffect, lazy, useRef } from 'react'
 
 import { useNavigate } from "react-router-dom";
 
@@ -29,6 +29,14 @@ interface IDeckViewProps {
 export default function DeckView({ client, user, activeDeckId, deckAction }: IDeckViewProps) {
     
     const navigate = useNavigate();
+    const deckPreviewRef = useRef<HTMLDivElement>(null);
+
+
+    function scrollToBottom() {
+        if (deckPreviewRef.current) {
+            deckPreviewRef.current.scrollTo({ top: deckPreviewRef.current.scrollHeight, behavior: 'smooth' });
+        }
+    }
 
     if (!user.loggedIn) {
         navigate('/login');
@@ -59,8 +67,9 @@ export default function DeckView({ client, user, activeDeckId, deckAction }: IDe
                 }
             }
         ).then((response) => {
-            setActiveCardId(Number(Object.keys(response.data.cards)[0]));
+            setActiveCardId(Number(Object.keys(response.data.cards)[Object.keys(response.data.cards).length - 1]));
             setActiveDeck(response.data);
+            scrollToBottom();
         })
     }, [])
 
@@ -94,7 +103,7 @@ export default function DeckView({ client, user, activeDeckId, deckAction }: IDe
 
             {
                 deckAction === DeckAction.EDIT ? 
-                <DeckEdit getDeck={getDeck} client={client} activeDeck={activeDeck} activeDeckId={activeDeckId} activeCardId={activeCardId} setActiveCardId={setActiveCardId}/> : 
+                <DeckEdit getDeck={getDeck} client={client} activeDeck={activeDeck} activeDeckId={activeDeckId} activeCardId={activeCardId} deckPreviewRef={deckPreviewRef} setActiveCardId={setActiveCardId} scrollToBottom={scrollToBottom}/> : 
 
                 deckAction === DeckAction.STUDY ? 
                 <DeckStudy client={client} activeDeck={activeDeck}/> :

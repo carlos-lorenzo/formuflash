@@ -18,12 +18,14 @@ interface IDeckEdit {
     activeDeck: IDeck,
     activeDeckId: number | undefined,
     activeCardId: number,
+    deckPreviewRef: React.RefObject<HTMLDivElement>,
     setActiveCardId: React.Dispatch<React.SetStateAction<number>>,
-    getDeck: (newCardId?: number) => void
+    getDeck: (newCardId?: number) => void,
+    scrollToBottom: () => void
 }
 
 
-export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardId, setActiveCardId, getDeck }: IDeckEdit) {
+export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardId, deckPreviewRef, setActiveCardId, getDeck, scrollToBottom }: IDeckEdit) {
 
     
     const [editing, setEditing] = useState(false);
@@ -33,24 +35,35 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
 
     const questionInput = useRef<HTMLTextAreaElement>(null);
     const answerInput = useRef<HTMLTextAreaElement>(null);
-    const deckPreviewRef = useRef<HTMLDivElement>(null);
+    
 
-    function scrollToBottom() {
-        if (deckPreviewRef.current) {
-            deckPreviewRef.current.scrollTo({ top: deckPreviewRef.current.scrollHeight, behavior: 'smooth' });
-        }
-    }
+    
 
-    function handleCardUpdate() {
-        if (!activeCardId) {
-            return;
-        }
-
-        if (!question && !answer) {
-            return;
-        }
-
+    function handleCardUpdate(): boolean {
         const id = toast.loading("Guardando");
+        if (!activeCardId) {
+            console.log("id")
+            return false;
+        }
+
+        if (!question || !answer) {
+            toast.update(id, 
+                { 
+                render: "Pregunta y respuesta requeridas", 
+                type: "error", 
+                isLoading: false,
+                autoClose: 1500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            console.log("qa")
+            return false;
+        }
+
+        
         client.post('/update_card', {
             deck_id: activeDeckId,
             question: question,
@@ -75,6 +88,9 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                 draggable: true,
                 progress: undefined,
             });
+            
+            return true;
+            
         }).catch((error) => {
             toast.update(id, 
                 { 
@@ -88,11 +104,17 @@ export default function DeckEdit({ client, activeDeck, activeDeckId, activeCardI
                 draggable: true,
                 progress: undefined,
             });
+            
+            return false;
         })
+        
+        return true; // has to wait for getDeck to be called
     }
 
     function handleCardCreation() {
-        handleCardUpdate();
+        if (!handleCardUpdate()) {
+            return;
+        }
         client.post('/create_card', 
         {
             deck_id: activeDeck.deck_id,

@@ -22,7 +22,7 @@ interface IDeckPreviewProps {
     deckPreviewRef: React.RefObject<HTMLDivElement>
     getDeck: (newCardId?: number) => void,
     setActiveCardId: React.Dispatch<React.SetStateAction<number>>
-    handleCardUpdate: () => void,
+    handleCardUpdate: () => boolean,
     handleCardCreation: () => void,
     setEditing: React.Dispatch<React.SetStateAction<boolean>>,
     

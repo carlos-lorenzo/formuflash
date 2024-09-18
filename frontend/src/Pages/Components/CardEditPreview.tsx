@@ -18,7 +18,7 @@ interface ICardEditPreviewProps {
     activeCardId: number,
     setActiveCardId: React.Dispatch<React.SetStateAction<number>>,
     setEditing: React.Dispatch<React.SetStateAction<boolean>>,
-    handleCardUpdate: () => void
+    handleCardUpdate: () => boolean
 }
 
 export default function CardEditPreview({ client, getDeck, card, activeCardId, setActiveCardId, setEditing, handleCardUpdate }: ICardEditPreviewProps) {
@@ -86,9 +86,12 @@ export default function CardEditPreview({ client, getDeck, card, activeCardId, s
         if (activeCardId === card.card_id) {
             return;
         }
-        handleCardUpdate();
-        setActiveCardId(card.card_id);
-        setEditing(true);
+        
+        if (handleCardUpdate()) {
+            setActiveCardId(card.card_id);
+            setEditing(true);
+        }
+        
         
     }
 

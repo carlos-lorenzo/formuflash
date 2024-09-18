@@ -32,7 +32,8 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
    
     const [card, setCard] = useState<ICard | null>(null);
     const [isAnimating, setIsAnimating] = useState(false);
-    
+    const [submittedConfidence, setSubmittedConfidence] = useState<Confidences>(Confidences.NONE);
+
     const studyContainerRef = useRef<HTMLDivElement>(null);
 
     function handleSwap() {
@@ -58,7 +59,7 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
         if (!card) {
             return;
         }
-
+        setSubmittedConfidence(confidence);
         setIsAnimating(true);
 
         client.post(
@@ -147,14 +148,17 @@ export default function DeckStudy({ client, activeDeck }: IDeckStudyProps) {
 
     return (
         <div id='study' className='fill place-center' onKeyDown={handleShortcuts} tabIndex={0} ref={studyContainerRef}>
-            <div id="study-content" className={`text card border fill shadow-secondary ${content.questionShown ? "place-center" : ""} ${isAnimating ? 'animate-confidence' : ''}`} onClick={() => handleSwap()}>
+            <div id="study-content" className={`text card border fill shadow-secondary overlay ${content.questionShown ? "place-center" : ""} ${isAnimating ? `animate-confidence animate-${getConfidenceClassName(submittedConfidence)}` : ''}`} onClick={() => handleSwap()}>
+
+                
                 {
-                    content.questionShown ? 
+                    content.questionShown && !isAnimating ? 
                     <div id="confidence-marker" className={`shadow-${getConfidenceClassName(card?.confidence)} border ${getConfidenceClassName(card?.confidence)}-bg`}></div>
                     : null
                 }
                 
                 <MarkdownLatex content={content.content}/>
+                
             </div>
             <div id='study-options' className='fill'>   
                 <button className='shadow-secondary border secondary-bg study-option' onClick={handleSwap}>Girar</button>
