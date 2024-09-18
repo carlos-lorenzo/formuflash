@@ -372,8 +372,7 @@ class GetCourseDecks(APIView):
 
 		decks = Deck.objects.filter(course=course).order_by('name')
 	   
-		if not decks:
-			return Response({"message": "No decks found"}, status=status.HTTP_204_NO_CONTENT)
+		
 		
 
 		serializer = DeckSerialiser(decks, many=True)

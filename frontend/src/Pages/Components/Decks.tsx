@@ -109,6 +109,7 @@ export default function Decks({ client, activeCourseId, decks, activeCourseName,
             }
             
             {
+                
                 decks.map((deck) => (
                     <Deck
                         key={deck.deck_id}
