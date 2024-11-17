@@ -1,0 +1,13 @@
+services:
+  nginx:
+    build:
+      context: ../../
+      dockerfile: nginx/build/Dockerfile
+    
+    container_name: formuflash-frontend
+    image: nginx
+    
+    ports:
+      - "80:80"
+    
+

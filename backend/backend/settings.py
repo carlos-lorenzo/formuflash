@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env("SECRET_KEY")
 
-DEBUG = True
+DEBUG = False
 
 IP = socket.gethostbyname(socket.gethostname())
 DOMAIN = env("SITE_DOMAIN")
