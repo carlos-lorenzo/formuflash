@@ -48,3 +48,5 @@ db.sqlite3
 
 # Super secret ssl certificates
 validation/
+
+contentful_test.ipynb

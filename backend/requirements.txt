@@ -16,3 +16,4 @@ python-dotenv==1.0.0
 Pillow==10.0.0
 sqlparse==0.4.3
 numpy==1.24.3
+contentful==2.2.0
