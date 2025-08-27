@@ -1,0 +1,14 @@
+{
+    "builds": [
+      {
+        "src": "freefitness/wsgi.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "freefitness/wsgi.py"
+      }
+    ]
+  }

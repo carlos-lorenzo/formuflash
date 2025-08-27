@@ -23,7 +23,7 @@ BACKEND_URL = env("BACKEND_URL")
 DEV_FRONTEND_PORT = 3000
 
 # Security settings
-CSRF_TRUSTED_ORIGINS = [f"http://*.{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/", "http://*.localhost", "https://*.localhost", f"*.{DOMAIN}", "https://formuflash-frontend-qkflfm2o5q-no.a.run.app", "https://formuflash.com", "http://34.0.214.68", "https://34.0.214.68", "http://formuflash.com", "http://192.168.1.*"] # TODO: Change to actual IP & Domain, remove dev urls
+CSRF_TRUSTED_ORIGINS = [f"http://*.{IP}", f"http://*.{IP}:{DEV_FRONTEND_PORT}/", "http://*.localhost", "https://*.localhost", f"*.{DOMAIN}", "https://formuflash-frontend-qkflfm2o5q-no.a.run.app", "https://formuflash.com", "http://34.0.214.68", "https://34.0.214.68", "http://formuflash.com", "http://192.168.1.*", ".vercel.app"] # TODO: Change to actual IP & Domain, remove dev urls
 
 ALLOWED_HOSTS = [
     f"*.{DOMAIN}", 
@@ -37,8 +37,9 @@ ALLOWED_HOSTS = [
     "34.49.219.38",
     "https://formuflash.com",
     BACKEND_URL,
-    "backend"
-    
+    "backend",
+    ".vercel.app"
+
 ]
 
 
