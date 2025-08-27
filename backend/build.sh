@@ -1,7 +1,13 @@
 #!/bin/bash
 
 # Build the project
+
 echo "Building the project..."
+
+python3.12 -m pip install setuptools && npm install
+
+
+
 python3.12 -m pip install -r requirements.txt
 
 echo "Collect Static..."
