@@ -34,7 +34,7 @@ axios.defaults.withCredentials = false;
 
 //baseURL: `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/api`, - dev
 const client = axios.create({
-    baseURL: `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/api`,
+    baseURL: `formuflash-backend.vercel.app/api`,
 });
 
 function setCSRF(): void {
