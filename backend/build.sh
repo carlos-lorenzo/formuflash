@@ -4,11 +4,10 @@
 
 echo "Building the project..."
 
-python3.12 -m pip install setuptools && npm install
+python3.12 -m pip install uv
 
 
-
-python3.12 -m pip install -r requirements.txt
+python3.12 -m uv pip install -r requirements.txt
 
 echo "Collect Static..."
 python3.12 manage.py collectstatic --noinput --clear
