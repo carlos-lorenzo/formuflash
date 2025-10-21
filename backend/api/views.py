@@ -122,35 +122,35 @@ class Register(APIView):
 		serialiser = UserRegisterSerialiser(data=request.data)
 		if serialiser.is_valid():
 			user = serialiser.save()
-			user.is_active = False
+			user.is_active = True
 			user.save()
 
-			current_site = env("SITE_DOMAIN")
+			# current_site = env("SITE_DOMAIN")
 
-			email_from: str = settings.EMAIL_HOST_USER
-			email_to: str = [user.email]
-			subject = 'Bienvenido a FormuFlash'
-			token: str = account_activation_token.make_token(user)
-			uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))
+			# email_from: str = settings.EMAIL_HOST_USER
+			# email_to: str = [user.email]
+			# subject = 'Bienvenido a FormuFlash'
+			# token: str = account_activation_token.make_token(user)
+			# uidb64: str = urlsafe_base64_encode(force_bytes(user.user_id))
 
-			url = f'{current_site}/confirmation?type=activate&uidb64={uidb64}&token={token}'
+			# url = f'{current_site}/confirmation?type=activate&uidb64={uidb64}&token={token}'
 
-			context = {
-				"url": url,
-				"user": user
-			}
+			# context = {
+			# 	"url": url,
+			# 	"user": user
+			# }
 
-			message = render_to_string(
-				'email/account_activation_email.html', context)
+			# message = render_to_string(
+			# 	'email/account_activation_email.html', context)
 
-			send_mail(
-				subject,
-				message,
-				email_from,
-				email_to,
-				html_message=message)
+			# send_mail(
+			# 	subject,
+			# 	message,
+			# 	email_from,
+			# 	email_to,
+			# 	html_message=message)
 
-			return Response({"message": "Activa tu cuenta con el mail enviado"},
+			return Response({"message": "Cuenta creada correctamente"},
 							status=status.HTTP_201_CREATED)
 		return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
 
